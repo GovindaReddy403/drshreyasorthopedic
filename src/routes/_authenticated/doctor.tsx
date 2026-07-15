@@ -10,6 +10,7 @@ import {
   Clock,
   FileText,
   Loader2,
+  Pencil,
   RotateCw,
   Search,
   StickyNote,
@@ -29,6 +30,8 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { DashboardShell } from "@/components/dashboard-shell";
+import { AppointmentsReport } from "@/components/appointments-report";
+import { PaymentEditDialog, type PaymentEditTarget } from "@/components/payment-edit-dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { labelSlot } from "@/lib/slots";
 import { formatMoney } from "@/lib/clinic";
@@ -62,7 +65,9 @@ function DoctorDashboard() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("today");
+  const [tab, setTab] = useState<"list" | "report">("list");
   const [notesFor, setNotesFor] = useState<Appt | null>(null);
+  const [payEdit, setPayEdit] = useState<PaymentEditTarget | null>(null);
 
   const listQ = useQuery({
     queryKey: ["doctor-appts", filter, q],
@@ -128,16 +133,9 @@ function DoctorDashboard() {
     }
   }
 
-  async function markPaid(id: string) {
-    const { error } = await supabase
-      .from("appointments")
-      .update({ payment_status: "paid_clinic", payment_paid_at: new Date().toISOString() })
-      .eq("id", id);
-    if (error) toast.error(error.message);
-    else {
-      toast.success("Payment recorded");
-      qc.invalidateQueries();
-    }
+  async function cancel(id: string) {
+    if (!confirm("Cancel this appointment?")) return;
+    await updateStatus(id, "cancelled");
   }
 
   return (
@@ -152,74 +150,92 @@ function DoctorDashboard() {
         <Stat icon={<BadgeIndianRupee className="h-4 w-4" />} label="Today's revenue" value={formatMoney(statsQ.data?.revenue ?? 0)} />
       </div>
 
-      <div className="mt-8 rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <Tabs value={filter} onValueChange={(v) => setFilter(v as Filter)}>
-            <TabsList>
-              <TabsTrigger value="today">Today</TabsTrigger>
-              <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-              <TabsTrigger value="completed">Completed</TabsTrigger>
-              <TabsTrigger value="follow_up">Follow-up</TabsTrigger>
-              <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-              <TabsTrigger value="all">All</TabsTrigger>
-            </TabsList>
-            <TabsContent value={filter} />
-          </Tabs>
-          <div className="relative w-full max-w-xs">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search name, mobile, code…" className="pl-9" value={q} onChange={(e) => setQ(e.target.value)} />
-          </div>
-        </div>
+      <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "report")} className="mt-8">
+        <TabsList>
+          <TabsTrigger value="list">Appointments</TabsTrigger>
+          <TabsTrigger value="report">Reports</TabsTrigger>
+        </TabsList>
 
-        <div className="mt-4 divide-y divide-border">
-          {listQ.isLoading && (
-            <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" /> Loading…
+        <TabsContent value="list" className="mt-4">
+          <div className="rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <Tabs value={filter} onValueChange={(v) => setFilter(v as Filter)}>
+                <TabsList>
+                  <TabsTrigger value="today">Today</TabsTrigger>
+                  <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+                  <TabsTrigger value="completed">Completed</TabsTrigger>
+                  <TabsTrigger value="follow_up">Follow-up</TabsTrigger>
+                  <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+                  <TabsTrigger value="all">All</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              <div className="relative w-full max-w-xs">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input placeholder="Search name, mobile, code…" className="pl-9" value={q} onChange={(e) => setQ(e.target.value)} />
+              </div>
             </div>
-          )}
-          {listQ.data?.length === 0 && (
-            <p className="py-10 text-center text-sm text-muted-foreground">No appointments match.</p>
-          )}
-          {listQ.data?.map((a) => (
-            <div key={a.id} className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-widest text-primary">{a.booking_code}</span>
-                  <StatusPill status={a.status} />
+
+            <div className="mt-4 divide-y divide-border">
+              {listQ.isLoading && (
+                <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading…
                 </div>
-                <p className="mt-1 font-medium">{a.patient_name} · {a.patient_mobile}</p>
-                <p className="text-sm text-muted-foreground">
-                  {a.treatment_name} · {format(new Date(a.appointment_date + "T00:00:00"), "dd MMM yyyy")} · {labelSlot(a.appointment_time)}
-                </p>
-                {a.reason && <p className="mt-1 text-xs text-muted-foreground">Reason: {a.reason}</p>}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {a.status === "confirmed" && (
-                  <Button size="sm" variant="outline" onClick={() => updateStatus(a.id, "checked_in")}>
-                    Check-in
-                  </Button>
-                )}
-                {a.status !== "completed" && a.status !== "cancelled" && a.status !== "follow_up" && (
-                  <Button size="sm" onClick={() => updateStatus(a.id, "completed")}>Mark complete</Button>
-                )}
-                {a.status !== "cancelled" && a.status !== "follow_up" && (
-                  <Button size="sm" variant="outline" onClick={() => updateStatus(a.id, "follow_up")} className="gap-1">
-                    <RotateCw className="h-3.5 w-3.5" /> Follow-up
-                  </Button>
-                )}
-                {a.payment_status === "pending" && (
-                  <Button size="sm" variant="outline" onClick={() => markPaid(a.id)}>Mark paid</Button>
-                )}
-                <Button size="sm" variant="ghost" onClick={() => setNotesFor(a)} className="gap-1">
-                  <StickyNote className="h-3.5 w-3.5" /> Notes
-                </Button>
-              </div>
+              )}
+              {listQ.data?.length === 0 && (
+                <p className="py-10 text-center text-sm text-muted-foreground">No appointments match.</p>
+              )}
+              {listQ.data?.map((a) => (
+                <div key={a.id} className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-primary">{a.booking_code}</span>
+                      <StatusPill status={a.status} />
+                    </div>
+                    <p className="mt-1 font-medium">{a.patient_name} · {a.patient_mobile}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {a.treatment_name} · {format(new Date(a.appointment_date + "T00:00:00"), "dd MMM yyyy")} · {labelSlot(a.appointment_time)} · {formatMoney(a.payment_amount)}
+                    </p>
+                    {a.reason && <p className="mt-1 text-xs text-muted-foreground">Reason: {a.reason}</p>}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {a.status === "confirmed" && (
+                      <Button size="sm" variant="outline" onClick={() => updateStatus(a.id, "checked_in")}>
+                        Check-in
+                      </Button>
+                    )}
+                    {a.status !== "completed" && a.status !== "cancelled" && a.status !== "follow_up" && (
+                      <Button size="sm" onClick={() => updateStatus(a.id, "completed")}>Mark complete</Button>
+                    )}
+                    {a.status !== "cancelled" && a.status !== "follow_up" && (
+                      <Button size="sm" variant="outline" onClick={() => updateStatus(a.id, "follow_up")} className="gap-1">
+                        <RotateCw className="h-3.5 w-3.5" /> Follow-up
+                      </Button>
+                    )}
+                    <Button size="sm" variant="outline" onClick={() => setPayEdit(a)} className="gap-1">
+                      <Pencil className="h-3.5 w-3.5" /> Payment
+                    </Button>
+                    <Button size="sm" variant="ghost" onClick={() => setNotesFor(a)} className="gap-1">
+                      <StickyNote className="h-3.5 w-3.5" /> Notes
+                    </Button>
+                    {a.status !== "cancelled" && a.status !== "completed" && (
+                      <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => cancel(a.id)}>
+                        Cancel
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="report" className="mt-4">
+          <AppointmentsReport />
+        </TabsContent>
+      </Tabs>
 
       <NotesDialog appt={notesFor} onClose={() => setNotesFor(null)} />
+      <PaymentEditDialog appt={payEdit} onClose={() => setPayEdit(null)} />
     </DashboardShell>
   );
 }
