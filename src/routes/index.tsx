@@ -351,6 +351,9 @@ function LandingPage() {
                 </Button>
               </Link>
             </div>
+            <div className="mt-6">
+              <ContactQR clinic={clinic} />
+            </div>
           </div>
         </div>
       </section>
