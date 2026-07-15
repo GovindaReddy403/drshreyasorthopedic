@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/carousel";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ContactQR } from "@/components/contact-qr";
 
 import {
   fetchClinic,
