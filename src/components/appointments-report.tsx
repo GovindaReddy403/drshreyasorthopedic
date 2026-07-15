@@ -172,9 +172,9 @@ export function AppointmentsReport() {
                     <YAxis allowDecimals={false} fontSize={11} />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="appointments" fill="hsl(var(--primary))" name="Total" />
-                    <Bar dataKey="completed" fill="hsl(var(--success))" name="Completed" />
-                    <Bar dataKey="cancelled" fill="hsl(var(--destructive))" name="Cancelled" />
+                    <Bar dataKey="appointments" fill="var(--primary)" name="Total" />
+                    <Bar dataKey="completed" fill="var(--success)" name="Completed" />
+                    <Bar dataKey="cancelled" fill="var(--destructive)" name="Cancelled" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
