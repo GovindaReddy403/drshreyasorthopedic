@@ -12,6 +12,7 @@ import { SiteNav } from "@/components/site-nav";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchClinic } from "@/lib/clinic";
 import { labelSlot } from "@/lib/slots";
+import { sendOtp, verifyOtp } from "@/lib/otp.functions";
 import { useQuery, queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
@@ -49,22 +50,15 @@ function ManagePage() {
   const [verifying, setVerifying] = useState(false);
   const [devCode, setDevCode] = useState<string | null>(null);
 
-  async function sendOtp() {
+  async function sendOtpFn() {
     if (!/^\d{10}$/.test(mobile)) {
       toast.error("Enter a valid 10-digit mobile number");
       return;
     }
     setSending(true);
     try {
-      const code = String(Math.floor(100000 + Math.random() * 900000));
-      const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
-      const { error } = await supabase.from("otp_codes").insert({
-        mobile: mobile.trim(),
-        code,
-        expires_at: expires,
-      });
-      if (error) throw error;
-      setDevCode(code);
+      const res = await sendOtp({ data: { mobile: mobile.trim() } });
+      setDevCode(res.demoCode ?? null);
       setPhase("otp");
       toast.success("OTP sent (shown below for demo)");
     } catch (e) {
@@ -74,31 +68,20 @@ function ManagePage() {
     }
   }
 
-  async function verifyOtp() {
+  async function verifyOtpFn() {
     setVerifying(true);
     try {
-      const { data, error } = await supabase
-        .from("otp_codes")
-        .select("id, expires_at, used")
-        .eq("mobile", mobile.trim())
-        .eq("code", otp)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) {
-        toast.error("Invalid code");
+      const res = await verifyOtp({ data: { mobile: mobile.trim(), code: otp } });
+      if (!res.ok) {
+        const msg =
+          res.reason === "expired"
+            ? "Code expired"
+            : res.reason === "used"
+              ? "Code already used"
+              : "Invalid code";
+        toast.error(msg);
         return;
       }
-      if (data.used) {
-        toast.error("Code already used");
-        return;
-      }
-      if (new Date(data.expires_at) < new Date()) {
-        toast.error("Code expired");
-        return;
-      }
-      await supabase.from("otp_codes").update({ used: true }).eq("id", data.id);
       setPhase("list");
     } catch (e) {
       toast.error((e as Error).message);
@@ -135,7 +118,7 @@ function ManagePage() {
                   onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
                 />
               </div>
-              <Button onClick={sendOtp} disabled={sending} className="w-full gap-2">
+              <Button onClick={sendOtpFn} disabled={sending} className="w-full gap-2">
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
                 Send OTP
               </Button>
@@ -161,7 +144,7 @@ function ManagePage() {
                   Demo mode — your OTP is <span className="font-mono font-semibold">{devCode}</span>
                 </p>
               )}
-              <Button onClick={verifyOtp} disabled={otp.length !== 6 || verifying} className="w-full gap-2">
+              <Button onClick={verifyOtpFn} disabled={otp.length !== 6 || verifying} className="w-full gap-2">
                 {verifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
                 Verify
               </Button>
