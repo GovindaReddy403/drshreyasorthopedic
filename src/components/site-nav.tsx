@@ -61,6 +61,11 @@ export function SiteNav({
               Manage
             </Button>
           </Link>
+          <Link to="/auth">
+            <Button variant="ghost" size="sm">
+              Staff login
+            </Button>
+          </Link>
           <Link to="/book">
             <Button size="sm" className="ml-2">
               Book Appointment
@@ -90,6 +95,11 @@ export function SiteNav({
               <Link to="/manage" onClick={() => setOpen(false)} className="mt-2">
                 <Button variant="outline" className="w-full">
                   Manage appointment
+                </Button>
+              </Link>
+              <Link to="/auth" onClick={() => setOpen(false)} className="mt-2">
+                <Button variant="ghost" className="w-full">
+                  Staff login
                 </Button>
               </Link>
               <Link to="/book" onClick={() => setOpen(false)} className="mt-2">
