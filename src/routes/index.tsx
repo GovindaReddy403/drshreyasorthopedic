@@ -20,9 +20,12 @@ import {
 
 import heroImg from "@/assets/hero-doctor.jpg";
 import doctorImg from "@/assets/doctor-portrait.jpg";
-import clinic1 from "@/assets/clinic-1.jpg";
-import clinic2 from "@/assets/clinic-2.jpg";
-import clinic3 from "@/assets/clinic-3.jpg";
+import gKnee from "@/assets/treat-knee.jpg";
+import gShoulder from "@/assets/treat-shoulder.jpg";
+import gAnkle from "@/assets/treat-ankle.jpg";
+import gArthro from "@/assets/treat-arthroscopy.jpg";
+import gPhysio from "@/assets/treat-physio.jpg";
+import gXray from "@/assets/treat-xray.jpg";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
