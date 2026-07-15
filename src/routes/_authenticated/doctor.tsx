@@ -32,9 +32,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { AppointmentsReport } from "@/components/appointments-report";
 import { PaymentEditDialog, type PaymentEditTarget } from "@/components/payment-edit-dialog";
+import { ContactQR } from "@/components/contact-qr";
 import { supabase } from "@/integrations/supabase/client";
 import { labelSlot } from "@/lib/slots";
-import { formatMoney } from "@/lib/clinic";
+import { fetchClinic, formatMoney } from "@/lib/clinic";
 
 export const Route = createFileRoute("/_authenticated/doctor")({
   beforeLoad: ({ context }) => {
