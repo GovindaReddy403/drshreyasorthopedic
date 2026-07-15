@@ -59,6 +59,35 @@ export type Testimonial = {
 export type Faq = { id: string; question: string; answer: string };
 export type GalleryItem = { id: string; image_url: string; caption: string | null };
 
+export type Doctor = {
+  id: string;
+  name: string;
+  qualifications: string | null;
+  specialization: string | null;
+  photo_url: string | null;
+  about: string | null;
+  education: string | null;
+  professional_experience: string | null;
+  certifications: string | null;
+  memberships: string | null;
+  languages_spoken: string | null;
+  years_experience: number | null;
+  consultation_fee: number | null;
+  is_primary: boolean;
+  sort_order: number;
+};
+
+export async function fetchDoctors(): Promise<Doctor[]> {
+  const { data, error } = await supabase
+    .from("doctors" as never)
+    .select("*")
+    .eq("is_active", true)
+    .order("is_primary", { ascending: false })
+    .order("sort_order", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as unknown as Doctor[];
+}
+
 export async function fetchClinic(): Promise<ClinicSettings> {
   const { data, error } = await supabase.from("clinic_settings").select("*").eq("id", 1).maybeSingle();
   if (error) throw error;
