@@ -286,6 +286,7 @@ function BookPage() {
                 doctorName={clinic.doctor_name}
                 treatment={treatment?.name ?? ""}
                 fee={treatment?.fee ?? 0}
+                showFee={v.payment_method === "online"}
                 date={v.date ? format(v.date, "EEE, dd MMM yyyy") : ""}
                 time={v.time ? labelSlot(v.time) : ""}
               />
@@ -302,6 +303,7 @@ function BookPage() {
               </p>
             </div>
           )}
+
 
           <div className="mt-8 flex items-center justify-between">
             <Button
