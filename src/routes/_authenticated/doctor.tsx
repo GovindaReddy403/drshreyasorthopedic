@@ -10,6 +10,7 @@ import {
   Clock,
   FileText,
   Loader2,
+  RotateCw,
   Search,
   StickyNote,
   XCircle,
@@ -55,10 +56,12 @@ type Appt = {
   reason: string | null;
 };
 
+type Filter = "today" | "upcoming" | "completed" | "follow_up" | "cancelled" | "all";
+
 function DoctorDashboard() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
-  const [filter, setFilter] = useState<"today" | "upcoming" | "completed" | "cancelled" | "all">("today");
+  const [filter, setFilter] = useState<Filter>("today");
   const [notesFor, setNotesFor] = useState<Appt | null>(null);
 
   const listQ = useQuery({
@@ -67,8 +70,10 @@ function DoctorDashboard() {
       const today = format(new Date(), "yyyy-MM-dd");
       let query = supabase.from("appointments").select("*");
       if (filter === "today") query = query.eq("appointment_date", today);
-      else if (filter === "upcoming") query = query.gte("appointment_date", today).in("status", ["confirmed", "checked_in"]);
+      else if (filter === "upcoming")
+        query = query.gt("appointment_date", today).in("status", ["confirmed", "checked_in"]);
       else if (filter === "completed") query = query.eq("status", "completed");
+      else if (filter === "follow_up") query = query.eq("status", "follow_up");
       else if (filter === "cancelled") query = query.eq("status", "cancelled");
       const { data, error } = await query
         .order("appointment_date", { ascending: false })
@@ -92,16 +97,25 @@ function DoctorDashboard() {
     queryKey: ["doctor-stats"],
     queryFn: async () => {
       const today = format(new Date(), "yyyy-MM-dd");
-      const [t, u, c, x, p, r] = await Promise.all([
+      const [t, u, c, f, x, p, r] = await Promise.all([
         supabase.from("appointments").select("id", { count: "exact", head: true }).eq("appointment_date", today),
         supabase.from("appointments").select("id", { count: "exact", head: true }).gt("appointment_date", today).in("status", ["confirmed", "checked_in"]),
         supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "completed"),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "follow_up"),
         supabase.from("appointments").select("id", { count: "exact", head: true }).eq("status", "cancelled"),
         supabase.from("appointments").select("id", { count: "exact", head: true }).eq("payment_status", "pending"),
         supabase.from("appointments").select("payment_amount").eq("appointment_date", today).in("payment_status", ["paid_online", "paid_clinic"]),
       ]);
       const revenue = (r.data ?? []).reduce((s, a) => s + Number(a.payment_amount ?? 0), 0);
-      return { today: t.count ?? 0, upcoming: u.count ?? 0, completed: c.count ?? 0, cancelled: x.count ?? 0, pending: p.count ?? 0, revenue };
+      return {
+        today: t.count ?? 0,
+        upcoming: u.count ?? 0,
+        completed: c.count ?? 0,
+        followUp: f.count ?? 0,
+        cancelled: x.count ?? 0,
+        pending: p.count ?? 0,
+        revenue,
+      };
     },
   });
 
@@ -127,23 +141,25 @@ function DoctorDashboard() {
   }
 
   return (
-    <DashboardShell title="Doctor dashboard" subtitle="Today at a glance">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-        <Stat icon={<CalendarCheck className="h-4 w-4" />} label="Today" value={statsQ.data?.today ?? 0} />
-        <Stat icon={<Clock className="h-4 w-4" />} label="Upcoming" value={statsQ.data?.upcoming ?? 0} />
-        <Stat icon={<CheckCircle2 className="h-4 w-4" />} label="Completed" value={statsQ.data?.completed ?? 0} />
-        <Stat icon={<XCircle className="h-4 w-4" />} label="Cancelled" value={statsQ.data?.cancelled ?? 0} />
-        <Stat icon={<FileText className="h-4 w-4" />} label="Pending payments" value={statsQ.data?.pending ?? 0} />
+    <DashboardShell title="Doctor dashboard" subtitle="Appointments at a glance">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        <Stat icon={<CalendarCheck className="h-4 w-4" />} label="Today" value={statsQ.data?.today ?? 0} tone="primary" />
+        <Stat icon={<Clock className="h-4 w-4" />} label="Upcoming" value={statsQ.data?.upcoming ?? 0} tone="accent" />
+        <Stat icon={<CheckCircle2 className="h-4 w-4" />} label="Completed" value={statsQ.data?.completed ?? 0} tone="success" />
+        <Stat icon={<RotateCw className="h-4 w-4" />} label="Follow-ups" value={statsQ.data?.followUp ?? 0} tone="warning" />
+        <Stat icon={<XCircle className="h-4 w-4" />} label="Cancelled" value={statsQ.data?.cancelled ?? 0} tone="destructive" />
+        <Stat icon={<FileText className="h-4 w-4" />} label="Payments due" value={statsQ.data?.pending ?? 0} />
         <Stat icon={<BadgeIndianRupee className="h-4 w-4" />} label="Today's revenue" value={formatMoney(statsQ.data?.revenue ?? 0)} />
       </div>
 
       <div className="mt-8 rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
+          <Tabs value={filter} onValueChange={(v) => setFilter(v as Filter)}>
             <TabsList>
               <TabsTrigger value="today">Today</TabsTrigger>
               <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
               <TabsTrigger value="completed">Completed</TabsTrigger>
+              <TabsTrigger value="follow_up">Follow-up</TabsTrigger>
               <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
               <TabsTrigger value="all">All</TabsTrigger>
             </TabsList>
@@ -183,8 +199,13 @@ function DoctorDashboard() {
                     Check-in
                   </Button>
                 )}
-                {a.status !== "completed" && a.status !== "cancelled" && (
+                {a.status !== "completed" && a.status !== "cancelled" && a.status !== "follow_up" && (
                   <Button size="sm" onClick={() => updateStatus(a.id, "completed")}>Mark complete</Button>
+                )}
+                {a.status !== "cancelled" && a.status !== "follow_up" && (
+                  <Button size="sm" variant="outline" onClick={() => updateStatus(a.id, "follow_up")} className="gap-1">
+                    <RotateCw className="h-3.5 w-3.5" /> Follow-up
+                  </Button>
                 )}
                 {a.payment_status === "pending" && (
                   <Button size="sm" variant="outline" onClick={() => markPaid(a.id)}>Mark paid</Button>
@@ -203,12 +224,31 @@ function DoctorDashboard() {
   );
 }
 
-function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) {
+function Stat({
+  icon,
+  label,
+  value,
+  tone,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number | string;
+  tone?: "primary" | "accent" | "success" | "warning" | "destructive";
+}) {
+  const toneMap: Record<string, string> = {
+    primary: "bg-primary-soft text-primary",
+    accent: "bg-accent text-accent-foreground",
+    success: "bg-success/15 text-success",
+    warning: "bg-warning/15 text-warning",
+    destructive: "bg-destructive/10 text-destructive",
+  };
+  const chip = tone ? toneMap[tone] : "bg-muted text-muted-foreground";
   return (
     <Card>
       <CardContent className="p-5">
-        <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
-          {icon} {label}
+        <div className="flex items-center gap-2">
+          <span className={`inline-flex h-7 w-7 items-center justify-center rounded-lg ${chip}`}>{icon}</span>
+          <span className="text-xs uppercase tracking-widest text-muted-foreground">{label}</span>
         </div>
         <p className="mt-2 font-display text-2xl font-semibold">{value}</p>
       </CardContent>
@@ -221,9 +261,14 @@ function StatusPill({ status }: { status: string }) {
     confirmed: "bg-primary-soft text-primary",
     checked_in: "bg-accent text-accent-foreground",
     completed: "bg-success/15 text-success",
+    follow_up: "bg-warning/15 text-warning",
     cancelled: "bg-destructive/10 text-destructive",
   };
-  return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${map[status] ?? "bg-muted"}`}>{status.replace("_", " ")}</span>;
+  return (
+    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${map[status] ?? "bg-muted"}`}>
+      {status.replace("_", " ")}
+    </span>
+  );
 }
 
 function NotesDialog({ appt, onClose }: { appt: Appt | null; onClose: () => void }) {
