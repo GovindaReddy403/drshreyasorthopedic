@@ -44,17 +44,25 @@ type Row = {
 
 export function AppointmentsReport() {
   const [days, setDays] = useState<string>("30");
+  const [mode, setMode] = useState<"past" | "upcoming" | "both">("both");
+
+  const n = Number(days);
+  const today = startOfDay(new Date());
+  const fromDate = mode === "upcoming" ? today : subDays(today, n - 1);
+  const toDate = mode === "past" ? today : addDays(today, n - 1);
+  const fromStr = format(fromDate, "yyyy-MM-dd");
+  const toStr = format(toDate, "yyyy-MM-dd");
 
   const q = useQuery({
-    queryKey: ["report-appts", days],
+    queryKey: ["report-appts", days, mode],
     queryFn: async () => {
-      const from = format(subDays(startOfDay(new Date()), Number(days) - 1), "yyyy-MM-dd");
       const { data, error } = await supabase
         .from("appointments")
         .select(
           "booking_code, patient_name, patient_mobile, treatment_name, appointment_date, appointment_time, status, payment_method, payment_status, payment_amount",
         )
-        .gte("appointment_date", from)
+        .gte("appointment_date", fromStr)
+        .lte("appointment_date", toStr)
         .order("appointment_date", { ascending: true });
       if (error) throw error;
       return (data ?? []) as Row[];
@@ -63,10 +71,11 @@ export function AppointmentsReport() {
 
   const trend = useMemo(() => {
     const map = new Map<string, { date: string; appointments: number; completed: number; cancelled: number; revenue: number }>();
-    const n = Number(days);
-    for (let i = n - 1; i >= 0; i--) {
-      const d = format(subDays(startOfDay(new Date()), i), "yyyy-MM-dd");
+    let cursor = fromDate;
+    while (cursor <= toDate) {
+      const d = format(cursor, "yyyy-MM-dd");
       map.set(d, { date: d, appointments: 0, completed: 0, cancelled: 0, revenue: 0 });
+      cursor = addDays(cursor, 1);
     }
     (q.data ?? []).forEach((r) => {
       const e = map.get(r.appointment_date);
@@ -82,7 +91,7 @@ export function AppointmentsReport() {
       ...e,
       label: format(parseISO(e.date), "dd MMM"),
     }));
-  }, [q.data, days]);
+  }, [q.data, fromStr, toStr]);
 
   const totals = useMemo(() => {
     const list = q.data ?? [];
