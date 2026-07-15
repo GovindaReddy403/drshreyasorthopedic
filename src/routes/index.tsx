@@ -76,7 +76,14 @@ function LandingPage() {
   const { data: testimonials } = useSuspenseQuery(testimonialsQO);
   const { data: faqs } = useSuspenseQuery(faqsQO);
 
-  const gallery = [clinic1, clinic2, clinic3];
+  const gallery = [
+    { src: gKnee, caption: "Knee assessment & ligament care" },
+    { src: gShoulder, caption: "Shoulder examination" },
+    { src: gAnkle, caption: "Ankle & foot injury care" },
+    { src: gArthro, caption: "Arthroscopic surgery" },
+    { src: gPhysio, caption: "Sports rehabilitation" },
+    { src: gXray, caption: "Imaging review" },
+  ];
 
   return (
     <div id="top" className="min-h-screen bg-background">
