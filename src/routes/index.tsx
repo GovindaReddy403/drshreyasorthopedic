@@ -18,7 +18,8 @@ import {
   Stethoscope,
 } from "lucide-react";
 
-import heroImg from "@/assets/hero-doctor.jpg";
+import heroAsset from "@/assets/hero-doctor.png.asset.json";
+const heroImg = heroAsset.url;
 import doctorImg from "@/assets/doctor-portrait.jpg";
 import clinicBoard from "@/assets/clinic-board.png.asset.json";
 import gKnee from "@/assets/treat-knee.jpg";
