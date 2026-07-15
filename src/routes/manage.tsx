@@ -118,7 +118,7 @@ function ManagePage() {
                   onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
                 />
               </div>
-              <Button onClick={sendOtp} disabled={sending} className="w-full gap-2">
+              <Button onClick={sendOtpFn} disabled={sending} className="w-full gap-2">
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
                 Send OTP
               </Button>
@@ -144,7 +144,7 @@ function ManagePage() {
                   Demo mode — your OTP is <span className="font-mono font-semibold">{devCode}</span>
                 </p>
               )}
-              <Button onClick={verifyOtp} disabled={otp.length !== 6 || verifying} className="w-full gap-2">
+              <Button onClick={verifyOtpFn} disabled={otp.length !== 6 || verifying} className="w-full gap-2">
                 {verifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
                 Verify
               </Button>
