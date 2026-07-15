@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -18,6 +19,11 @@ import { Route as BookingCodeRouteImport } from './routes/booking.$code'
 import { Route as AuthenticatedReceptionRouteImport } from './routes/_authenticated/reception'
 import { Route as AuthenticatedDoctorRouteImport } from './routes/_authenticated/doctor'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ManageRoute = ManageRouteImport.update({
   id: '/manage',
   path: '/manage',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
   '/_authenticated/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/book'
     | '/manage'
+    | '/sitemap.xml'
     | '/doctor'
     | '/reception'
     | '/booking/$code'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/book'
     | '/manage'
+    | '/sitemap.xml'
     | '/doctor'
     | '/reception'
     | '/booking/$code'
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/book'
     | '/manage'
+    | '/sitemap.xml'
     | '/_authenticated/doctor'
     | '/_authenticated/reception'
     | '/booking/$code'
@@ -124,11 +136,19 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
   ManageRoute: typeof ManageRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BookingCodeRoute: typeof BookingCodeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/manage': {
       id: '/manage'
       path: '/manage'
@@ -207,18 +227,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BookRoute: BookRoute,
   ManageRoute: ManageRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   BookingCodeRoute: BookingCodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
