@@ -201,38 +201,6 @@ function LandingPage() {
           ))}
         </div>
 
-        {/* Clinic name board */}
-        <div className="mt-10 rounded-3xl border border-border bg-card p-4 sm:p-6">
-          <div className="grid gap-6 md:grid-cols-2 md:items-center">
-            <img
-              src={clinicBoard.url}
-              alt="Dr. Shreyas Orthopedic Clinic name board"
-              className="w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
-              loading="lazy"
-            />
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-                Look for this board
-              </p>
-              <h3 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">
-                Dr. Shreyas M.J
-              </h3>
-              <p className="mt-2 text-muted-foreground">
-                Sports Medicine Specialist &amp; Joint Replacement Surgeon · MBBS, MS (Ortho)
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Fellowship in Arthroscopy &amp; Sports Medicine (India &amp; Australia)
-              </p>
-              <p className="mt-4 text-sm">
-                <span className="font-semibold">Timings:</span> 5:00 PM – 9:00 PM · Sunday Holiday
-              </p>
-              <p className="text-sm">
-                <span className="font-semibold">Mobile:</span> 86609 50443
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Treatments */}
       <section id="treatments" className="border-y border-border/60 bg-muted/40">
