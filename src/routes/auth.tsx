@@ -67,14 +67,20 @@ function AuthPage() {
       setBusy(false);
       return toast.error(error.message);
     }
-    // Assign role immediately (first sign-up in fresh project); if it fails silently we'll say so.
     if (data.user) {
       const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.user.id, role });
       if (rErr) console.warn("Role assignment failed:", rErr.message);
     }
+    // Try immediate sign-in (works when email confirmations are disabled).
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    toast.success("Account created. You can sign in now.");
-    setTab("signin");
+    if (signInError) {
+      toast.success("Account created. Please check your email to confirm, then sign in.");
+      setTab("signin");
+      return;
+    }
+    toast.success("Account created — signed in");
+    if (signInData.user) redirectByRole(signInData.user.id);
   }
 
   return (

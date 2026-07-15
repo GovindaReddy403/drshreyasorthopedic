@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedReceptionRouteImport } from './routes/_authenticated/reception'
 import { Route as AuthenticatedDoctorRouteImport } from './routes/_authenticated/doctor'
 
@@ -53,6 +54,11 @@ const BookingCodeRoute = BookingCodeRouteImport.update({
   path: '/booking/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedReceptionRoute = AuthenticatedReceptionRouteImport.update({
   id: '/reception',
   path: '/reception',
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRoutesByTo {
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRoutesById {
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
   '/_authenticated/reception': typeof AuthenticatedReceptionRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRouteTypes {
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/doctor'
     | '/reception'
+    | '/settings'
     | '/booking/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/doctor'
     | '/reception'
+    | '/settings'
     | '/booking/$code'
   id:
     | '__root__'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/doctor'
     | '/_authenticated/reception'
+    | '/_authenticated/settings'
     | '/booking/$code'
   fileRoutesById: FileRoutesById
 }
@@ -191,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/reception': {
       id: '/_authenticated/reception'
       path: '/reception'
@@ -211,11 +230,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDoctorRoute: typeof AuthenticatedDoctorRoute
   AuthenticatedReceptionRoute: typeof AuthenticatedReceptionRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDoctorRoute: AuthenticatedDoctorRoute,
   AuthenticatedReceptionRoute: AuthenticatedReceptionRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
