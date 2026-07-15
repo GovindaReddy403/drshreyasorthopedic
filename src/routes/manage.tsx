@@ -50,22 +50,15 @@ function ManagePage() {
   const [verifying, setVerifying] = useState(false);
   const [devCode, setDevCode] = useState<string | null>(null);
 
-  async function sendOtp() {
+  async function sendOtpFn() {
     if (!/^\d{10}$/.test(mobile)) {
       toast.error("Enter a valid 10-digit mobile number");
       return;
     }
     setSending(true);
     try {
-      const code = String(Math.floor(100000 + Math.random() * 900000));
-      const expires = new Date(Date.now() + 10 * 60 * 1000).toISOString();
-      const { error } = await supabase.from("otp_codes").insert({
-        mobile: mobile.trim(),
-        code,
-        expires_at: expires,
-      });
-      if (error) throw error;
-      setDevCode(code);
+      const res = await sendOtp({ data: { mobile: mobile.trim() } });
+      setDevCode(res.demoCode ?? null);
       setPhase("otp");
       toast.success("OTP sent (shown below for demo)");
     } catch (e) {
