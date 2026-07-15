@@ -245,6 +245,84 @@ function BlockedPanel() {
   );
 }
 
+/* --- Testimonials / Reviews --- */
+function TestimonialsPanel() {
+  const qc = useQueryClient();
+  const q = useQuery({
+    queryKey: ["settings-testimonials"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("testimonials").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  async function add() {
+    const { error } = await supabase.from("testimonials").insert({
+      patient_name: "New patient",
+      content: "Great experience at the clinic.",
+      rating: 5,
+      is_published: true,
+    });
+    if (error) toast.error(error.message);
+    else { toast.success("Added"); qc.invalidateQueries({ queryKey: ["settings-testimonials"] }); qc.invalidateQueries({ queryKey: ["testimonials"] }); }
+  }
+  async function save(row: any) {
+    const { error } = await supabase.from("testimonials").update({
+      patient_name: row.patient_name,
+      content: row.content,
+      rating: Number(row.rating) || 5,
+      is_published: !!row.is_published,
+    }).eq("id", row.id);
+    if (error) toast.error(error.message);
+    else { toast.success("Saved"); qc.invalidateQueries({ queryKey: ["settings-testimonials"] }); qc.invalidateQueries({ queryKey: ["testimonials"] }); }
+  }
+  async function remove(id: string) {
+    if (!confirm("Delete this review?")) return;
+    const { error } = await supabase.from("testimonials").delete().eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Deleted"); qc.invalidateQueries({ queryKey: ["settings-testimonials"] }); qc.invalidateQueries({ queryKey: ["testimonials"] }); }
+  }
+
+  if (q.isLoading) return <Loader2 className="h-5 w-5 animate-spin" />;
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <Button size="sm" onClick={add} className="gap-1"><Plus className="h-4 w-4" /> Add review</Button>
+      </div>
+      {q.data?.length === 0 && <p className="text-sm text-muted-foreground">No reviews yet.</p>}
+      {q.data?.map((t) => <TestimonialRow key={t.id} row={t} onSave={save} onDelete={remove} />)}
+    </div>
+  );
+}
+
+function TestimonialRow({ row, onSave, onDelete }: { row: any; onSave: (r: any) => void; onDelete: (id: string) => void }) {
+  const [r, setR] = useState(row);
+  useEffect(() => setR(row), [row]);
+  return (
+    <Card>
+      <CardContent className="grid gap-3 p-5 md:grid-cols-[2fr_auto_auto]">
+        <div className="space-y-2">
+          <Input value={r.patient_name ?? ""} onChange={(e) => setR({ ...r, patient_name: e.target.value })} placeholder="Patient name" />
+          <Textarea rows={3} value={r.content ?? ""} onChange={(e) => setR({ ...r, content: e.target.value })} placeholder="Review text" />
+        </div>
+        <div>
+          <Label className="text-xs">Rating (1–5)</Label>
+          <Input type="number" min={1} max={5} value={r.rating ?? 5} onChange={(e) => setR({ ...r, rating: e.target.value })} />
+          <div className="mt-2 flex items-center gap-2">
+            <Switch checked={!!r.is_published} onCheckedChange={(v) => setR({ ...r, is_published: v })} />
+            <span className="text-xs text-muted-foreground">Published</span>
+          </div>
+        </div>
+        <div className="flex flex-col justify-between gap-2">
+          <Button size="sm" onClick={() => onSave(r)} className="gap-1"><Save className="h-3.5 w-3.5" /> Save</Button>
+          <Button size="sm" variant="outline" onClick={() => onDelete(r.id)} className="gap-1"><Trash2 className="h-3.5 w-3.5" /> Delete</Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 /* --- Social & contact --- */
 function SocialPanel() {
   const qc = useQueryClient();
