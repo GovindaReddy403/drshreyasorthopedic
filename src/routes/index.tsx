@@ -430,17 +430,6 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Contact"
-          title="Send us a message"
-          subtitle="We reply within one business day."
-        />
-        <div className="mt-10">
-          <ContactForm clinicEmail={clinic.email} />
-        </div>
-      </section>
 
       <SiteFooter clinic={clinic} />
     </div>
