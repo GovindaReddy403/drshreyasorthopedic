@@ -97,6 +97,11 @@ export function SiteNav({
                   Manage appointment
                 </Button>
               </Link>
+              <Link to="/auth" onClick={() => setOpen(false)} className="mt-2">
+                <Button variant="ghost" className="w-full">
+                  Staff login
+                </Button>
+              </Link>
               <Link to="/book" onClick={() => setOpen(false)} className="mt-2">
                 <Button className="w-full">Book appointment</Button>
               </Link>
