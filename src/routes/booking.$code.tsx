@@ -38,9 +38,36 @@ export const Route = createFileRoute("/booking/$code")({
   component: Confirmation,
 });
 
+function buildVCard(clinic: { clinic_name: string; doctor_name: string; phone: string | null; whatsapp: string | null; email: string | null; address: string | null; google_maps_url: string | null }): string {
+  const tel = clinic.whatsapp || clinic.phone || "";
+  const lines = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    `FN:${clinic.doctor_name}`,
+    `N:${clinic.doctor_name};;;;`,
+    `ORG:${clinic.clinic_name}`,
+  ];
+  if (tel) lines.push(`TEL;TYPE=CELL,VOICE:${tel}`);
+  if (clinic.whatsapp) lines.push(`TEL;TYPE=WHATSAPP:${clinic.whatsapp}`);
+  if (clinic.email) lines.push(`EMAIL;TYPE=INTERNET:${clinic.email}`);
+  if (clinic.address) lines.push(`ADR;TYPE=WORK:;;${clinic.address.replace(/\n/g, ", ")};;;;`);
+  if (clinic.google_maps_url) lines.push(`URL:${clinic.google_maps_url}`);
+  lines.push("END:VCARD");
+  return lines.join("\n");
+}
+
 function Confirmation() {
   const { appt, clinic } = Route.useLoaderData();
   const dateStr = format(new Date(appt.appointment_date + "T00:00:00"), "EEE, dd MMM yyyy");
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
+
+  useEffect(() => {
+    const vcard = buildVCard(clinic);
+    QRCode.toDataURL(vcard, { width: 320, margin: 1, errorCorrectionLevel: "M" })
+      .then(setQrDataUrl)
+      .catch(() => setQrDataUrl(""));
+  }, [clinic]);
+
 
   return (
     <div className="min-h-screen bg-hero-gradient">
