@@ -1,5 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope } from "lucide-react";
+import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope, QrCode } from "lucide-react";
+import { useEffect, useState } from "react";
+import QRCode from "qrcode";
 
 import { Button } from "@/components/ui/button";
 import { fetchClinic, formatMoney } from "@/lib/clinic";
