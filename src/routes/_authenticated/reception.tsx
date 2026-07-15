@@ -23,9 +23,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { AppointmentsReport } from "@/components/appointments-report";
 import { PaymentEditDialog, type PaymentEditTarget } from "@/components/payment-edit-dialog";
+import { ContactQR } from "@/components/contact-qr";
 import { supabase } from "@/integrations/supabase/client";
 import { labelSlot } from "@/lib/slots";
-import { formatMoney } from "@/lib/clinic";
+import { fetchClinic, formatMoney } from "@/lib/clinic";
 
 export const Route = createFileRoute("/_authenticated/reception")({
   beforeLoad: ({ context }) => {
@@ -56,7 +57,7 @@ function ReceptionDashboard() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("today");
-  const [tab, setTab] = useState<"list" | "report">("list");
+  const [tab, setTab] = useState<"list" | "report" | "contact">("list");
   const [payEdit, setPayEdit] = useState<PaymentEditTarget | null>(null);
 
   const listQ = useQuery({
@@ -148,10 +149,11 @@ function ReceptionDashboard() {
         <Stat icon={<BadgeIndianRupee className="h-4 w-4" />} label="Today's revenue" value={formatMoney(stats.data?.revenue ?? 0)} />
       </div>
 
-      <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "report")} className="mt-8">
+      <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "report" | "contact")} className="mt-8">
         <TabsList>
           <TabsTrigger value="list">Appointments</TabsTrigger>
           <TabsTrigger value="report">Reports</TabsTrigger>
+          <TabsTrigger value="contact">Contact QR</TabsTrigger>
         </TabsList>
 
         <TabsContent value="list" className="mt-4">
@@ -217,7 +219,12 @@ function ReceptionDashboard() {
         <TabsContent value="report" className="mt-4">
           <AppointmentsReport />
         </TabsContent>
+
+        <TabsContent value="contact" className="mt-4">
+          <ContactQrPanel />
+        </TabsContent>
       </Tabs>
+
 
       <PaymentEditDialog appt={payEdit} onClose={() => setPayEdit(null)} />
     </DashboardShell>
@@ -269,3 +276,16 @@ function StatusPill({ status }: { status: string }) {
     </span>
   );
 }
+
+function ContactQrPanel() {
+  const { data: clinic } = useQuery({ queryKey: ["clinic"], queryFn: fetchClinic });
+  if (!clinic) return <p className="text-sm text-muted-foreground">Loading clinic details…</p>;
+  return (
+    <div className="rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
+      <div className="mx-auto max-w-xl">
+        <ContactQR clinic={clinic} size={220} />
+      </div>
+    </div>
+  );
+}
+
