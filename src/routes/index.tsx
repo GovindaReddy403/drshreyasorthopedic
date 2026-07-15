@@ -20,9 +20,12 @@ import {
 
 import heroImg from "@/assets/hero-doctor.jpg";
 import doctorImg from "@/assets/doctor-portrait.jpg";
-import clinic1 from "@/assets/clinic-1.jpg";
-import clinic2 from "@/assets/clinic-2.jpg";
-import clinic3 from "@/assets/clinic-3.jpg";
+import gKnee from "@/assets/treat-knee.jpg";
+import gShoulder from "@/assets/treat-shoulder.jpg";
+import gAnkle from "@/assets/treat-ankle.jpg";
+import gArthro from "@/assets/treat-arthroscopy.jpg";
+import gPhysio from "@/assets/treat-physio.jpg";
+import gXray from "@/assets/treat-xray.jpg";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,7 +76,14 @@ function LandingPage() {
   const { data: testimonials } = useSuspenseQuery(testimonialsQO);
   const { data: faqs } = useSuspenseQuery(faqsQO);
 
-  const gallery = [clinic1, clinic2, clinic3];
+  const gallery = [
+    { src: gKnee, caption: "Knee assessment & ligament care" },
+    { src: gShoulder, caption: "Shoulder examination" },
+    { src: gAnkle, caption: "Ankle & foot injury care" },
+    { src: gArthro, caption: "Arthroscopic surgery" },
+    { src: gPhysio, caption: "Sports rehabilitation" },
+    { src: gXray, caption: "Imaging review" },
+  ];
 
   return (
     <div id="top" className="min-h-screen bg-background">
@@ -232,18 +242,26 @@ function LandingPage() {
 
       {/* Gallery */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Inside the clinic" title="A calm, modern space" />
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {gallery.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`Clinic ${i + 1}`}
-              width={1200}
-              height={900}
-              loading="lazy"
-              className="aspect-4/3 w-full rounded-3xl object-cover"
-            />
+        <SectionHeader
+          eyebrow="Treatment gallery"
+          title="A glimpse of care in action"
+          subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {gallery.map((g, i) => (
+            <figure key={i} className="group relative overflow-hidden rounded-3xl">
+              <img
+                src={g.src}
+                alt={g.caption}
+                width={1200}
+                height={900}
+                loading="lazy"
+                className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-sm font-medium text-white">
+                {g.caption}
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
@@ -303,26 +321,62 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Google Reviews */}
       <section id="testimonials" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Testimonials" title="Patients we've had the pleasure to serve" />
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold uppercase tracking-widest text-primary">Google Reviews</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">What our patients say</h2>
+          <div className="mt-4 flex items-center gap-3">
+            <div className="flex gap-0.5 text-warning">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-current" />
+              ))}
+            </div>
+            <span className="text-sm text-muted-foreground">5.0 · verified patient reviews on Google</span>
+          </div>
+        </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <Card key={t.id}>
-              <CardContent className="p-6">
-                <Quote className="h-6 w-6 text-primary/60" />
-                <p className="mt-4 text-foreground/85">"{t.content}"</p>
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="font-medium">{t.patient_name}</p>
-                  <div className="flex gap-0.5 text-warning">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
-                    ))}
+          {testimonials.map((t) => {
+            const initial = t.patient_name.trim().charAt(0).toUpperCase();
+            const colors = ["bg-primary/15 text-primary", "bg-success/15 text-success", "bg-warning/15 text-warning"];
+            const color = colors[t.patient_name.charCodeAt(0) % colors.length];
+            return (
+              <Card key={t.id} className="relative">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <span className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}>
+                      {initial}
+                    </span>
+                    <div className="flex-1">
+                      <p className="font-medium leading-tight">{t.patient_name}</p>
+                      <p className="text-xs text-muted-foreground">Local Guide · via Google</p>
+                    </div>
+                    <GoogleGlyph />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="flex gap-0.5 text-warning">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">a few weeks ago</span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/85">{t.content}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="outline" className="gap-2">
+              <GoogleGlyph /> Read more reviews on Google
+            </Button>
+          </a>
         </div>
       </section>
 
@@ -382,5 +436,16 @@ function InfoCard({
       </div>
       <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{body}</p>
     </div>
+  );
+}
+
+function GoogleGlyph() {
+  return (
+    <svg viewBox="0 0 48 48" className="h-5 w-5" aria-label="Google">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
   );
 }
