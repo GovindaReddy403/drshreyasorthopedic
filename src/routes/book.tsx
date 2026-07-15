@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useSuspenseQuery, queryOptions } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -23,8 +24,8 @@ import { SiteNav } from "@/components/site-nav";
 import { cn } from "@/lib/utils";
 
 import { fetchClinic, fetchTreatments, formatMoney } from "@/lib/clinic";
-import { fetchAvailableSlots, labelSlot } from "@/lib/slots";
-import { supabase } from "@/integrations/supabase/client";
+import { labelSlot } from "@/lib/slots";
+import { bookAppointment, getAvailableSlots } from "@/lib/booking.functions";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
 const treatmentsQO = queryOptions({ queryKey: ["treatments"], queryFn: fetchTreatments });
@@ -67,6 +68,8 @@ function BookPage() {
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
   const search = Route.useSearch();
   const navigate = useNavigate();
+  const fetchSlots = useServerFn(getAvailableSlots);
+  const createAppointment = useServerFn(bookAppointment);
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
@@ -91,80 +94,28 @@ function BookPage() {
   const slotsQ = useQuery({
     queryKey: ["slots", dateStr],
     enabled: Boolean(dateStr),
-    queryFn: () => fetchAvailableSlots(dateStr, clinic.slot_duration_minutes, clinic.max_per_slot),
+    queryFn: () => fetchSlots({ data: { date: dateStr } }),
   });
 
   async function submit() {
     if (!v.date || !v.time || !treatment) return;
     setSubmitting(true);
     try {
-      // Upsert patient
       const mobile = v.mobile.trim();
-      const { data: existing } = await supabase
-        .from("patients")
-        .select("id")
-        .eq("mobile", mobile)
-        .maybeSingle();
-
-      let patientId = existing?.id as string | undefined;
-      if (!patientId) {
-        const { data: inserted, error: insErr } = await supabase
-          .from("patients")
-          .insert({
-            mobile,
-            full_name: v.full_name.trim(),
-            email: v.email.trim() || null,
-            age: v.age ? Number(v.age) : null,
-            gender: v.gender || null,
-          })
-          .select("id")
-          .single();
-        if (insErr) throw insErr;
-        patientId = inserted.id;
-      } else {
-        await supabase
-          .from("patients")
-          .update({
-            full_name: v.full_name.trim(),
-            email: v.email.trim() || null,
-            age: v.age ? Number(v.age) : null,
-            gender: v.gender || null,
-          })
-          .eq("id", patientId);
-      }
-
-      // Re-check slot availability just before insert
-      const still = await fetchAvailableSlots(dateStr, clinic.slot_duration_minutes, clinic.max_per_slot);
-      if (!still.includes(v.time)) {
-        toast.error("This slot was just taken. Please pick another.");
-        setStep(2);
-        setSubmitting(false);
-        return;
-      }
-
-      const { data: appt, error: apptErr } = await supabase
-        .from("appointments")
-        .insert({
-          patient_id: patientId!,
-          patient_mobile: mobile,
-          patient_name: v.full_name.trim(),
+      const appt = await createAppointment({
+        data: {
+          full_name: v.full_name.trim(),
+          mobile,
+          email: v.email.trim() || null,
+          age: v.age ? Number(v.age) : null,
+          gender: v.gender || null,
           treatment_id: treatment.id,
-          treatment_name: treatment.name,
           appointment_date: dateStr,
           appointment_time: v.time,
-          duration_minutes: treatment.duration_minutes,
           reason: v.reason.trim() || null,
-          status: "confirmed",
           payment_method: v.payment_method,
-          payment_status: v.payment_method === "online" ? "paid_online" : "pending",
-          payment_amount: treatment.fee,
-          payment_paid_at: v.payment_method === "online" ? new Date().toISOString() : null,
-          booked_by: "patient",
-        })
-        .select("booking_code")
-        .single();
-
-      if (apptErr) throw apptErr;
+        },
+      });
 
       toast.success("Appointment booked!");
       navigate({ to: "/booking/$code", params: { code: appt.booking_code } });

@@ -2,24 +2,17 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import { fetchClinic, formatMoney } from "@/lib/clinic";
+import { getBookingByCode } from "@/lib/booking.functions";
 import { labelSlot } from "@/lib/slots";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/booking/$code")({
   loader: async ({ params }) => {
-    const [{ data: appt, error }, clinic] = await Promise.all([
-      supabase
-        .from("appointments")
-        .select(
-          "booking_code, patient_name, patient_mobile, treatment_name, appointment_date, appointment_time, payment_method, payment_status, payment_amount, status",
-        )
-        .eq("booking_code", params.code)
-        .maybeSingle(),
+    const [appt, clinic] = await Promise.all([
+      getBookingByCode({ data: { code: params.code } }),
       fetchClinic(),
     ]);
-    if (error) throw error;
     if (!appt) throw notFound();
     return { appt, clinic };
   },
