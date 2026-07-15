@@ -276,3 +276,16 @@ function StatusPill({ status }: { status: string }) {
     </span>
   );
 }
+
+function ContactQrPanel() {
+  const { data: clinic } = useQuery({ queryKey: ["clinic"], queryFn: fetchClinic });
+  if (!clinic) return <p className="text-sm text-muted-foreground">Loading clinic details…</p>;
+  return (
+    <div className="rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
+      <div className="mx-auto max-w-xl">
+        <ContactQR clinic={clinic} size={220} />
+      </div>
+    </div>
+  );
+}
+
