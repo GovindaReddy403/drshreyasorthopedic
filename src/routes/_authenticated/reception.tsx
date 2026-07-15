@@ -219,7 +219,12 @@ function ReceptionDashboard() {
         <TabsContent value="report" className="mt-4">
           <AppointmentsReport />
         </TabsContent>
+
+        <TabsContent value="contact" className="mt-4">
+          <ContactQrPanel />
+        </TabsContent>
       </Tabs>
+
 
       <PaymentEditDialog appt={payEdit} onClose={() => setPayEdit(null)} />
     </DashboardShell>
