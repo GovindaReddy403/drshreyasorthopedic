@@ -166,9 +166,11 @@ function BookPage() {
               <Field label="Mobile number" required>
                 <Input
                   type="tel"
-                  placeholder="+91 98765 43210"
+                  inputMode="numeric"
+                  maxLength={10}
+                  placeholder="10-digit mobile"
                   value={v.mobile}
-                  onChange={(e) => set("mobile", e.target.value)}
+                  onChange={(e) => set("mobile", e.target.value.replace(/\D/g, "").slice(0, 10))}
                 />
               </Field>
               <Field label="Email (optional)">
