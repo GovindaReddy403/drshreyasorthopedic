@@ -151,10 +151,11 @@ function DoctorDashboard() {
         <Stat icon={<BadgeIndianRupee className="h-4 w-4" />} label="Today's revenue" value={formatMoney(statsQ.data?.revenue ?? 0)} />
       </div>
 
-      <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "report")} className="mt-8">
+      <Tabs value={tab} onValueChange={(v) => setTab(v as "list" | "report" | "contact")} className="mt-8">
         <TabsList>
           <TabsTrigger value="list">Appointments</TabsTrigger>
           <TabsTrigger value="report">Reports</TabsTrigger>
+          <TabsTrigger value="contact">Contact QR</TabsTrigger>
         </TabsList>
 
         <TabsContent value="list" className="mt-4">
