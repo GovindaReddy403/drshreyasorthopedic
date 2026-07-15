@@ -68,31 +68,20 @@ function ManagePage() {
     }
   }
 
-  async function verifyOtp() {
+  async function verifyOtpFn() {
     setVerifying(true);
     try {
-      const { data, error } = await supabase
-        .from("otp_codes")
-        .select("id, expires_at, used")
-        .eq("mobile", mobile.trim())
-        .eq("code", otp)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) {
-        toast.error("Invalid code");
+      const res = await verifyOtp({ data: { mobile: mobile.trim(), code: otp } });
+      if (!res.ok) {
+        const msg =
+          res.reason === "expired"
+            ? "Code expired"
+            : res.reason === "used"
+              ? "Code already used"
+              : "Invalid code";
+        toast.error(msg);
         return;
       }
-      if (data.used) {
-        toast.error("Code already used");
-        return;
-      }
-      if (new Date(data.expires_at) < new Date()) {
-        toast.error("Code expired");
-        return;
-      }
-      await supabase.from("otp_codes").update({ used: true }).eq("id", data.id);
       setPhase("list");
     } catch (e) {
       toast.error((e as Error).message);
