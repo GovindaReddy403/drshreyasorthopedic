@@ -12,6 +12,7 @@ import { SiteNav } from "@/components/site-nav";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchClinic } from "@/lib/clinic";
 import { labelSlot } from "@/lib/slots";
+import { sendOtp, verifyOtp } from "@/lib/otp.functions";
 import { useQuery, queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
