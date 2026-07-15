@@ -81,6 +81,9 @@ function LandingPage() {
 
   const primaryDoctor: Doctor | undefined = doctors[0];
 
+  const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
+  const reviewsAutoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+
   const gallery = [
     { src: gKnee, caption: "Knee assessment & ligament care" },
     { src: gShoulder, caption: "Shoulder examination" },
