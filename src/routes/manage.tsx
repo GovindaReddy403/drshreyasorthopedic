@@ -50,8 +50,8 @@ function ManagePage() {
   const [devCode, setDevCode] = useState<string | null>(null);
 
   async function sendOtp() {
-    if (!/^[+\d][\d\s-]{7,15}$/.test(mobile)) {
-      toast.error("Enter a valid mobile number");
+    if (!/^\d{10}$/.test(mobile)) {
+      toast.error("Enter a valid 10-digit mobile number");
       return;
     }
     setSending(true);
@@ -127,10 +127,12 @@ function ManagePage() {
                 <Input
                   id="m-mobile"
                   type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
                   className="mt-1"
-                  placeholder="+91 98765 43210"
+                  placeholder="10-digit mobile"
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
+                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, "").slice(0, 10))}
                 />
               </div>
               <Button onClick={sendOtp} disabled={sending} className="w-full gap-2">

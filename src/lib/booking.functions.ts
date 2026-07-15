@@ -10,7 +10,7 @@ const availableSlotsSchema = z.object({
 
 const bookAppointmentSchema = z.object({
   full_name: z.string().trim().min(2).max(120),
-  mobile: z.string().trim().regex(/^[+\d][\d\s-]{7,15}$/),
+  mobile: z.string().trim().regex(/^\d{10}$/, "Mobile must be exactly 10 digits"),
   email: z.string().trim().email().nullable().optional(),
   age: z.number().int().min(0).max(120).nullable().optional(),
   gender: z.string().trim().max(40).nullable().optional(),

@@ -132,7 +132,7 @@ function BookPage() {
       const parsed = z
         .object({
           full_name: z.string().trim().min(2),
-          mobile: z.string().trim().regex(/^[+\d][\d\s-]{7,15}$/, "Invalid mobile"),
+          mobile: z.string().trim().regex(/^\d{10}$/, "Mobile must be exactly 10 digits"),
           email: z.string().trim().email().optional().or(z.literal("")),
           age: z.string().optional(),
           gender: z.string().optional(),
@@ -166,9 +166,11 @@ function BookPage() {
               <Field label="Mobile number" required>
                 <Input
                   type="tel"
-                  placeholder="+91 98765 43210"
+                  inputMode="numeric"
+                  maxLength={10}
+                  placeholder="10-digit mobile"
                   value={v.mobile}
-                  onChange={(e) => set("mobile", e.target.value)}
+                  onChange={(e) => set("mobile", e.target.value.replace(/\D/g, "").slice(0, 10))}
                 />
               </Field>
               <Field label="Email (optional)">
