@@ -11,7 +11,6 @@ import {
   MapPin,
   MessageCircle,
   Phone,
-  Quote,
   ShieldCheck,
   Sparkles,
   Star,
@@ -31,39 +30,41 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/card-badge";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactForm } from "@/components/contact-form";
 import {
   fetchClinic,
-  fetchFaqs,
+  fetchDoctors,
   fetchTestimonials,
   fetchTreatments,
   fetchWorkingHours,
   formatMoney,
   formatTime,
   WEEKDAY_LABELS,
+  type Doctor,
 } from "@/lib/clinic";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
+const doctorsQO = queryOptions({ queryKey: ["doctors"], queryFn: fetchDoctors });
 const treatmentsQO = queryOptions({ queryKey: ["treatments"], queryFn: fetchTreatments });
 const hoursQO = queryOptions({ queryKey: ["hours"], queryFn: fetchWorkingHours });
 const testimonialsQO = queryOptions({ queryKey: ["testimonials"], queryFn: fetchTestimonials });
-const faqsQO = queryOptions({ queryKey: ["faqs"], queryFn: fetchFaqs });
 
 export const Route = createFileRoute("/")({
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(clinicQO),
+      context.queryClient.ensureQueryData(doctorsQO),
       context.queryClient.ensureQueryData(treatmentsQO),
       context.queryClient.ensureQueryData(hoursQO),
       context.queryClient.ensureQueryData(testimonialsQO),
-      context.queryClient.ensureQueryData(faqsQO),
     ]);
   },
   component: LandingPage,
@@ -71,10 +72,12 @@ export const Route = createFileRoute("/")({
 
 function LandingPage() {
   const { data: clinic } = useSuspenseQuery(clinicQO);
+  const { data: doctors } = useSuspenseQuery(doctorsQO);
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
   const { data: hours } = useSuspenseQuery(hoursQO);
   const { data: testimonials } = useSuspenseQuery(testimonialsQO);
-  const { data: faqs } = useSuspenseQuery(faqsQO);
+
+  const primaryDoctor: Doctor | undefined = doctors[0];
 
   const gallery = [
     { src: gKnee, caption: "Knee assessment & ligament care" },
@@ -101,8 +104,9 @@ function LandingPage() {
               {clinic.tagline ?? "Modern care, close to home."}
             </h1>
             <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              Consult with {clinic.doctor_name} — {clinic.specialization}. Book in under a
-              minute, pay online or at the clinic.
+              Consult with {primaryDoctor?.name ?? clinic.doctor_name} —{" "}
+              {primaryDoctor?.specialization ?? clinic.specialization}. Book in under a minute, pay
+              online or at the clinic.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/book">
@@ -112,7 +116,7 @@ function LandingPage() {
               </Link>
               {clinic.whatsapp && (
                 <a
-                  href={`https://wa.me/${clinic.whatsapp.replace(/\D/g, "")}`}
+                  href={`https://wa.me/91${clinic.whatsapp.replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -122,7 +126,7 @@ function LandingPage() {
                 </a>
               )}
               {clinic.phone && (
-                <a href={`tel:${clinic.phone}`}>
+                <a href={`tel:${clinic.phone.replace(/\s/g, "")}`}>
                   <Button size="lg" variant="ghost" className="gap-2">
                     <Phone className="h-4 w-4" /> Call
                   </Button>
@@ -132,13 +136,17 @@ function LandingPage() {
 
             <dl className="mt-10 grid grid-cols-3 gap-4">
               {[
-                { label: "Years experience", value: `${clinic.years_experience ?? 0}+` },
+                { label: "Doctors", value: `${doctors.length}` },
                 { label: "Consultation fee", value: formatMoney(clinic.consultation_fee) },
                 { label: "Happy patients", value: "10k+" },
               ].map((s) => (
                 <div key={s.label} className="glass-card rounded-2xl p-4">
-                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">{s.label}</dt>
-                  <dd className="mt-1 font-display text-2xl font-semibold text-foreground">{s.value}</dd>
+                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">
+                    {s.label}
+                  </dt>
+                  <dd className="mt-1 font-display text-2xl font-semibold text-foreground">
+                    {s.value}
+                  </dd>
                 </div>
               ))}
             </dl>
@@ -148,7 +156,7 @@ function LandingPage() {
             <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl" aria-hidden />
             <img
               src={heroImg}
-              alt={`${clinic.doctor_name} at ${clinic.clinic_name}`}
+              alt={`${primaryDoctor?.name ?? clinic.doctor_name} at ${clinic.clinic_name}`}
               width={1600}
               height={1200}
               className="relative w-full rounded-[2rem] object-cover shadow-[var(--shadow-glow)]"
@@ -159,50 +167,30 @@ function LandingPage() {
               </span>
               <div>
                 <p className="text-sm font-semibold">Verified & board-certified</p>
-                <p className="text-xs text-muted-foreground">{clinic.qualifications}</p>
+                <p className="text-xs text-muted-foreground">
+                  {primaryDoctor?.qualifications ?? clinic.qualifications}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* About */}
+      {/* About / Doctors */}
       <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-5">
-          <div className="md:col-span-2">
-            <img
-              src={doctorImg}
-              alt={clinic.doctor_name}
-              width={900}
-              height={1100}
-              loading="lazy"
-              className="w-full max-w-sm rounded-3xl object-cover shadow-[var(--shadow-soft)]"
+        <SectionHeader
+          eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
+          title={doctors.length > 1 ? "Our doctors" : primaryDoctor?.name ?? clinic.doctor_name}
+        />
+        <div className="mt-10 space-y-16">
+          {doctors.map((doc, idx) => (
+            <DoctorProfile
+              key={doc.id}
+              doctor={doc}
+              image={idx === 0 ? doctorImg : doc.photo_url ?? doctorImg}
+              flip={idx % 2 === 1}
             />
-          </div>
-          <div className="md:col-span-3">
-            <p className="text-sm font-semibold uppercase tracking-widest text-primary">About the doctor</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{clinic.doctor_name}</h2>
-            <p className="mt-1 text-muted-foreground">
-              {clinic.qualifications} · {clinic.specialization}
-            </p>
-            <p className="mt-6 whitespace-pre-line text-foreground/85 leading-relaxed">
-              {clinic.about_doctor}
-            </p>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <InfoCard icon={GraduationCap} title="Education" body={clinic.education} />
-              <InfoCard icon={Stethoscope} title="Experience" body={clinic.professional_experience} />
-              <InfoCard icon={BadgeCheck} title="Certifications" body={clinic.certifications} />
-              <InfoCard icon={Award} title="Awards & Memberships" body={[clinic.awards, clinic.memberships].filter(Boolean).join("\n")} />
-            </div>
-
-            {clinic.languages_spoken && (
-              <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
-                <Languages className="h-4 w-4" />
-                <span>Speaks {clinic.languages_spoken}</span>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
       </section>
 
@@ -216,7 +204,10 @@ function LandingPage() {
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treatments.map((t) => (
-              <Card key={t.id} className="group transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
+              <Card
+                key={t.id}
+                className="group transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+              >
                 <CardContent className="flex h-full flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-xl font-semibold">{t.name}</h3>
@@ -240,29 +231,37 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Gallery */}
+      {/* Gallery (slider) */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Treatment gallery"
           title="A glimpse of care in action"
           subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
         />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {gallery.map((g, i) => (
-            <figure key={i} className="group relative overflow-hidden rounded-3xl">
-              <img
-                src={g.src}
-                alt={g.caption}
-                width={1200}
-                height={900}
-                loading="lazy"
-                className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-sm font-medium text-white">
-                {g.caption}
-              </figcaption>
-            </figure>
-          ))}
+        <div className="mt-10">
+          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+            <CarouselContent>
+              {gallery.map((g, i) => (
+                <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
+                  <figure className="group relative overflow-hidden rounded-3xl">
+                    <img
+                      src={g.src}
+                      alt={g.caption}
+                      width={1200}
+                      height={900}
+                      loading="lazy"
+                      className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-sm font-medium text-white">
+                      {g.caption}
+                    </figcaption>
+                  </figure>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
         </div>
       </section>
 
@@ -279,8 +278,10 @@ function LandingPage() {
                     {!h.is_open
                       ? "Closed"
                       : [
-                          h.morning_start && `${formatTime(h.morning_start)} – ${formatTime(h.morning_end)}`,
-                          h.evening_start && `${formatTime(h.evening_start)} – ${formatTime(h.evening_end)}`,
+                          h.morning_start &&
+                            `${formatTime(h.morning_start)} – ${formatTime(h.morning_end)}`,
+                          h.evening_start &&
+                            `${formatTime(h.evening_start)} – ${formatTime(h.evening_end)}`,
                         ]
                           .filter(Boolean)
                           .join(" · ")}
@@ -290,7 +291,8 @@ function LandingPage() {
             </div>
             {clinic.emergency_contact && (
               <p className="mt-4 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Emergency:</span> {clinic.emergency_contact}
+                <span className="font-medium text-foreground">Emergency:</span>{" "}
+                {clinic.emergency_contact}
               </p>
             )}
           </div>
@@ -321,83 +323,89 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Google Reviews */}
+      {/* Google Reviews (slider) */}
       <section id="testimonials" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary">Google Reviews</p>
-          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">What our patients say</h2>
+          <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+            Patient Reviews
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
+            What our patients say
+          </h2>
           <div className="mt-4 flex items-center gap-3">
             <div className="flex gap-0.5 text-warning">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="h-5 w-5 fill-current" />
               ))}
             </div>
-            <span className="text-sm text-muted-foreground">5.0 · verified patient reviews on Google</span>
+            <span className="text-sm text-muted-foreground">
+              5.0 · sample reviews · verified Google reviews will appear here once connected
+            </span>
           </div>
         </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {testimonials.map((t) => {
-            const initial = t.patient_name.trim().charAt(0).toUpperCase();
-            const colors = ["bg-primary/15 text-primary", "bg-success/15 text-success", "bg-warning/15 text-warning"];
-            const color = colors[t.patient_name.charCodeAt(0) % colors.length];
-            return (
-              <Card key={t.id} className="relative">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3">
-                    <span className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}>
-                      {initial}
-                    </span>
-                    <div className="flex-1">
-                      <p className="font-medium leading-tight">{t.patient_name}</p>
-                      <p className="text-xs text-muted-foreground">Local Guide · via Google</p>
-                    </div>
-                    <GoogleGlyph />
-                  </div>
-                  <div className="mt-4 flex items-center gap-2">
-                    <div className="flex gap-0.5 text-warning">
-                      {Array.from({ length: t.rating }).map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-current" />
-                      ))}
-                    </div>
-                    <span className="text-xs text-muted-foreground">a few weeks ago</span>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/85">{t.content}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <div className="mt-10">
+          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+            <CarouselContent>
+              {testimonials.map((t) => {
+                const initial = t.patient_name.trim().charAt(0).toUpperCase();
+                const colors = [
+                  "bg-primary/15 text-primary",
+                  "bg-success/15 text-success",
+                  "bg-warning/15 text-warning",
+                ];
+                const color = colors[t.patient_name.charCodeAt(0) % colors.length];
+                return (
+                  <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
+                    <Card className="relative h-full">
+                      <CardContent className="flex h-full flex-col p-6">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}
+                          >
+                            {initial}
+                          </span>
+                          <div className="flex-1">
+                            <p className="font-medium leading-tight">{t.patient_name}</p>
+                            <p className="text-xs text-muted-foreground">via Google</p>
+                          </div>
+                          <GoogleGlyph />
+                        </div>
+                        <div className="mt-4 flex items-center gap-2">
+                          <div className="flex gap-0.5 text-warning">
+                            {Array.from({ length: t.rating }).map((_, i) => (
+                              <Star key={i} className="h-4 w-4 fill-current" />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="mt-3 text-sm leading-relaxed text-foreground/85">
+                          {t.content}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
         </div>
         <div className="mt-8 flex justify-center">
-          <a
-            href="https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7" target="_blank" rel="noreferrer">
             <Button variant="outline" className="gap-2">
-              <GoogleGlyph /> Read more reviews on Google
+              <GoogleGlyph /> Read reviews on Google
             </Button>
           </a>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="border-t border-border/60 bg-muted/40">
-        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="FAQ" title="Frequently asked questions" />
-          <Accordion type="single" collapsible className="mt-8">
-            {faqs.map((f) => (
-              <AccordionItem key={f.id} value={f.id}>
-                <AccordionTrigger className="text-left">{f.question}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">{f.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
-
       {/* Contact */}
       <section id="contact" className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Contact" title="Send us a message" subtitle="We reply within one business day." />
+        <SectionHeader
+          eyebrow="Contact"
+          title="Send us a message"
+          subtitle="We reply within one business day."
+        />
         <div className="mt-10">
           <ContactForm clinicEmail={clinic.email} />
         </div>
@@ -408,7 +416,68 @@ function LandingPage() {
   );
 }
 
-function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle?: string }) {
+function DoctorProfile({
+  doctor,
+  image,
+  flip,
+}: {
+  doctor: Doctor;
+  image: string;
+  flip: boolean;
+}) {
+  return (
+    <div className={`grid gap-12 md:grid-cols-5 ${flip ? "md:[direction:rtl]" : ""}`}>
+      <div className="md:col-span-2 md:[direction:ltr]">
+        <img
+          src={image}
+          alt={doctor.name}
+          width={900}
+          height={1100}
+          loading="lazy"
+          className="w-full max-w-sm rounded-3xl object-cover shadow-[var(--shadow-soft)]"
+        />
+      </div>
+      <div className="md:col-span-3 md:[direction:ltr]">
+        <h3 className="font-display text-3xl font-semibold sm:text-4xl">{doctor.name}</h3>
+        <p className="mt-1 text-muted-foreground">
+          {doctor.qualifications}
+          {doctor.specialization ? ` · ${doctor.specialization}` : ""}
+        </p>
+        {doctor.about && (
+          <p className="mt-6 whitespace-pre-line leading-relaxed text-foreground/85">
+            {doctor.about}
+          </p>
+        )}
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <InfoCard icon={GraduationCap} title="Education" body={doctor.education} />
+          <InfoCard
+            icon={Stethoscope}
+            title="Experience"
+            body={doctor.professional_experience}
+          />
+          <InfoCard icon={BadgeCheck} title="Fellowship" body={doctor.certifications} />
+          <InfoCard icon={Award} title="Memberships" body={doctor.memberships} />
+        </div>
+        {doctor.languages_spoken && (
+          <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
+            <Languages className="h-4 w-4" />
+            <span>Speaks {doctor.languages_spoken}</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <div className="max-w-2xl">
       <p className="text-sm font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>
@@ -442,10 +511,22 @@ function InfoCard({
 function GoogleGlyph() {
   return (
     <svg viewBox="0 0 48 48" className="h-5 w-5" aria-label="Google">
-      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      <path
+        fill="#EA4335"
+        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+      />
+      <path
+        fill="#4285F4"
+        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+      />
+      <path
+        fill="#34A853"
+        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+      />
     </svg>
   );
 }

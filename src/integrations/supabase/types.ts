@@ -260,6 +260,69 @@ export type Database = {
           },
         ]
       }
+      doctors: {
+        Row: {
+          about: string | null
+          certifications: string | null
+          consultation_fee: number | null
+          created_at: string
+          education: string | null
+          id: string
+          is_active: boolean
+          is_primary: boolean
+          languages_spoken: string | null
+          memberships: string | null
+          name: string
+          photo_url: string | null
+          professional_experience: string | null
+          qualifications: string | null
+          sort_order: number
+          specialization: string | null
+          updated_at: string
+          years_experience: number | null
+        }
+        Insert: {
+          about?: string | null
+          certifications?: string | null
+          consultation_fee?: number | null
+          created_at?: string
+          education?: string | null
+          id?: string
+          is_active?: boolean
+          is_primary?: boolean
+          languages_spoken?: string | null
+          memberships?: string | null
+          name: string
+          photo_url?: string | null
+          professional_experience?: string | null
+          qualifications?: string | null
+          sort_order?: number
+          specialization?: string | null
+          updated_at?: string
+          years_experience?: number | null
+        }
+        Update: {
+          about?: string | null
+          certifications?: string | null
+          consultation_fee?: number | null
+          created_at?: string
+          education?: string | null
+          id?: string
+          is_active?: boolean
+          is_primary?: boolean
+          languages_spoken?: string | null
+          memberships?: string | null
+          name?: string
+          photo_url?: string | null
+          professional_experience?: string | null
+          qualifications?: string | null
+          sort_order?: number
+          specialization?: string | null
+          updated_at?: string
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
       faqs: {
         Row: {
           answer: string
