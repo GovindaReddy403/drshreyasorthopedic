@@ -1,5 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope } from "lucide-react";
+import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope, QrCode } from "lucide-react";
+import { useEffect, useState } from "react";
+import QRCode from "qrcode";
 
 import { Button } from "@/components/ui/button";
 import { fetchClinic, formatMoney } from "@/lib/clinic";
@@ -36,9 +38,36 @@ export const Route = createFileRoute("/booking/$code")({
   component: Confirmation,
 });
 
+function buildVCard(clinic: { clinic_name: string; doctor_name: string; phone: string | null; whatsapp: string | null; email: string | null; address: string | null; google_maps_url: string | null }): string {
+  const tel = clinic.whatsapp || clinic.phone || "";
+  const lines = [
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    `FN:${clinic.doctor_name}`,
+    `N:${clinic.doctor_name};;;;`,
+    `ORG:${clinic.clinic_name}`,
+  ];
+  if (tel) lines.push(`TEL;TYPE=CELL,VOICE:${tel}`);
+  if (clinic.whatsapp) lines.push(`TEL;TYPE=WHATSAPP:${clinic.whatsapp}`);
+  if (clinic.email) lines.push(`EMAIL;TYPE=INTERNET:${clinic.email}`);
+  if (clinic.address) lines.push(`ADR;TYPE=WORK:;;${clinic.address.replace(/\n/g, ", ")};;;;`);
+  if (clinic.google_maps_url) lines.push(`URL:${clinic.google_maps_url}`);
+  lines.push("END:VCARD");
+  return lines.join("\n");
+}
+
 function Confirmation() {
   const { appt, clinic } = Route.useLoaderData();
   const dateStr = format(new Date(appt.appointment_date + "T00:00:00"), "EEE, dd MMM yyyy");
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
+
+  useEffect(() => {
+    const vcard = buildVCard(clinic);
+    QRCode.toDataURL(vcard, { width: 320, margin: 1, errorCorrectionLevel: "M" })
+      .then(setQrDataUrl)
+      .catch(() => setQrDataUrl(""));
+  }, [clinic]);
+
 
   return (
     <div className="min-h-screen bg-hero-gradient">
@@ -84,6 +113,37 @@ function Confirmation() {
               )}
             </div>
           )}
+          <div className="mt-8 rounded-2xl border border-border bg-background/60 p-5">
+            <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-start sm:text-left">
+              <div className="flex h-40 w-40 shrink-0 items-center justify-center rounded-xl border border-border bg-white p-2">
+                {qrDataUrl ? (
+                  <img src={qrDataUrl} alt={`Save ${clinic.doctor_name} contact`} className="h-full w-full" />
+                ) : (
+                  <QrCode className="h-10 w-10 text-muted-foreground" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="flex items-center gap-2 text-sm font-semibold">
+                  <QrCode className="h-4 w-4 text-primary" /> Save clinic contact
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Open your phone camera or WhatsApp scanner and point it at this code. It will save{" "}
+                  <span className="font-medium text-foreground">{clinic.doctor_name}</span> to your contacts under{" "}
+                  <span className="font-medium text-foreground">{clinic.clinic_name}</span>.
+                </p>
+                {qrDataUrl && (
+                  <a
+                    href={qrDataUrl}
+                    download={`${clinic.clinic_name.replace(/\s+/g, "-").toLowerCase()}-contact.png`}
+                    className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+                  >
+                    Download QR
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button onClick={() => window.print()} variant="outline" className="gap-2">
