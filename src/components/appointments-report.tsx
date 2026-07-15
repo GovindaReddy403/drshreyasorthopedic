@@ -141,14 +141,22 @@ export function AppointmentsReport() {
           <h2 className="font-display text-xl font-semibold">Reports</h2>
           <p className="text-sm text-muted-foreground">Appointment and revenue trends</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Select value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
+            <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="past">Past</SelectItem>
+              <SelectItem value="upcoming">Upcoming</SelectItem>
+              <SelectItem value="both">Past + Upcoming</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={days} onValueChange={setDays}>
             <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 days</SelectItem>
-              <SelectItem value="30">Last 30 days</SelectItem>
-              <SelectItem value="90">Last 90 days</SelectItem>
-              <SelectItem value="180">Last 6 months</SelectItem>
+              <SelectItem value="7">7 days</SelectItem>
+              <SelectItem value="30">30 days</SelectItem>
+              <SelectItem value="90">90 days</SelectItem>
+              <SelectItem value="180">6 months</SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={downloadExcel} className="gap-2" disabled={q.isLoading || !q.data?.length}>
