@@ -30,7 +30,7 @@ import gXray from "@/assets/treat-xray.jpg";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/card-badge";
+
 import {
   Carousel,
   CarouselContent,
@@ -47,8 +47,8 @@ import {
   fetchTestimonials,
   fetchTreatments,
   fetchWorkingHours,
-  formatMoney,
   formatTime,
+
   WEEKDAY_LABELS,
   type Doctor,
 } from "@/lib/clinic";
@@ -248,9 +248,9 @@ function LandingPage() {
                 <CardContent className="flex h-full flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-display text-xl font-semibold">{t.name}</h3>
-                    <Badge>{formatMoney(t.fee)}</Badge>
                   </div>
                   <p className="mt-3 text-sm text-muted-foreground">{t.description}</p>
+
                   <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
                     <span className="inline-flex items-center gap-1.5">
                       <Clock className="h-4 w-4" /> {t.duration_minutes} min

@@ -396,19 +396,46 @@ function GalleryPanel() {
   const [caption, setCaption] = useState("");
   const [busy, setBusy] = useState(false);
 
-  async function add() {
-    if (!url.trim()) { toast.error("Image URL is required"); return; }
-    setBusy(true);
+  async function insertRow(imageUrl: string) {
     const { error } = await supabase.from("gallery").insert({
-      image_url: url.trim(),
+      image_url: imageUrl,
       caption: caption.trim() || null,
       sort_order: (q.data?.length ?? 0) + 1,
     });
-    setBusy(false);
     if (error) { toast.error(error.message); return; }
     toast.success("Added"); setUrl(""); setCaption("");
     qc.invalidateQueries({ queryKey: ["settings-gallery"] });
     qc.invalidateQueries({ queryKey: ["gallery"] });
+  }
+
+  async function addFromUrl() {
+    if (!url.trim()) { toast.error("Image URL is required"); return; }
+    setBusy(true);
+    await insertRow(url.trim());
+    setBusy(false);
+  }
+
+  async function addFromFile(file: File) {
+    if (!file.type.startsWith("image/")) { toast.error("Please choose an image file"); return; }
+    if (file.size > 8 * 1024 * 1024) { toast.error("Image must be under 8 MB"); return; }
+    setBusy(true);
+    try {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const up = await supabase.storage.from("gallery").upload(path, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+      if (up.error) throw up.error;
+      // Private bucket → long-lived signed URL (100 years)
+      const signed = await supabase.storage.from("gallery").createSignedUrl(path, 60 * 60 * 24 * 365 * 100);
+      if (signed.error) throw signed.error;
+      await insertRow(signed.data.signedUrl);
+    } catch (e) {
+      toast.error((e as Error).message ?? "Upload failed");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function updateRow(id: string, patch: any) {
@@ -427,11 +454,27 @@ function GalleryPanel() {
     <div className="space-y-4">
       <Card>
         <CardContent className="grid gap-3 p-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
-          <Field label="Image URL"><Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…" /></Field>
+          <Field label="Upload image">
+            <Input
+              type="file"
+              accept="image/*"
+              disabled={busy}
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) addFromFile(f);
+                e.target.value = "";
+              }}
+            />
+          </Field>
           <Field label="Caption (optional)"><Input value={caption} onChange={(e) => setCaption(e.target.value)} /></Field>
-          <Button onClick={add} disabled={busy} className="gap-2"><Plus className="h-4 w-4" />Add</Button>
+          <div />
+        </CardContent>
+        <CardContent className="grid gap-3 p-4 pt-0 md:grid-cols-[1fr_auto] md:items-end">
+          <Field label="…or paste an image URL"><Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…" /></Field>
+          <Button onClick={addFromUrl} disabled={busy} variant="outline" className="gap-2"><Plus className="h-4 w-4" />Add URL</Button>
         </CardContent>
       </Card>
+
       {q.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {(q.data ?? []).map((g: any) => (

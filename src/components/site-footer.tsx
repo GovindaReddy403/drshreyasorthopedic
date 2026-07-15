@@ -18,7 +18,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
     { url: c.youtube_url, Icon: Youtube, label: "YouTube" },
     { url: c.twitter_url, Icon: Twitter, label: "X" },
     { url: c.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
-  ].filter((s) => !!s.url);
+  ];
 
   return (
     <footer className="border-t border-border/60 bg-muted/40">
@@ -31,12 +31,12 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
             <span className="font-display text-lg font-semibold">{clinic.clinic_name}</span>
           </div>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">{clinic.tagline}</p>
-          {socials.length > 0 && (
-            <div className="mt-4 flex gap-2">
-              {socials.map(({ url, Icon, label }) => (
+          <div className="mt-4 flex gap-2">
+            {socials.map(({ url, Icon, label }) =>
+              url ? (
                 <a
                   key={label}
-                  href={url!}
+                  href={url}
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
@@ -44,10 +44,20 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
                 >
                   <Icon className="h-4 w-4" />
                 </a>
-              ))}
-            </div>
-          )}
+              ) : (
+                <span
+                  key={label}
+                  aria-label={`${label} (link not set)`}
+                  title={`${label} — not configured`}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/60 bg-card/60 text-muted-foreground/60"
+                >
+                  <Icon className="h-4 w-4" />
+                </span>
+              ),
+            )}
+          </div>
         </div>
+
         <div>
           <h4 className="text-sm font-semibold">Contact</h4>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">

@@ -213,7 +213,6 @@ function BookPage() {
                     <p className="mt-2 text-xs text-muted-foreground">{t.duration_minutes} min</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-display text-lg font-semibold">{formatMoney(t.fee)}</span>
                     <input
                       type="radio"
                       name="treatment"
@@ -222,6 +221,7 @@ function BookPage() {
                       onChange={() => set("treatment_id", t.id)}
                     />
                   </div>
+
                 </label>
               ))}
             </div>
@@ -286,6 +286,7 @@ function BookPage() {
                 doctorName={clinic.doctor_name}
                 treatment={treatment?.name ?? ""}
                 fee={treatment?.fee ?? 0}
+                showFee={v.payment_method === "online"}
                 date={v.date ? format(v.date, "EEE, dd MMM yyyy") : ""}
                 time={v.time ? labelSlot(v.time) : ""}
               />
@@ -302,6 +303,7 @@ function BookPage() {
               </p>
             </div>
           )}
+
 
           <div className="mt-8 flex items-center justify-between">
             <Button
@@ -397,6 +399,7 @@ function Summary({
   doctorName,
   treatment,
   fee,
+  showFee,
   date,
   time,
 }: {
@@ -404,6 +407,7 @@ function Summary({
   doctorName: string;
   treatment: string;
   fee: number;
+  showFee: boolean;
   date: string;
   time: string;
 }) {
@@ -416,10 +420,17 @@ function Summary({
         </div>
         <div className="text-muted-foreground">Treatment: {treatment}</div>
       </div>
-      <div className="mt-3 flex items-center justify-between text-base">
-        <span className="text-muted-foreground">Total</span>
-        <span className="font-display text-lg font-semibold">{formatMoney(fee)}</span>
-      </div>
+      {showFee ? (
+        <div className="mt-3 flex items-center justify-between text-base">
+          <span className="text-muted-foreground">Total</span>
+          <span className="font-display text-lg font-semibold">{formatMoney(fee)}</span>
+        </div>
+      ) : (
+        <p className="mt-3 text-xs text-muted-foreground">
+          Consultation fee will be collected at the clinic.
+        </p>
+      )}
     </div>
   );
 }
+
