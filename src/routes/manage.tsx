@@ -50,8 +50,8 @@ function ManagePage() {
   const [devCode, setDevCode] = useState<string | null>(null);
 
   async function sendOtp() {
-    if (!/^[+\d][\d\s-]{7,15}$/.test(mobile)) {
-      toast.error("Enter a valid mobile number");
+    if (!/^\d{10}$/.test(mobile)) {
+      toast.error("Enter a valid 10-digit mobile number");
       return;
     }
     setSending(true);
