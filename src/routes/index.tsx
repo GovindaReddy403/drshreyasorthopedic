@@ -47,7 +47,7 @@ import {
   fetchTestimonials,
   fetchTreatments,
   fetchWorkingHours,
-  formatMoney,
+  formatTime,
   formatTime,
   WEEKDAY_LABELS,
   type Doctor,
