@@ -380,3 +380,76 @@ function Field({ label, children, full }: { label: string; children: React.React
     </div>
   );
 }
+
+/* --- Gallery --- */
+function GalleryPanel() {
+  const qc = useQueryClient();
+  const q = useQuery({
+    queryKey: ["settings-gallery"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("gallery").select("*").order("sort_order");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+  const [url, setUrl] = useState("");
+  const [caption, setCaption] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function add() {
+    if (!url.trim()) { toast.error("Image URL is required"); return; }
+    setBusy(true);
+    const { error } = await supabase.from("gallery").insert({
+      image_url: url.trim(),
+      caption: caption.trim() || null,
+      sort_order: (q.data?.length ?? 0) + 1,
+    });
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Added"); setUrl(""); setCaption("");
+    qc.invalidateQueries({ queryKey: ["settings-gallery"] });
+    qc.invalidateQueries({ queryKey: ["gallery"] });
+  }
+
+  async function updateRow(id: string, patch: any) {
+    const { error } = await supabase.from("gallery").update(patch).eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Saved"); qc.invalidateQueries({ queryKey: ["settings-gallery"] }); qc.invalidateQueries({ queryKey: ["gallery"] }); }
+  }
+  async function removeRow(id: string) {
+    if (!confirm("Delete this image?")) return;
+    const { error } = await supabase.from("gallery").delete().eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Deleted"); qc.invalidateQueries({ queryKey: ["settings-gallery"] }); qc.invalidateQueries({ queryKey: ["gallery"] }); }
+  }
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardContent className="grid gap-3 p-4 md:grid-cols-[1fr_1fr_auto] md:items-end">
+          <Field label="Image URL"><Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://…" /></Field>
+          <Field label="Caption (optional)"><Input value={caption} onChange={(e) => setCaption(e.target.value)} /></Field>
+          <Button onClick={add} disabled={busy} className="gap-2"><Plus className="h-4 w-4" />Add</Button>
+        </CardContent>
+      </Card>
+      {q.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {(q.data ?? []).map((g: any) => (
+            <Card key={g.id}>
+              <CardContent className="space-y-2 p-3">
+                <img src={g.image_url} alt={g.caption ?? ""} className="h-40 w-full rounded-md object-cover" />
+                <Input defaultValue={g.caption ?? ""} onBlur={(e) => e.target.value !== (g.caption ?? "") && updateRow(g.id, { caption: e.target.value })} placeholder="Caption" />
+                <div className="flex items-center justify-between gap-2">
+                  <Input type="number" defaultValue={g.sort_order ?? 0} className="w-24" onBlur={(e) => Number(e.target.value) !== g.sort_order && updateRow(g.id, { sort_order: Number(e.target.value) })} />
+                  <Button variant="ghost" size="sm" onClick={() => removeRow(g.id)} className="text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          {(q.data?.length ?? 0) === 0 && <p className="text-sm text-muted-foreground">No images yet.</p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
