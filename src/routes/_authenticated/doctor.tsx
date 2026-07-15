@@ -66,7 +66,7 @@ function DoctorDashboard() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("today");
-  const [tab, setTab] = useState<"list" | "report">("list");
+  const [tab, setTab] = useState<"list" | "report" | "contact">("list");
   const [notesFor, setNotesFor] = useState<Appt | null>(null);
   const [payEdit, setPayEdit] = useState<PaymentEditTarget | null>(null);
 
