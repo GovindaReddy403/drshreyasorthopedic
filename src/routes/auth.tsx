@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Staff login — Meridian Family Clinic" },
+      { title: "Staff login — Dr. Shreyas Orthopedic Clinic" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -57,10 +57,17 @@ function AuthPage() {
     if (roles.includes("doctor")) navigate({ to: "/doctor" });
     else if (roles.includes("receptionist")) navigate({ to: "/reception" });
     else {
-      const msg = "Signed in, but no doctor/receptionist role is assigned to this account. Create the account via the Create account tab, or ask an admin to assign a role.";
+      const msg = "Signed in, but this account has no staff role. A clinic owner/admin must assign doctor or receptionist access before this account can open the staff dashboard.";
       setErrorDetails(msg);
       toast.error(msg);
     }
+  }
+
+  async function signInExistingAccount() {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) return showError("Account already exists, but sign in failed", error);
+    toast.success("Account already exists — signed in");
+    if (data.user) await redirectByRole(data.user.id);
   }
 
   async function signIn() {
@@ -99,7 +106,14 @@ function AuthPage() {
         password,
         options: { emailRedirectTo: window.location.origin + "/auth" },
       });
-      if (error) return showError("Create account failed", error);
+      if (error) {
+        const authError = error as { code?: string; status?: number };
+        if (authError.code === "user_already_exists" || authError.status === 422) {
+          await signInExistingAccount();
+          return;
+        }
+        return showError("Create account failed", error);
+      }
 
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
