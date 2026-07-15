@@ -40,7 +40,7 @@ import {
 } from "@/components/ui/carousel";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { ContactForm } from "@/components/contact-form";
+
 import {
   fetchClinic,
   fetchDoctors,
@@ -326,12 +326,6 @@ function LandingPage() {
                 </div>
               ))}
             </div>
-            {clinic.emergency_contact && (
-              <p className="mt-4 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Emergency:</span>{" "}
-                {clinic.emergency_contact}
-              </p>
-            )}
           </div>
           <div>
             <SectionHeader eyebrow="Find us" title="Visit the clinic" />
@@ -436,17 +430,6 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Contact"
-          title="Send us a message"
-          subtitle="We reply within one business day."
-        />
-        <div className="mt-10">
-          <ContactForm clinicEmail={clinic.email} />
-        </div>
-      </section>
 
       <SiteFooter clinic={clinic} />
     </div>
