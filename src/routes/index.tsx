@@ -326,12 +326,6 @@ function LandingPage() {
                 </div>
               ))}
             </div>
-            {clinic.emergency_contact && (
-              <p className="mt-4 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">Emergency:</span>{" "}
-                {clinic.emergency_contact}
-              </p>
-            )}
           </div>
           <div>
             <SectionHeader eyebrow="Find us" title="Visit the clinic" />
