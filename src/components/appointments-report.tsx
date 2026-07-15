@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { format, subDays, startOfDay, parseISO } from "date-fns";
+import { format, subDays, addDays, startOfDay, parseISO } from "date-fns";
 import { Download, Loader2 } from "lucide-react";
 import * as XLSX from "xlsx";
 import {
@@ -44,17 +44,25 @@ type Row = {
 
 export function AppointmentsReport() {
   const [days, setDays] = useState<string>("30");
+  const [mode, setMode] = useState<"past" | "upcoming" | "both">("both");
+
+  const n = Number(days);
+  const today = startOfDay(new Date());
+  const fromDate = mode === "upcoming" ? today : subDays(today, n - 1);
+  const toDate = mode === "past" ? today : addDays(today, n - 1);
+  const fromStr = format(fromDate, "yyyy-MM-dd");
+  const toStr = format(toDate, "yyyy-MM-dd");
 
   const q = useQuery({
-    queryKey: ["report-appts", days],
+    queryKey: ["report-appts", days, mode],
     queryFn: async () => {
-      const from = format(subDays(startOfDay(new Date()), Number(days) - 1), "yyyy-MM-dd");
       const { data, error } = await supabase
         .from("appointments")
         .select(
           "booking_code, patient_name, patient_mobile, treatment_name, appointment_date, appointment_time, status, payment_method, payment_status, payment_amount",
         )
-        .gte("appointment_date", from)
+        .gte("appointment_date", fromStr)
+        .lte("appointment_date", toStr)
         .order("appointment_date", { ascending: true });
       if (error) throw error;
       return (data ?? []) as Row[];
@@ -63,10 +71,11 @@ export function AppointmentsReport() {
 
   const trend = useMemo(() => {
     const map = new Map<string, { date: string; appointments: number; completed: number; cancelled: number; revenue: number }>();
-    const n = Number(days);
-    for (let i = n - 1; i >= 0; i--) {
-      const d = format(subDays(startOfDay(new Date()), i), "yyyy-MM-dd");
+    let cursor = fromDate;
+    while (cursor <= toDate) {
+      const d = format(cursor, "yyyy-MM-dd");
       map.set(d, { date: d, appointments: 0, completed: 0, cancelled: 0, revenue: 0 });
+      cursor = addDays(cursor, 1);
     }
     (q.data ?? []).forEach((r) => {
       const e = map.get(r.appointment_date);
@@ -82,7 +91,7 @@ export function AppointmentsReport() {
       ...e,
       label: format(parseISO(e.date), "dd MMM"),
     }));
-  }, [q.data, days]);
+  }, [q.data, fromStr, toStr]);
 
   const totals = useMemo(() => {
     const list = q.data ?? [];
@@ -132,14 +141,22 @@ export function AppointmentsReport() {
           <h2 className="font-display text-xl font-semibold">Reports</h2>
           <p className="text-sm text-muted-foreground">Appointment and revenue trends</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Select value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
+            <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="past">Past</SelectItem>
+              <SelectItem value="upcoming">Upcoming</SelectItem>
+              <SelectItem value="both">Past + Upcoming</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={days} onValueChange={setDays}>
             <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="7">Last 7 days</SelectItem>
-              <SelectItem value="30">Last 30 days</SelectItem>
-              <SelectItem value="90">Last 90 days</SelectItem>
-              <SelectItem value="180">Last 6 months</SelectItem>
+              <SelectItem value="7">7 days</SelectItem>
+              <SelectItem value="30">30 days</SelectItem>
+              <SelectItem value="90">90 days</SelectItem>
+              <SelectItem value="180">6 months</SelectItem>
             </SelectContent>
           </Select>
           <Button onClick={downloadExcel} className="gap-2" disabled={q.isLoading || !q.data?.length}>
@@ -172,9 +189,9 @@ export function AppointmentsReport() {
                     <YAxis allowDecimals={false} fontSize={11} />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="appointments" fill="hsl(var(--primary))" name="Total" />
-                    <Bar dataKey="completed" fill="hsl(var(--success))" name="Completed" />
-                    <Bar dataKey="cancelled" fill="hsl(var(--destructive))" name="Cancelled" />
+                    <Bar dataKey="appointments" fill="var(--primary)" name="Total" />
+                    <Bar dataKey="completed" fill="var(--success)" name="Completed" />
+                    <Bar dataKey="cancelled" fill="var(--destructive)" name="Cancelled" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -190,7 +207,7 @@ export function AppointmentsReport() {
                     <XAxis dataKey="label" fontSize={11} />
                     <YAxis fontSize={11} />
                     <Tooltip formatter={(v: number) => formatMoney(v)} />
-                    <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} name="Revenue" />
+                    <Line type="monotone" dataKey="revenue" stroke="var(--primary)" strokeWidth={2} dot={false} name="Revenue" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
