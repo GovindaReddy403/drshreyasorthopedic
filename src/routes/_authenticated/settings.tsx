@@ -34,11 +34,13 @@ function SettingsPage() {
           <TabsTrigger value="treatments">Treatments</TabsTrigger>
           <TabsTrigger value="hours">Availability</TabsTrigger>
           <TabsTrigger value="blocked">Cancellations</TabsTrigger>
-          <TabsTrigger value="social">Social &amp; contact</TabsTrigger>
+          <TabsTrigger value="testimonials">Reviews</TabsTrigger>
+          <TabsTrigger value="social">Contact &amp; social</TabsTrigger>
         </TabsList>
         <TabsContent value="treatments" className="mt-6"><TreatmentsPanel /></TabsContent>
         <TabsContent value="hours" className="mt-6"><HoursPanel /></TabsContent>
         <TabsContent value="blocked" className="mt-6"><BlockedPanel /></TabsContent>
+        <TabsContent value="testimonials" className="mt-6"><TestimonialsPanel /></TabsContent>
         <TabsContent value="social" className="mt-6"><SocialPanel /></TabsContent>
       </Tabs>
     </DashboardShell>
