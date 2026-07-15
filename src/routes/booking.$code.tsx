@@ -113,6 +113,37 @@ function Confirmation() {
               )}
             </div>
           )}
+          <div className="mt-8 rounded-2xl border border-border bg-background/60 p-5">
+            <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-start sm:text-left">
+              <div className="flex h-40 w-40 shrink-0 items-center justify-center rounded-xl border border-border bg-white p-2">
+                {qrDataUrl ? (
+                  <img src={qrDataUrl} alt={`Save ${clinic.doctor_name} contact`} className="h-full w-full" />
+                ) : (
+                  <QrCode className="h-10 w-10 text-muted-foreground" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="flex items-center gap-2 text-sm font-semibold">
+                  <QrCode className="h-4 w-4 text-primary" /> Save clinic contact
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Open your phone camera or WhatsApp scanner and point it at this code. It will save{" "}
+                  <span className="font-medium text-foreground">{clinic.doctor_name}</span> to your contacts under{" "}
+                  <span className="font-medium text-foreground">{clinic.clinic_name}</span>.
+                </p>
+                {qrDataUrl && (
+                  <a
+                    href={qrDataUrl}
+                    download={`${clinic.clinic_name.replace(/\s+/g, "-").toLowerCase()}-contact.png`}
+                    className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+                  >
+                    Download QR
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button onClick={() => window.print()} variant="outline" className="gap-2">
