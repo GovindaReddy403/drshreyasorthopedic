@@ -213,7 +213,6 @@ function BookPage() {
                     <p className="mt-2 text-xs text-muted-foreground">{t.duration_minutes} min</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-display text-lg font-semibold">{formatMoney(t.fee)}</span>
                     <input
                       type="radio"
                       name="treatment"
@@ -222,6 +221,7 @@ function BookPage() {
                       onChange={() => set("treatment_id", t.id)}
                     />
                   </div>
+
                 </label>
               ))}
             </div>
