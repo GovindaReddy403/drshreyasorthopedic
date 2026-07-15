@@ -321,26 +321,62 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* Google Reviews */}
       <section id="testimonials" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Testimonials" title="Patients we've had the pleasure to serve" />
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold uppercase tracking-widest text-primary">Google Reviews</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">What our patients say</h2>
+          <div className="mt-4 flex items-center gap-3">
+            <div className="flex gap-0.5 text-warning">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-current" />
+              ))}
+            </div>
+            <span className="text-sm text-muted-foreground">5.0 · verified patient reviews on Google</span>
+          </div>
+        </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <Card key={t.id}>
-              <CardContent className="p-6">
-                <Quote className="h-6 w-6 text-primary/60" />
-                <p className="mt-4 text-foreground/85">"{t.content}"</p>
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="font-medium">{t.patient_name}</p>
-                  <div className="flex gap-0.5 text-warning">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
-                    ))}
+          {testimonials.map((t) => {
+            const initial = t.patient_name.trim().charAt(0).toUpperCase();
+            const colors = ["bg-primary/15 text-primary", "bg-success/15 text-success", "bg-warning/15 text-warning"];
+            const color = colors[t.patient_name.charCodeAt(0) % colors.length];
+            return (
+              <Card key={t.id} className="relative">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <span className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}>
+                      {initial}
+                    </span>
+                    <div className="flex-1">
+                      <p className="font-medium leading-tight">{t.patient_name}</p>
+                      <p className="text-xs text-muted-foreground">Local Guide · via Google</p>
+                    </div>
+                    <GoogleGlyph />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="flex gap-0.5 text-warning">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <Star key={i} className="h-4 w-4 fill-current" />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">a few weeks ago</span>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/85">{t.content}</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <a
+            href="https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Button variant="outline" className="gap-2">
+              <GoogleGlyph /> Read more reviews on Google
+            </Button>
+          </a>
         </div>
       </section>
 
