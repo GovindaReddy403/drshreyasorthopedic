@@ -399,6 +399,7 @@ function Summary({
   doctorName,
   treatment,
   fee,
+  showFee,
   date,
   time,
 }: {
@@ -406,6 +407,7 @@ function Summary({
   doctorName: string;
   treatment: string;
   fee: number;
+  showFee: boolean;
   date: string;
   time: string;
 }) {
@@ -418,10 +420,17 @@ function Summary({
         </div>
         <div className="text-muted-foreground">Treatment: {treatment}</div>
       </div>
-      <div className="mt-3 flex items-center justify-between text-base">
-        <span className="text-muted-foreground">Total</span>
-        <span className="font-display text-lg font-semibold">{formatMoney(fee)}</span>
-      </div>
+      {showFee ? (
+        <div className="mt-3 flex items-center justify-between text-base">
+          <span className="text-muted-foreground">Total</span>
+          <span className="font-display text-lg font-semibold">{formatMoney(fee)}</span>
+        </div>
+      ) : (
+        <p className="mt-3 text-xs text-muted-foreground">
+          Consultation fee will be collected at the clinic.
+        </p>
+      )}
     </div>
   );
 }
+
