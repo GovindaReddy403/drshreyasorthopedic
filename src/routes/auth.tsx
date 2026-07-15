@@ -27,6 +27,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"doctor" | "receptionist">("doctor");
   const [busy, setBusy] = useState(false);
+  const [errorDetails, setErrorDetails] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -35,52 +36,90 @@ function AuthPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function showError(prefix: string, err: unknown) {
+    const anyErr = err as { message?: string; status?: number; name?: string; code?: string } | null;
+    const parts = [
+      anyErr?.message ?? String(err),
+      anyErr?.status != null ? `status ${anyErr.status}` : null,
+      anyErr?.code ? `code ${anyErr.code}` : null,
+      anyErr?.name ? `(${anyErr.name})` : null,
+    ].filter(Boolean);
+    const msg = `${prefix}: ${parts.join(" · ")}`;
+    console.error(`[auth] ${prefix}`, err);
+    setErrorDetails(msg);
+    toast.error(msg);
+  }
+
   async function redirectByRole(userId: string) {
-    const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    if (error) return showError("Loading roles failed", error);
     const roles = (data ?? []).map((r) => r.role);
     if (roles.includes("doctor")) navigate({ to: "/doctor" });
     else if (roles.includes("receptionist")) navigate({ to: "/reception" });
-    else navigate({ to: "/" });
+    else {
+      const msg = "Signed in, but no doctor/receptionist role is assigned to this account. Create the account via the Create account tab, or ask an admin to assign a role.";
+      setErrorDetails(msg);
+      toast.error(msg);
+    }
   }
 
   async function signIn() {
+    setErrorDetails(null);
     const parsed = z.object({ email: z.string().email(), password: z.string().min(6) }).safeParse({ email, password });
-    if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+    if (!parsed.success) {
+      const msg = parsed.error.issues[0]?.message ?? "Invalid input";
+      setErrorDetails(msg);
+      return toast.error(msg);
+    }
     setBusy(true);
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (error) return toast.error(error.message);
-    toast.success("Signed in");
-    if (data.user) redirectByRole(data.user.id);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) return showError("Sign in failed", error);
+      toast.success("Signed in");
+      if (data.user) await redirectByRole(data.user.id);
+    } catch (e) {
+      showError("Sign in threw", e);
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function signUp() {
+    setErrorDetails(null);
     const parsed = z.object({ email: z.string().email(), password: z.string().min(8) }).safeParse({ email, password });
-    if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
+    if (!parsed.success) {
+      const msg = parsed.error.issues[0]?.message ?? "Invalid input";
+      setErrorDetails(msg);
+      return toast.error(msg);
+    }
     setBusy(true);
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { emailRedirectTo: window.location.origin + "/auth" },
-    });
-    if (error) {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: window.location.origin + "/auth" },
+      });
+      if (error) return showError("Create account failed", error);
+
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        toast.success("Account created. Confirm your email, then sign in.");
+        setTab("signin");
+        return;
+      }
+
+      const userId = signInData.user?.id ?? data.user?.id;
+      if (userId) {
+        const { error: rErr } = await supabase.from("user_roles").insert({ user_id: userId, role });
+        if (rErr) return showError("Role assignment failed", rErr);
+      }
+      toast.success("Account created — signed in");
+      if (signInData.user) await redirectByRole(signInData.user.id);
+    } catch (e) {
+      showError("Create account threw", e);
+    } finally {
       setBusy(false);
-      return toast.error(error.message);
     }
-    if (data.user) {
-      const { error: rErr } = await supabase.from("user_roles").insert({ user_id: data.user.id, role });
-      if (rErr) console.warn("Role assignment failed:", rErr.message);
-    }
-    // Try immediate sign-in (works when email confirmations are disabled).
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-    setBusy(false);
-    if (signInError) {
-      toast.success("Account created. Please check your email to confirm, then sign in.");
-      setTab("signin");
-      return;
-    }
-    toast.success("Account created — signed in");
-    if (signInData.user) redirectByRole(signInData.user.id);
   }
 
   return (
