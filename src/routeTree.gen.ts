@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
+import { Route as AuthenticatedReceptionRouteImport } from './routes/_authenticated/reception'
+import { Route as AuthenticatedDoctorRouteImport } from './routes/_authenticated/doctor'
 
 const ManageRoute = ManageRouteImport.update({
   id: '/manage',
@@ -30,6 +33,10 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -40,12 +47,24 @@ const BookingCodeRoute = BookingCodeRouteImport.update({
   path: '/booking/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedReceptionRoute = AuthenticatedReceptionRouteImport.update({
+  id: '/reception',
+  path: '/reception',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDoctorRoute = AuthenticatedDoctorRouteImport.update({
+  id: '/doctor',
+  path: '/doctor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/doctor': typeof AuthenticatedDoctorRoute
+  '/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRoutesByTo {
@@ -53,26 +72,55 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/doctor': typeof AuthenticatedDoctorRoute
+  '/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
+  '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
+  '/_authenticated/reception': typeof AuthenticatedReceptionRoute
   '/booking/$code': typeof BookingCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/book' | '/manage' | '/booking/$code'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/book'
+    | '/manage'
+    | '/doctor'
+    | '/reception'
+    | '/booking/$code'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/book' | '/manage' | '/booking/$code'
-  id: '__root__' | '/' | '/auth' | '/book' | '/manage' | '/booking/$code'
+  to:
+    | '/'
+    | '/auth'
+    | '/book'
+    | '/manage'
+    | '/doctor'
+    | '/reception'
+    | '/booking/$code'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/book'
+    | '/manage'
+    | '/_authenticated/doctor'
+    | '/_authenticated/reception'
+    | '/booking/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
   ManageRoute: typeof ManageRoute
@@ -102,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -116,11 +171,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookingCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/reception': {
+      id: '/_authenticated/reception'
+      path: '/reception'
+      fullPath: '/reception'
+      preLoaderRoute: typeof AuthenticatedReceptionRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/doctor': {
+      id: '/_authenticated/doctor'
+      path: '/doctor'
+      fullPath: '/doctor'
+      preLoaderRoute: typeof AuthenticatedDoctorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDoctorRoute: typeof AuthenticatedDoctorRoute
+  AuthenticatedReceptionRoute: typeof AuthenticatedReceptionRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDoctorRoute: AuthenticatedDoctorRoute,
+  AuthenticatedReceptionRoute: AuthenticatedReceptionRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   BookRoute: BookRoute,
   ManageRoute: ManageRoute,
