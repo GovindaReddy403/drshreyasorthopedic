@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/carousel";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ContactQR } from "@/components/contact-qr";
 
 import {
   fetchClinic,
@@ -349,6 +350,9 @@ function LandingPage() {
                   <CalendarDays className="h-4 w-4" /> Book appointment
                 </Button>
               </Link>
+            </div>
+            <div className="mt-6">
+              <ContactQR clinic={clinic} />
             </div>
           </div>
         </div>
