@@ -132,7 +132,7 @@ function BookPage() {
       const parsed = z
         .object({
           full_name: z.string().trim().min(2),
-          mobile: z.string().trim().regex(/^[+\d][\d\s-]{7,15}$/, "Invalid mobile"),
+          mobile: z.string().trim().regex(/^\d{10}$/, "Mobile must be exactly 10 digits"),
           email: z.string().trim().email().optional().or(z.literal("")),
           age: z.string().optional(),
           gender: z.string().optional(),
