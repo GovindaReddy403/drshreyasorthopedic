@@ -200,6 +200,8 @@ function LandingPage() {
             />
           ))}
         </div>
+      </section>
+
 
 
       {/* Treatments */}
