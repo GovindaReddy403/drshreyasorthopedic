@@ -143,7 +143,7 @@ function LandingPage() {
               {[
                 { label: "Timings", value: "5–9 PM" },
                 { label: "Days", value: "Mon–Sat" },
-                { label: "Happy patients", value: "10k+" },
+                { label: "Experience", value: "12+ yrs" },
               ].map((s) => (
                 <div key={s.label} className="glass-card rounded-2xl p-4">
                   <dt className="text-xs uppercase tracking-wider text-muted-foreground">
