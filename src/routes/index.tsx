@@ -242,18 +242,26 @@ function LandingPage() {
 
       {/* Gallery */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Inside the clinic" title="A calm, modern space" />
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {gallery.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`Clinic ${i + 1}`}
-              width={1200}
-              height={900}
-              loading="lazy"
-              className="aspect-4/3 w-full rounded-3xl object-cover"
-            />
+        <SectionHeader
+          eyebrow="Treatment gallery"
+          title="A glimpse of care in action"
+          subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {gallery.map((g, i) => (
+            <figure key={i} className="group relative overflow-hidden rounded-3xl">
+              <img
+                src={g.src}
+                alt={g.caption}
+                width={1200}
+                height={900}
+                loading="lazy"
+                className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-sm font-medium text-white">
+                {g.caption}
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
