@@ -1,0 +1,200 @@
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { format } from "date-fns";
+import { toast } from "sonner";
+import { CalendarCheck, CheckCircle2, Clock, Loader2, Search, UserCheck, XCircle } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { supabase } from "@/integrations/supabase/client";
+import { labelSlot } from "@/lib/slots";
+import { formatMoney } from "@/lib/clinic";
+import { Link } from "@tanstack/react-router";
+
+export const Route = createFileRoute("/_authenticated/reception")({
+  beforeLoad: ({ context }) => {
+    if (!context.roles?.includes("receptionist") && !context.roles?.includes("doctor")) {
+      throw redirect({ to: "/auth" });
+    }
+  },
+  component: ReceptionDashboard,
+});
+
+type Appt = {
+  id: string;
+  booking_code: string;
+  patient_name: string;
+  patient_mobile: string;
+  treatment_name: string | null;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+  payment_method: string;
+  payment_status: string;
+  payment_amount: number | null;
+};
+
+function ReceptionDashboard() {
+  const qc = useQueryClient();
+  const [q, setQ] = useState("");
+  const [filter, setFilter] = useState<"today" | "upcoming" | "cancelled" | "all">("today");
+
+  const listQ = useQuery({
+    queryKey: ["recep-appts", filter, q],
+    queryFn: async () => {
+      const today = format(new Date(), "yyyy-MM-dd");
+      let query = supabase.from("appointments").select("*");
+      if (filter === "today") query = query.eq("appointment_date", today);
+      else if (filter === "upcoming") query = query.gte("appointment_date", today).in("status", ["confirmed", "checked_in"]);
+      else if (filter === "cancelled") query = query.eq("status", "cancelled");
+      const { data, error } = await query
+        .order("appointment_date", { ascending: false })
+        .order("appointment_time", { ascending: true })
+        .limit(200);
+      if (error) throw error;
+      const list = (data ?? []) as Appt[];
+      if (!q) return list;
+      const s = q.toLowerCase();
+      return list.filter(
+        (a) =>
+          a.booking_code.toLowerCase().includes(s) ||
+          a.patient_name.toLowerCase().includes(s) ||
+          a.patient_mobile.toLowerCase().includes(s),
+      );
+    },
+  });
+
+  const stats = useQuery({
+    queryKey: ["recep-stats"],
+    queryFn: async () => {
+      const today = format(new Date(), "yyyy-MM-dd");
+      const [t, ci, p, u] = await Promise.all([
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("appointment_date", today),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("appointment_date", today).eq("status", "checked_in"),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).eq("payment_status", "pending"),
+        supabase.from("appointments").select("id", { count: "exact", head: true }).gt("appointment_date", today).in("status", ["confirmed", "checked_in"]),
+      ]);
+      return { today: t.count ?? 0, checkedIn: ci.count ?? 0, pending: p.count ?? 0, upcoming: u.count ?? 0 };
+    },
+  });
+
+  async function checkIn(id: string) {
+    const { error } = await supabase.from("appointments").update({ status: "checked_in" }).eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Patient checked in"); qc.invalidateQueries(); }
+  }
+  async function markPaid(id: string) {
+    const { error } = await supabase
+      .from("appointments")
+      .update({ payment_status: "paid_clinic", payment_paid_at: new Date().toISOString() })
+      .eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Payment recorded"); qc.invalidateQueries(); }
+  }
+  async function cancel(id: string) {
+    if (!confirm("Cancel this appointment?")) return;
+    const { error } = await supabase.from("appointments").update({ status: "cancelled" }).eq("id", id);
+    if (error) toast.error(error.message);
+    else { toast.success("Cancelled"); qc.invalidateQueries(); }
+  }
+
+  return (
+    <DashboardShell
+      title="Reception"
+      subtitle="Check patients in, take payments, and handle bookings"
+      navExtra={
+        <Link to="/book">
+          <Button size="sm" variant="outline">New booking</Button>
+        </Link>
+      }
+    >
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat icon={<CalendarCheck className="h-4 w-4" />} label="Today" value={stats.data?.today ?? 0} />
+        <Stat icon={<UserCheck className="h-4 w-4" />} label="Checked-in" value={stats.data?.checkedIn ?? 0} />
+        <Stat icon={<Clock className="h-4 w-4" />} label="Upcoming" value={stats.data?.upcoming ?? 0} />
+        <Stat icon={<XCircle className="h-4 w-4" />} label="Pending payments" value={stats.data?.pending ?? 0} />
+      </div>
+
+      <div className="mt-8 rounded-3xl border border-border bg-card p-4 shadow-[var(--shadow-soft)] sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Tabs value={filter} onValueChange={(v) => setFilter(v as typeof filter)}>
+            <TabsList>
+              <TabsTrigger value="today">Today</TabsTrigger>
+              <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+              <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+              <TabsTrigger value="all">All</TabsTrigger>
+            </TabsList>
+            <TabsContent value={filter} />
+          </Tabs>
+          <div className="relative w-full max-w-xs">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search…" className="pl-9" value={q} onChange={(e) => setQ(e.target.value)} />
+          </div>
+        </div>
+
+        <div className="mt-4 divide-y divide-border">
+          {listQ.isLoading && (
+            <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading…
+            </div>
+          )}
+          {listQ.data?.length === 0 && <p className="py-10 text-center text-sm text-muted-foreground">Nothing here.</p>}
+          {listQ.data?.map((a) => (
+            <div key={a.id} className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-semibold uppercase tracking-widest text-primary">{a.booking_code}</span>
+                  <StatusPill status={a.status} />
+                  <span className="text-xs text-muted-foreground">
+                    {a.payment_method === "online" ? "Paid online" : a.payment_status === "paid_clinic" ? "Paid at clinic" : "Payment pending"}
+                  </span>
+                </div>
+                <p className="mt-1 font-medium">{a.patient_name} · {a.patient_mobile}</p>
+                <p className="text-sm text-muted-foreground">
+                  {a.treatment_name} · {format(new Date(a.appointment_date + "T00:00:00"), "dd MMM yyyy")} · {labelSlot(a.appointment_time)} · {formatMoney(a.payment_amount)}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {a.status === "confirmed" && (
+                  <Button size="sm" onClick={() => checkIn(a.id)} className="gap-1">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Check-in
+                  </Button>
+                )}
+                {a.payment_status === "pending" && (
+                  <Button size="sm" variant="outline" onClick={() => markPaid(a.id)}>Mark paid</Button>
+                )}
+                {a.status !== "cancelled" && a.status !== "completed" && (
+                  <Button size="sm" variant="ghost" onClick={() => cancel(a.id)}>Cancel</Button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </DashboardShell>
+  );
+}
+
+function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number | string }) {
+  return (
+    <Card>
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">{icon} {label}</div>
+        <p className="mt-2 font-display text-2xl font-semibold">{value}</p>
+      </CardContent>
+    </Card>
+  );
+}
+function StatusPill({ status }: { status: string }) {
+  const map: Record<string, string> = {
+    confirmed: "bg-primary-soft text-primary",
+    checked_in: "bg-accent text-accent-foreground",
+    completed: "bg-success/15 text-success",
+    cancelled: "bg-destructive/10 text-destructive",
+  };
+  return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold capitalize ${map[status] ?? "bg-muted"}`}>{status.replace("_", " ")}</span>;
+}
