@@ -135,6 +135,13 @@ function AuthPage() {
           </div>
         </div>
 
+        {errorDetails && (
+          <div className="mt-6 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <div className="font-semibold">Login error</div>
+            <div className="mt-1 break-words font-mono text-xs">{errorDetails}</div>
+          </div>
+        )}
+
         <Tabs value={tab} onValueChange={(t) => setTab(t as "signin" | "signup")} className="mt-8">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signin">Sign in</TabsTrigger>
