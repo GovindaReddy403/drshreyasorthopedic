@@ -190,7 +190,7 @@ export function AppointmentsReport() {
                     <XAxis dataKey="label" fontSize={11} />
                     <YAxis fontSize={11} />
                     <Tooltip formatter={(v: number) => formatMoney(v)} />
-                    <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} name="Revenue" />
+                    <Line type="monotone" dataKey="revenue" stroke="var(--primary)" strokeWidth={2} dot={false} name="Revenue" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
