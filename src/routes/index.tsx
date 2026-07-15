@@ -276,7 +276,7 @@ function LandingPage() {
           subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
         />
         <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+          <Carousel opts={{ align: "start", loop: true }} plugins={[galleryAutoplay.current]} className="w-full">
             <CarouselContent>
               {gallery.map((g, i) => (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
@@ -381,7 +381,7 @@ function LandingPage() {
           </div>
         </div>
         <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+          <Carousel opts={{ align: "start", loop: true }} plugins={[reviewsAutoplay.current]} className="w-full">
             <CarouselContent>
               {testimonials.map((t) => {
                 const initial = t.patient_name.trim().charAt(0).toUpperCase();
