@@ -10,7 +10,7 @@ const links = [
   { label: "Treatments", hash: "treatments" },
   { label: "Gallery", hash: "gallery" },
   { label: "Reviews", hash: "testimonials" },
-  { label: "Contact", hash: "contact" },
+  { label: "Contact", hash: "hours" },
 ];
 
 export function SiteNav({
