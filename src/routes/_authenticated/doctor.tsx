@@ -234,7 +234,12 @@ function DoctorDashboard() {
         <TabsContent value="report" className="mt-4">
           <AppointmentsReport />
         </TabsContent>
+
+        <TabsContent value="contact" className="mt-4">
+          <ContactQrPanel />
+        </TabsContent>
       </Tabs>
+
 
       <NotesDialog appt={notesFor} onClose={() => setNotesFor(null)} />
       <PaymentEditDialog appt={payEdit} onClose={() => setPayEdit(null)} />
