@@ -48,7 +48,7 @@ import {
   fetchTreatments,
   fetchWorkingHours,
   formatTime,
-  formatTime,
+
   WEEKDAY_LABELS,
   type Doctor,
 } from "@/lib/clinic";
