@@ -61,6 +61,11 @@ export function SiteNav({
               Manage
             </Button>
           </Link>
+          <Link to="/auth">
+            <Button variant="ghost" size="sm">
+              Staff login
+            </Button>
+          </Link>
           <Link to="/book">
             <Button size="sm" className="ml-2">
               Book Appointment
