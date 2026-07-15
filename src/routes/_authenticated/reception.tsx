@@ -57,7 +57,7 @@ function ReceptionDashboard() {
   const qc = useQueryClient();
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("today");
-  const [tab, setTab] = useState<"list" | "report">("list");
+  const [tab, setTab] = useState<"list" | "report" | "contact">("list");
   const [payEdit, setPayEdit] = useState<PaymentEditTarget | null>(null);
 
   const listQ = useQuery({
