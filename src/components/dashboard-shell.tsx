@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, Stethoscope } from "lucide-react";
+import { LogOut, Settings, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
@@ -37,6 +37,11 @@ export function DashboardShell({
           </Link>
           <div className="flex items-center gap-2">
             {navExtra}
+            <Link to="/settings">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <Settings className="h-4 w-4" /> Settings
+              </Button>
+            </Link>
             <Button variant="ghost" size="sm" onClick={signOut} className="gap-2">
               <LogOut className="h-4 w-4" /> Sign out
             </Button>

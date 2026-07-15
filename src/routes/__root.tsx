@@ -79,17 +79,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meridian Family Clinic — Compassionate care, modern medicine" },
+      { title: "Dr. Shreyas Orthopedic Clinic — Bone & Joint Care, Mysuru" },
       {
         name: "description",
         content:
-          "Book an appointment with Dr. Anika Sharma. Internal medicine and preventive care in Mumbai — no account required.",
+          "Consult Dr. Shreyas M.J — Sports Medicine Specialist & Joint Replacement Surgeon in Mysuru. Arthroscopy, joint replacement, spine, foot & ankle, and trauma care. Book online in under a minute.",
       },
-      { name: "author", content: "Meridian Family Clinic" },
-      { property: "og:title", content: "Meridian Family Clinic" },
+      { name: "author", content: "Dr. Shreyas Orthopedic Clinic" },
+      { property: "og:title", content: "Dr. Shreyas Orthopedic Clinic" },
       {
         property: "og:description",
-        content: "Book an appointment online in under a minute. No account required.",
+        content: "Bone & Joint Care in Mysuru — book an appointment online in under a minute.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -101,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap",
       },
     ],
   }),

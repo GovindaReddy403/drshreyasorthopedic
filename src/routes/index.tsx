@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
 import {
   ArrowRight,
   Award,
@@ -12,13 +14,13 @@ import {
   MessageCircle,
   Phone,
   ShieldCheck,
-  Sparkles,
   Star,
   Stethoscope,
 } from "lucide-react";
 
 import heroImg from "@/assets/hero-doctor.jpg";
 import doctorImg from "@/assets/doctor-portrait.jpg";
+import clinicBoard from "@/assets/clinic-board.png.asset.json";
 import gKnee from "@/assets/treat-knee.jpg";
 import gShoulder from "@/assets/treat-shoulder.jpg";
 import gAnkle from "@/assets/treat-ankle.jpg";
@@ -79,6 +81,9 @@ function LandingPage() {
 
   const primaryDoctor: Doctor | undefined = doctors[0];
 
+  const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
+  const reviewsAutoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+
   const gallery = [
     { src: gKnee, caption: "Knee assessment & ligament care" },
     { src: gShoulder, caption: "Shoulder examination" },
@@ -90,23 +95,23 @@ function LandingPage() {
 
   return (
     <div id="top" className="min-h-screen bg-background">
-      <SiteNav clinicName={clinic.clinic_name} />
+      <SiteNav clinicName={clinic.clinic_name} phone={clinic.phone} />
 
       {/* Hero */}
       <section className="bg-hero-gradient relative overflow-hidden">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-20 lg:px-8">
           <div className="flex flex-col justify-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              Now booking — no account required
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
+              <Stethoscope className="h-3.5 w-3.5" />
+              {clinic.tagline ?? "Bone & Joint Care"}
             </div>
-            <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl md:text-6xl">
-              {clinic.tagline ?? "Modern care, close to home."}
+            <h1 className="mt-4 font-display text-4xl font-bold leading-tight text-foreground sm:text-5xl md:text-6xl">
+              {clinic.clinic_name}
             </h1>
             <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              Consult with {primaryDoctor?.name ?? clinic.doctor_name} —{" "}
-              {primaryDoctor?.specialization ?? clinic.specialization}. Book in under a minute, pay
-              online or at the clinic.
+              {primaryDoctor?.name ?? clinic.doctor_name} —{" "}
+              {primaryDoctor?.specialization ?? clinic.specialization}.
+              Arthroscopy, joint replacement, spine, foot &amp; ankle and trauma care in Mysuru.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/book">
@@ -128,16 +133,16 @@ function LandingPage() {
               {clinic.phone && (
                 <a href={`tel:${clinic.phone.replace(/\s/g, "")}`}>
                   <Button size="lg" variant="ghost" className="gap-2">
-                    <Phone className="h-4 w-4" /> Call
+                    <Phone className="h-4 w-4" /> {clinic.phone}
                   </Button>
                 </a>
               )}
             </div>
 
-            <dl className="mt-10 grid grid-cols-3 gap-4">
+            <dl className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
               {[
-                { label: "Doctors", value: `${doctors.length}` },
-                { label: "Consultation fee", value: formatMoney(clinic.consultation_fee) },
+                { label: "Timings", value: "5–9 PM" },
+                { label: "Days", value: "Mon–Sat" },
                 { label: "Happy patients", value: "10k+" },
               ].map((s) => (
                 <div key={s.label} className="glass-card rounded-2xl p-4">
@@ -192,6 +197,38 @@ function LandingPage() {
             />
           ))}
         </div>
+
+        {/* Clinic name board */}
+        <div className="mt-10 rounded-3xl border border-border bg-card p-4 sm:p-6">
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
+            <img
+              src={clinicBoard.url}
+              alt="Dr. Shreyas Orthopedic Clinic name board"
+              className="w-full rounded-2xl object-cover shadow-[var(--shadow-soft)]"
+              loading="lazy"
+            />
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+                Look for this board
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">
+                Dr. Shreyas M.J
+              </h3>
+              <p className="mt-2 text-muted-foreground">
+                Sports Medicine Specialist &amp; Joint Replacement Surgeon · MBBS, MS (Ortho)
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Fellowship in Arthroscopy &amp; Sports Medicine (India &amp; Australia)
+              </p>
+              <p className="mt-4 text-sm">
+                <span className="font-semibold">Timings:</span> 5:00 PM – 9:00 PM · Sunday Holiday
+              </p>
+              <p className="text-sm">
+                <span className="font-semibold">Mobile:</span> 86609 50443
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Treatments */}
@@ -239,7 +276,7 @@ function LandingPage() {
           subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
         />
         <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+          <Carousel opts={{ align: "start", loop: true }} plugins={[galleryAutoplay.current]} className="w-full">
             <CarouselContent>
               {gallery.map((g, i) => (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
@@ -344,7 +381,7 @@ function LandingPage() {
           </div>
         </div>
         <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} className="w-full">
+          <Carousel opts={{ align: "start", loop: true }} plugins={[reviewsAutoplay.current]} className="w-full">
             <CarouselContent>
               {testimonials.map((t) => {
                 const initial = t.patient_name.trim().charAt(0).toUpperCase();

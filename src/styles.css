@@ -52,7 +52,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Fraunces", "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --shadow-soft: 0 1px 2px oklch(0.4 0.05 240 / 0.04), 0 8px 24px oklch(0.4 0.05 240 / 0.06);
   --shadow-glow: 0 20px 60px -20px oklch(0.55 0.14 245 / 0.35);
@@ -61,27 +61,27 @@
 :root {
   --radius: 0.9rem;
 
-  --background: oklch(0.995 0.004 240);
-  --foreground: oklch(0.22 0.03 245);
+  --background: oklch(0.985 0.012 210);
+  --foreground: oklch(0.22 0.04 230);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.03 245);
+  --card-foreground: oklch(0.22 0.04 230);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.03 245);
+  --popover-foreground: oklch(0.22 0.04 230);
 
-  /* Medical blue */
-  --primary: oklch(0.52 0.14 246);
-  --primary-foreground: oklch(0.99 0.005 240);
-  --primary-soft: oklch(0.95 0.03 245);
+  /* Calm medical teal-blue */
+  --primary: oklch(0.5 0.11 220);
+  --primary-foreground: oklch(0.99 0.005 210);
+  --primary-soft: oklch(0.94 0.035 210);
 
-  --secondary: oklch(0.965 0.012 240);
-  --secondary-foreground: oklch(0.28 0.04 245);
+  --secondary: oklch(0.955 0.015 210);
+  --secondary-foreground: oklch(0.28 0.04 225);
 
-  --muted: oklch(0.965 0.012 240);
-  --muted-foreground: oklch(0.5 0.03 245);
+  --muted: oklch(0.955 0.015 210);
+  --muted-foreground: oklch(0.48 0.03 230);
 
-  --accent: oklch(0.93 0.05 195); /* soft teal */
-  --accent-foreground: oklch(0.25 0.05 220);
+  --accent: oklch(0.9 0.06 190); /* soft teal */
+  --accent-foreground: oklch(0.24 0.05 215);
 
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.99 0.005 240);
@@ -92,9 +92,9 @@
   --warning: oklch(0.78 0.15 75);
   --warning-foreground: oklch(0.25 0.05 60);
 
-  --border: oklch(0.92 0.015 240);
-  --input: oklch(0.92 0.015 240);
-  --ring: oklch(0.52 0.14 246);
+  --border: oklch(0.91 0.02 215);
+  --input: oklch(0.91 0.02 215);
+  --ring: oklch(0.5 0.11 220);
 
   --chart-1: oklch(0.55 0.15 246);
   --chart-2: oklch(0.65 0.13 195);
@@ -162,13 +162,14 @@
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 }
 
 @utility bg-hero-gradient {
-  background-image: radial-gradient(1200px 600px at 10% -10%, oklch(0.92 0.06 245 / 0.7), transparent 60%),
-    radial-gradient(900px 500px at 100% 10%, oklch(0.93 0.06 200 / 0.5), transparent 60%),
+  background-image: radial-gradient(1200px 600px at 10% -10%, oklch(0.9 0.08 210 / 0.55), transparent 60%),
+    radial-gradient(900px 500px at 100% 10%, oklch(0.92 0.07 190 / 0.5), transparent 60%),
     linear-gradient(180deg, var(--background), var(--background));
 }
 

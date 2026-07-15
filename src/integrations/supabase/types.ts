@@ -137,10 +137,13 @@ export type Database = {
           education: string | null
           email: string | null
           emergency_contact: string | null
+          facebook_url: string | null
           google_maps_embed: string | null
           google_maps_url: string | null
           id: number
+          instagram_url: string | null
           languages_spoken: string | null
+          linkedin_url: string | null
           max_per_slot: number
           memberships: string | null
           phone: string | null
@@ -149,9 +152,11 @@ export type Database = {
           slot_duration_minutes: number
           specialization: string | null
           tagline: string | null
+          twitter_url: string | null
           updated_at: string
           whatsapp: string | null
           years_experience: number | null
+          youtube_url: string | null
         }
         Insert: {
           about_doctor?: string | null
@@ -167,10 +172,13 @@ export type Database = {
           education?: string | null
           email?: string | null
           emergency_contact?: string | null
+          facebook_url?: string | null
           google_maps_embed?: string | null
           google_maps_url?: string | null
           id?: number
+          instagram_url?: string | null
           languages_spoken?: string | null
+          linkedin_url?: string | null
           max_per_slot?: number
           memberships?: string | null
           phone?: string | null
@@ -179,9 +187,11 @@ export type Database = {
           slot_duration_minutes?: number
           specialization?: string | null
           tagline?: string | null
+          twitter_url?: string | null
           updated_at?: string
           whatsapp?: string | null
           years_experience?: number | null
+          youtube_url?: string | null
         }
         Update: {
           about_doctor?: string | null
@@ -197,10 +207,13 @@ export type Database = {
           education?: string | null
           email?: string | null
           emergency_contact?: string | null
+          facebook_url?: string | null
           google_maps_embed?: string | null
           google_maps_url?: string | null
           id?: number
+          instagram_url?: string | null
           languages_spoken?: string | null
+          linkedin_url?: string | null
           max_per_slot?: number
           memberships?: string | null
           phone?: string | null
@@ -209,9 +222,11 @@ export type Database = {
           slot_duration_minutes?: number
           specialization?: string | null
           tagline?: string | null
+          twitter_url?: string | null
           updated_at?: string
           whatsapp?: string | null
           years_experience?: number | null
+          youtube_url?: string | null
         }
         Relationships: []
       }
