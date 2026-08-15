@@ -11,9 +11,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : "",
-  }),
+  validateSearch: (s: Record<string, unknown>): { next?: string } => {
+    const next = typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined;
+    return next ? { next } : {};
+  },
+
   head: () => ({
     meta: [
       { title: "Staff login — Dr. Shreyas Orthopedic Clinic" },
