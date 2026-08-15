@@ -59,7 +59,12 @@ function AuthPage() {
   }
 
   async function redirectByRole(userId: string) {
+    if (next) {
+      window.location.href = next;
+      return;
+    }
     const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+
     if (error) return showError("Loading roles failed", error);
     const roles = (data ?? []).map((r) => r.role);
     if (roles.includes("doctor")) navigate({ to: "/doctor" });
