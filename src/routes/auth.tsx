@@ -11,6 +11,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>): { next?: string } => {
+    const next = typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined;
+    return next ? { next } : {};
+  },
+
   head: () => ({
     meta: [
       { title: "Staff login — Dr. Shreyas Orthopedic Clinic" },
@@ -20,8 +25,11 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+
   const [tab, setTab] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +59,12 @@ function AuthPage() {
   }
 
   async function redirectByRole(userId: string) {
+    if (next) {
+      window.location.href = next;
+      return;
+    }
     const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+
     if (error) return showError("Loading roles failed", error);
     const roles = (data ?? []).map((r) => r.role);
     if (roles.includes("doctor")) navigate({ to: "/doctor" });
@@ -104,7 +117,7 @@ function AuthPage() {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: window.location.origin + "/auth" },
+        options: { emailRedirectTo: window.location.origin + "/auth" + (next ? `?next=${encodeURIComponent(next)}` : "") },
       });
       if (error) {
         const authError = error as { code?: string; status?: number };

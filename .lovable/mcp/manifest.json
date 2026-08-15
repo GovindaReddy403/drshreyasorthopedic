@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://ycttbzplrimwcefreimf.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "dr-shreyas-orthopedic-clinic",
+      "version": "0.1.0",
+      "title": "Dr. Shreyas Orthopedic Clinic"
+    },
+    "tools": [
+      {
+        "name": "list_appointments",
+        "title": "List appointments",
+        "description": "List clinic appointments, optionally filtered by date range and status. Requires a signed-in staff account.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "from_date": {
+              "description": "Earliest appointment date, YYYY-MM-DD.",
+              "type": "string"
+            },
+            "to_date": {
+              "description": "Latest appointment date, YYYY-MM-DD.",
+              "type": "string"
+            },
+            "status": {
+              "description": "Filter by appointment status.",
+              "type": "string",
+              "enum": [
+                "booked",
+                "completed",
+                "cancelled",
+                "follow_up",
+                "no_show"
+              ]
+            },
+            "limit": {
+              "default": 50,
+              "description": "Maximum rows to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_appointment",
+        "title": "Update appointment",
+        "description": "Update an appointment's status, payment details or internal notes by booking code. Requires a signed-in staff account.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "booking_code": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The appointment booking code."
+            },
+            "status": {
+              "description": "New appointment status.",
+              "type": "string",
+              "enum": [
+                "booked",
+                "completed",
+                "cancelled",
+                "follow_up",
+                "no_show"
+              ]
+            },
+            "payment_status": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "paid",
+                "refunded"
+              ]
+            },
+            "payment_amount": {
+              "description": "Actual amount collected, in rupees.",
+              "type": "number",
+              "minimum": 0
+            },
+            "internal_notes": {
+              "description": "Staff-only notes.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "booking_code"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_treatments",
+        "title": "List treatments",
+        "description": "List the clinic's treatments with fees and durations.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "include_inactive": {
+              "default": false,
+              "description": "Include treatments that are switched off.",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "block_date",
+        "title": "Block a clinic date",
+        "description": "Mark a date as unavailable for bookings (holiday, conference, leave). Requires a signed-in staff account.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "blocked_date": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Date to block, YYYY-MM-DD."
+            },
+            "reason": {
+              "description": "Optional reason shown to staff.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "blocked_date"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
