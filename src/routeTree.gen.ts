@@ -13,6 +13,7 @@ import { Route as SpecialtiesRouteImport } from './routes/specialties'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ManageRouteImport } from './routes/manage'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
@@ -45,6 +46,11 @@ const McpRoute = McpRouteImport.update({
 const ManageRoute = ManageRouteImport.update({
   id: '/manage',
   path: '/manage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRoute = BookRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
+  '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/book'
+    | '/gallery'
     | '/manage'
     | '/mcp'
     | '/sitemap.xml'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/book'
+    | '/gallery'
     | '/manage'
     | '/mcp'
     | '/sitemap.xml'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/book'
+    | '/gallery'
     | '/manage'
     | '/mcp'
     | '/sitemap.xml'
@@ -235,6 +247,7 @@ export interface RootRouteChildren {
   AboutDoctorRoute: typeof AboutDoctorRoute
   AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
+  GalleryRoute: typeof GalleryRoute
   ManageRoute: typeof ManageRoute
   McpRoute: typeof McpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -274,6 +287,13 @@ declare module '@tanstack/react-router' {
       path: '/manage'
       fullPath: '/manage'
       preLoaderRoute: typeof ManageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -391,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutDoctorRoute: AboutDoctorRoute,
   AuthRoute: AuthRoute,
   BookRoute: BookRoute,
+  GalleryRoute: GalleryRoute,
   ManageRoute: ManageRoute,
   McpRoute: McpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
