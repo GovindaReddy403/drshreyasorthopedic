@@ -87,13 +87,19 @@ function AboutDoctorPage() {
             />
             <div className="mt-6 grid grid-cols-2 gap-3 text-center">
               <div className="rounded-xl bg-soft-blue p-4">
-                <p className="font-display text-xl font-bold text-primary">12+</p>
-                <p className="text-xs text-muted-foreground">Years experience</p>
+                <p className="font-display text-xl font-bold text-primary">3 Fellowships</p>
+                <p className="text-xs text-muted-foreground">India · Australia · Thailand</p>
               </div>
               <div className="rounded-xl bg-soft-blue p-4">
                 <p className="font-display text-xl font-bold text-primary">Knee · Shoulder</p>
                 <p className="text-xs text-muted-foreground">Core focus</p>
               </div>
+            </div>
+            <div className="mt-3 rounded-xl bg-soft-blue p-4 text-center">
+              <p className="font-display text-base font-bold text-primary">Assistant Professor</p>
+              <p className="text-xs text-muted-foreground">
+                Dept. of Orthopaedics, JSS Hospital, Mysore
+              </p>
             </div>
             <Link to="/book" className="mt-4 block">
               <Button className="w-full gap-2 rounded-full">
