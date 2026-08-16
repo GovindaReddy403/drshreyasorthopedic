@@ -32,6 +32,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SPECIALTIES } from "@/lib/specialties";
+import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
 import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 
 import gKnee from "@/assets/treat-knee.jpg";
