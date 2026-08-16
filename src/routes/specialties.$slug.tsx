@@ -1,10 +1,17 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { SPECIALTIES, getSpecialty } from "@/lib/specialties";
+import { SPECIALTY_EXTRAS } from "@/lib/specialty-details";
 
 export const Route = createFileRoute("/specialties/$slug")({
   loader: async ({ context, params }) => {
@@ -13,7 +20,7 @@ export const Route = createFileRoute("/specialties/$slug")({
     await context.queryClient.ensureQueryData(clinicQO);
     return { spec };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [{ title: "Treatment not found" }, { name: "robots", content: "noindex" }],
@@ -21,6 +28,7 @@ export const Route = createFileRoute("/specialties/$slug")({
     }
     const { spec } = loaderData;
     const title = `${spec.title} in Mysuru | Dr. Shreyas Orthopedic Clinic`;
+    const url = `https://drshreyasorthopedic.lovable.app/specialties/${params.slug}`;
     return {
       meta: [
         { title },
@@ -28,8 +36,10 @@ export const Route = createFileRoute("/specialties/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: spec.short },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   notFoundComponent: SpecialtyNotFound,
@@ -51,13 +61,28 @@ function SpecialtyNotFound() {
 
 function SpecialtyDetail() {
   const { spec } = Route.useLoaderData();
+  const extra = SPECIALTY_EXTRAS[spec.slug];
   const others = SPECIALTIES.filter((s) => s.slug !== spec.slug).slice(0, 3);
 
   return (
     <PageShell>
       <PageHero eyebrow="Area of Specialties" title={spec.title} subtitle={spec.short} crumb={spec.title} />
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pt-6 text-xs text-muted-foreground sm:px-6 lg:px-8">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1">
+          <Link to="/" className="hover:text-primary">
+            Home
+          </Link>
+          <span>/</span>
+          <Link to="/specialties" className="hover:text-primary">
+            Area of Specialties
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">{spec.title}</span>
+        </nav>
+      </div>
+
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_320px]">
           <article>
             <img
@@ -67,8 +92,15 @@ function SpecialtyDetail() {
               loading="lazy"
             />
             <p className="mt-8 text-base leading-relaxed text-muted-foreground">{spec.intro}</p>
+            <div className="mt-6">
+              <Link to="/book">
+                <Button size="lg" className="rounded-full">
+                  Book An Appointment
+                </Button>
+              </Link>
+            </div>
 
-            <h2 className="mt-10 font-display text-2xl font-bold text-primary">Conditions treated</h2>
+            <h2 className="mt-10 font-display text-2xl font-bold text-primary">Conditions we treat</h2>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
               {spec.conditions.map((c) => (
                 <li key={c} className="flex gap-2 rounded-xl border border-border/60 bg-card p-3 text-sm">
@@ -76,6 +108,27 @@ function SpecialtyDetail() {
                 </li>
               ))}
             </ul>
+
+            {extra && (
+              <>
+                <h2 className="mt-10 font-display text-2xl font-bold text-primary">
+                  How it works — what to expect
+                </h2>
+                <ol className="mt-4 space-y-4">
+                  {extra.steps.map((s, i) => (
+                    <li key={s.title} className="flex gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <h3 className="font-display text-lg font-semibold text-primary">{s.title}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </>
+            )}
 
             <h2 className="mt-10 font-display text-2xl font-bold text-primary">Procedures offered</h2>
             <div className="mt-4 space-y-4">
@@ -87,14 +140,41 @@ function SpecialtyDetail() {
               ))}
             </div>
 
-            <h2 className="mt-10 font-display text-2xl font-bold text-primary">Recovery & aftercare</h2>
-            <ul className="mt-4 space-y-2">
-              {spec.recovery.map((r) => (
+            <h2 className="mt-10 font-display text-2xl font-bold text-primary">
+              Recovery &amp; rehabilitation
+            </h2>
+            {extra && (
+              <div className="mt-4 space-y-4 text-sm leading-relaxed text-muted-foreground">
+                {extra.rehabParagraphs.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </div>
+            )}
+            <ul className="mt-6 space-y-2">
+              {(extra?.milestones ?? spec.recovery).map((r) => (
                 <li key={r} className="flex gap-2 text-sm text-muted-foreground">
                   <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" /> {r}
                 </li>
               ))}
             </ul>
+
+            {extra && (
+              <>
+                <h2 className="mt-10 font-display text-2xl font-bold text-primary">
+                  Frequently asked questions
+                </h2>
+                <Accordion type="single" collapsible className="mt-4">
+                  {extra.faqs.map((f, i) => (
+                    <AccordionItem key={f.q} value={`faq-${i}`}>
+                      <AccordionTrigger className="text-left text-sm font-semibold text-primary">
+                        {f.q}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </>
+            )}
           </article>
 
           <aside className="space-y-4">
@@ -152,7 +232,7 @@ function SpecialtyDetail() {
         </div>
       </section>
 
-      <CtaBand>
+      <CtaBand title="Ready to move without pain?">
         <Link to="/book">
           <Button size="lg" variant="secondary" className="rounded-full">
             Book An Appointment
