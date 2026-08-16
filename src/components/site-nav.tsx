@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const links = [
-  { label: "Home", hash: "top" },
-  { label: "About the Doctor", hash: "about" },
-  { label: "Area of Specialties", hash: "treatments" },
-  { label: "Gallery", hash: "gallery" },
-  { label: "Reviews", hash: "testimonials" },
-  { label: "Contact Us", hash: "hours" },
+  { label: "Home", to: "/" as const },
+  { label: "About the Doctor", to: "/about-doctor" as const },
+  { label: "Area of Specialties", to: "/specialties" as const },
+  { label: "Gallery", to: "/gallery" as const },
+  { label: "Reviews", to: "/reviews" as const },
+  { label: "Contact Us", to: "/contact" as const },
 ];
+
 
 export function SiteNav({
   clinicName = "Dr. Shreyas Orthopedic Clinic",
