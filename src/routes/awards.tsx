@@ -32,9 +32,27 @@ export const Route = createFileRoute("/awards")({
 const honours = [
   {
     icon: Trophy,
+    year: "Current Position",
+    title: "Assistant Professor, Dept. of Orthopaedics, JSS Hospital, Mysore",
+    body: "Actively involved in patient care, surgical training, teaching and academic research.",
+  },
+  {
+    icon: Trophy,
     year: "Fellowship",
-    title: "Fellowship in Arthroscopy & Sports Medicine (India & Australia)",
-    body: "Advanced training in key-hole knee and shoulder surgery, sports injury management and return-to-play rehabilitation.",
+    title: "Fellowship in Arthroscopy & Sports Medicine, Fortis Hospital",
+    body: "Advanced training in key-hole knee and shoulder surgery under the mentorship of Dr. Chirag N. Thonse.",
+  },
+  {
+    icon: Trophy,
+    year: "Fellowship",
+    title: "Fellowship in Arthroscopy & Upper Limb Trauma, Sydney, Australia",
+    body: "Advanced arthroscopic techniques and upper limb trauma management under Dr. Jonathan Herald.",
+  },
+  {
+    icon: Trophy,
+    year: "Fellowship",
+    title: "Fellowship in Arthroscopy (Knee & Shoulder), Thammasat University, Bangkok",
+    body: "Focused training in advanced knee and shoulder arthroscopy under Dr. Bancha Chernchujit.",
   },
   {
     icon: Medal,
@@ -51,19 +69,19 @@ const honours = [
   {
     icon: Award,
     year: "Training",
-    title: "Senior Registrar, Fortis Hospital",
-    body: "Served as Senior Registrar following the arthroscopy fellowship under Dr. Chirag N Thonse.",
+    title: "Senior Registrar, Dept. of Orthopaedics, Fortis Hospital",
+    body: "Extensive exposure to arthroscopic and sports injury procedures.",
   },
   {
     icon: Award,
     year: "Training",
-    title: "Senior Resident, Sanjay Gandhi Institute of Trauma & Orthopaedics",
-    body: "High-volume trauma and poly-trauma experience at one of Karnataka's leading trauma centres.",
+    title: "Senior Resident, Sanjay Gandhi Institute of Trauma & Orthopaedics, Bengaluru",
+    body: "Significant experience in trauma management and complex orthopaedic care.",
   },
   {
     icon: Trophy,
     year: "Academics",
-    title: "MBBS & MS (Orthopaedics), JSS Medical College and Hospitals",
+    title: "MBBS & MS (Orthopaedics), JSS Medical College and Hospital, Mysore",
     body: "Postgraduate orthopaedic training with a strong foundation in trauma and reconstructive surgery.",
   },
 ];
@@ -82,7 +100,7 @@ function AwardsPage() {
         <SectionHeader
           eyebrow="Milestones"
           title="Fellowships, memberships & recognition"
-          description="A career built on structured training at leading orthopaedic institutions across India and Australia."
+          description="A career built on structured training at leading orthopaedic institutions across India, Australia and Thailand."
         />
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {honours.map((h) => (
@@ -103,9 +121,9 @@ function AwardsPage() {
       <section className="border-y border-border/60 bg-soft-blue">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">
           {[
-            { k: "12+", v: "Years of orthopaedic practice" },
-            { k: "Knee · Shoulder · Ankle", v: "Core areas of expertise" },
-            { k: "KOA & MOA", v: "Professional memberships" },
+            { k: "3 Fellowships", v: "India · Australia · Thailand" },
+            { k: "Knee · Shoulder · Trauma", v: "Core areas of expertise" },
+            { k: "Assistant Professor", v: "JSS Hospital, Mysore" },
           ].map((s) => (
             <div key={s.v} className="rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-soft)]">
               <p className="font-display text-2xl font-bold text-primary">{s.k}</p>
