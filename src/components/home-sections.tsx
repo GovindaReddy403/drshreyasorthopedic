@@ -86,11 +86,7 @@ export function StatsBand() {
               >
                 {s.value}
               </p>
-              <p
-                className={`mt-1 text-sm ${
-                  s.primary ? "opacity-90" : "text-muted-foreground"
-                }`}
-              >
+              <p className={`mt-1 text-sm ${s.primary ? "opacity-90" : "text-muted-foreground"}`}>
                 {s.label}
               </p>
             </div>
@@ -384,13 +380,41 @@ export function WhyChooseClinic() {
 /* ------------------------------------------------------------------ */
 
 const ROADMAP = [
-  { icon: Stethoscope, title: "Consultation", body: "Detailed history, clinical examination and discussion of your goals." },
-  { icon: ScanLine, title: "Diagnostic Imaging", body: "X-ray, MRI or ultrasound reviewed with you to confirm the diagnosis." },
-  { icon: ClipboardList, title: "Treatment Planning", body: "A written plan with surgical and non-surgical options clearly compared." },
-  { icon: Syringe, title: "Non-Surgical Therapies", body: "Medication, bracing, PRP and injections tried first where appropriate." },
-  { icon: Scissors, title: "Arthroscopy or Replacement", body: "Key-hole or joint replacement surgery when it is the right answer." },
-  { icon: Dumbbell, title: "Rehabilitation", body: "Milestone-based physiotherapy with scheduled review appointments." },
-  { icon: Timer, title: "Active Lifestyle", body: "Return to work, daily activity and sport with a long-term joint care plan." },
+  {
+    icon: Stethoscope,
+    title: "Consultation",
+    body: "Detailed history, clinical examination and discussion of your goals.",
+  },
+  {
+    icon: ScanLine,
+    title: "Diagnostic Imaging",
+    body: "X-ray, MRI or ultrasound reviewed with you to confirm the diagnosis.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Treatment Planning",
+    body: "A written plan with surgical and non-surgical options clearly compared.",
+  },
+  {
+    icon: Syringe,
+    title: "Non-Surgical Therapies",
+    body: "Medication, bracing, PRP and injections tried first where appropriate.",
+  },
+  {
+    icon: Scissors,
+    title: "Arthroscopy or Replacement",
+    body: "Key-hole or joint replacement surgery when it is the right answer.",
+  },
+  {
+    icon: Dumbbell,
+    title: "Rehabilitation",
+    body: "Milestone-based physiotherapy with scheduled review appointments.",
+  },
+  {
+    icon: Timer,
+    title: "Active Lifestyle",
+    body: "Return to work, daily activity and sport with a long-term joint care plan.",
+  },
 ];
 
 export function CareRoadmap() {
@@ -443,7 +467,10 @@ export function AppointmentCtaBand() {
           You can request an appointment online — we will confirm your slot right away.
         </p>
         <Link to="/book">
-          <Button size="lg" className="gap-2 rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary/90">
+          <Button
+            size="lg"
+            className="gap-2 rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+          >
             <CalendarDays className="h-4 w-4" /> Book An Appointment
           </Button>
         </Link>

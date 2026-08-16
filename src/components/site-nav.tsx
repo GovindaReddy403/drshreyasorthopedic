@@ -50,9 +50,6 @@ const MEGA_COLUMNS = [
   },
 ];
 
-
-
-
 export function SiteNav({
   clinicName = "Dr. Shreyas Orthopedic Clinic",
   phone,

@@ -59,7 +59,6 @@ import {
   WhyPatientsTrust,
 } from "@/components/home-sections";
 
-
 import {
   fetchClinic,
   fetchDoctors,
@@ -90,7 +89,10 @@ export const Route = createFileRoute("/")({
         content:
           "Dr. Shreyas M.J, MBBS, MS (Ortho) — arthroscopy, joint replacement, spine, foot & ankle and trauma care in Mysuru. Book an appointment online, Mon–Sat 5–9 PM.",
       },
-      { property: "og:title", content: "Dr. Shreyas Orthopedic Clinic — Bone & Joint Care, Mysuru" },
+      {
+        property: "og:title",
+        content: "Dr. Shreyas Orthopedic Clinic — Bone & Joint Care, Mysuru",
+      },
       {
         property: "og:description",
         content:
@@ -124,7 +126,6 @@ function LandingPage() {
   const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
   const reviewsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
   const specialtiesAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false }));
-
 
   const waHref = clinic.whatsapp
     ? `https://wa.me/91${clinic.whatsapp.replace(/\D/g, "")}`
@@ -195,19 +196,20 @@ function LandingPage() {
       <SpecialtyImageCards />
       <CentreOfExcellence />
 
-
       {/* About / Doctors */}
       <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
-          title={doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`}
+          title={
+            doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`
+          }
         />
         <div className="mt-10 space-y-16">
           {doctors.map((doc, idx) => (
             <DoctorProfile
               key={doc.id}
               doctor={doc}
-              image={idx === 0 ? doctorImg : doc.photo_url ?? doctorImg}
+              image={idx === 0 ? doctorImg : (doc.photo_url ?? doctorImg)}
               flip={idx % 2 === 1}
             />
           ))}
@@ -215,7 +217,6 @@ function LandingPage() {
       </section>
 
       <WhyPatientsTrust />
-
 
       {/* Treatments / Area of specialties — slider with Read More */}
       <section id="treatments" className="border-y border-border/60 bg-soft-blue">
@@ -242,7 +243,9 @@ function LandingPage() {
                         className="aspect-4/3 w-full object-cover"
                       />
                       <CardContent className="flex h-full flex-col p-6">
-                        <h3 className="font-display text-xl font-semibold text-primary">{s.title}</h3>
+                        <h3 className="font-display text-xl font-semibold text-primary">
+                          {s.title}
+                        </h3>
                         <p className="mt-3 text-sm text-muted-foreground">{s.short}</p>
                         <div className="mt-6 flex items-center justify-between pb-6">
                           <Link to="/specialties/$slug" params={{ slug: s.slug }}>
@@ -274,7 +277,6 @@ function LandingPage() {
           </div>
         </div>
       </section>
-
 
       {/* Gallery */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -473,15 +475,7 @@ function LandingPage() {
   );
 }
 
-function DoctorProfile({
-  doctor,
-  image,
-  flip,
-}: {
-  doctor: Doctor;
-  image: string;
-  flip: boolean;
-}) {
+function DoctorProfile({ doctor, image, flip }: { doctor: Doctor; image: string; flip: boolean }) {
   return (
     <div className={`grid gap-12 md:grid-cols-5 ${flip ? "md:[direction:rtl]" : ""}`}>
       <div className="md:col-span-2 md:[direction:ltr]">
