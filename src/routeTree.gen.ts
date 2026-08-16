@@ -18,6 +18,7 @@ import { Route as ManageRouteImport } from './routes/manage'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
@@ -76,6 +77,11 @@ const ContactRoute = ContactRouteImport.update({
 const BookRoute = BookRouteImport.update({
   id: '/book',
   path: '/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AwardsRoute = AwardsRouteImport.update({
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -307,6 +319,7 @@ export interface RootRouteChildren {
   AboutDoctorRoute: typeof AboutDoctorRoute
   AuthRoute: typeof AuthRoute
   AwardsRoute: typeof AwardsRoute
+  BlogRoute: typeof BlogRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
@@ -386,6 +399,13 @@ declare module '@tanstack/react-router' {
       path: '/book'
       fullPath: '/book'
       preLoaderRoute: typeof BookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/awards': {
@@ -522,6 +542,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutDoctorRoute: AboutDoctorRoute,
   AuthRoute: AuthRoute,
   AwardsRoute: AwardsRoute,
+  BlogRoute: BlogRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
