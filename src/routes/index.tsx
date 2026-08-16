@@ -130,10 +130,10 @@ function LandingPage() {
   ];
 
   const highlights = [
-    "Orthopaedic Surgeon, Fellowship in Arthroscopy & Sports Medicine",
-    "Committed to excellence in bone & joint care",
-    "Advanced arthroscopic (key-hole) techniques",
-    "Practice focus: Knee, Shoulder, Ankle, Joint Replacement, Spine & Trauma",
+    "MBBS, MS (Orthopaedics) — JSS Medical College and Hospital, Mysore",
+    "Assistant Professor, Dept. of Orthopaedics, JSS Hospital, Mysore",
+    "Fellowships in Arthroscopy & Sports Medicine — India, Australia & Thailand",
+    "Knee & Shoulder Arthroscopy, Ligament Reconstruction, Upper Limb Trauma",
   ];
 
   return (
@@ -248,21 +248,21 @@ function LandingPage() {
             {[
               {
                 icon: Users,
-                eyebrow: "Patient Trust",
-                title: "Clinical Experience",
-                body: "12+ years experience · Fellowship trained in Arthroscopy & Sports Medicine (India & Australia)",
+                eyebrow: "Academic Practice",
+                title: "Assistant Professor, JSS Hospital",
+                body: "Patient care, surgical training, teaching and academic research in Orthopaedics",
               },
               {
                 icon: Stethoscope,
-                eyebrow: "Surgical Track Record",
-                title: "Procedures Performed",
-                body: "Knee & Shoulder Arthroscopy | Joint Replacement | Spine Injury | Foot & Ankle | Trauma",
+                eyebrow: "Surgical Focus",
+                title: "Arthroscopy & Trauma",
+                body: "Knee & Shoulder Arthroscopy | Ligament Reconstruction | Meniscal Surgery | Upper & Lower Limb Trauma",
               },
               {
                 icon: Trophy,
                 eyebrow: "Recognition",
-                title: "Memberships",
-                body: "KOA & MOA Member · Senior Registrar experience at Fortis Hospital",
+                title: "Fellowships & Memberships",
+                body: "Fellowships in India, Australia & Thailand · KOA & MOA Member",
               },
             ].map((s) => (
               <Card key={s.title} className="h-full border-primary/10">
