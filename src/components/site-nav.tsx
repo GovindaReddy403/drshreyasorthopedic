@@ -100,10 +100,11 @@ export function SiteNav({
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
           {links.map((l, i) => (
             <Link
-              key={l.hash}
-              to="/"
-              hash={l.hash}
+              key={l.to}
+              to={l.to}
+              activeProps={{ className: "text-primary" }}
               className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary ${
+
                 i > 0 ? "border-l border-primary/15" : ""
               }`}
             >
