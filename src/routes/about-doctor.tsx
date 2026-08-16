@@ -40,7 +40,8 @@ export const Route = createFileRoute("/about-doctor")({
 const sections = [
   { id: "overview", label: "Overview" },
   { id: "membership", label: "Fellowship & Membership" },
-  { id: "expertise", label: "Field of Expertise" },
+  { id: "expertise", label: "Areas of Special Interest" },
+  { id: "regenerative", label: "Regenerative Treatments" },
   { id: "languages", label: "Languages Spoken" },
   { id: "career", label: "Career & Training" },
   { id: "faqs", label: "FAQs" },
@@ -69,9 +70,9 @@ function AboutDoctorPage() {
   return (
     <PageShell>
       <PageHero
-        eyebrow="Consultant Orthopaedic Surgeon"
+        eyebrow="Orthopaedic Surgeon | Arthroscopy & Sports Medicine"
         title={doc?.name ?? clinic.doctor_name}
-        subtitle="MBBS | MS (Ortho) — JSS Medical College & Hospitals | Fellowship in Arthroscopy & Sports Medicine (India & Australia)"
+        subtitle="MBBS, MS (Orthopaedics) — JSS Medical College and Hospital, Mysore | Knee & Shoulder | Joint Replacement | Trauma | Spine Injuries"
         crumb="About the Doctor"
       />
 
