@@ -249,22 +249,37 @@ function AboutDoctorPage() {
                 {[
                   {
                     t: "MBBS & MS (Orthopaedics)",
-                    d: "JSS Medical College and Hospitals",
+                    d: "JSS Medical College and Hospital, Mysore",
                     icon: GraduationCap,
                   },
                   {
                     t: "Senior Resident, Dept. of Orthopaedics",
-                    d: "Sanjay Gandhi Institute of Trauma & Orthopaedics",
+                    d: "Sanjay Gandhi Institute of Trauma & Orthopaedics, Bengaluru",
                     icon: Stethoscope,
                   },
                   {
                     t: "Fellowship in Arthroscopy & Sports Medicine",
-                    d: "Fortis Hospital, under Dr. Chirag N Thonse",
+                    d: "Fortis Hospital, under Dr. Chirag N. Thonse",
                     icon: GraduationCap,
                   },
                   {
-                    t: "Senior Registrar",
+                    t: "Senior Registrar, Dept. of Orthopaedics",
                     d: "Fortis Hospital",
+                    icon: Stethoscope,
+                  },
+                  {
+                    t: "Fellowship in Arthroscopy & Upper Limb Trauma",
+                    d: "Sydney, Australia — under Dr. Jonathan Herald",
+                    icon: GraduationCap,
+                  },
+                  {
+                    t: "Fellowship in Arthroscopy (Knee & Shoulder)",
+                    d: "Thammasat University, Bangkok — under Dr. Bancha Chernchujit",
+                    icon: GraduationCap,
+                  },
+                  {
+                    t: "Assistant Professor, Dept. of Orthopaedics",
+                    d: "JSS Hospital, Mysore — current position",
                     icon: Stethoscope,
                   },
                 ].map((s) => (
