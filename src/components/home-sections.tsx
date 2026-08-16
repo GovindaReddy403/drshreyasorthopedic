@@ -678,7 +678,7 @@ export function PatientVideoStories({
 /* FAQs                                                                 */
 /* ------------------------------------------------------------------ */
 
-const FAQS = [
+export const FAQS = [
   {
     q: "What is the cost of knee replacement surgery in Mysuru?",
     a: "The cost depends on the implant type, whether one or both knees are done, the hospital category and your room choice. You will be given a written estimate covering surgery, implant, stay and physiotherapy before you decide — there are no hidden additions later.",
