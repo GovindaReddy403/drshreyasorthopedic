@@ -8,6 +8,7 @@ const links = [
   { label: "Home", to: "/" as const },
   { label: "About the Doctor", to: "/about-doctor" as const },
   { label: "Area of Specialties", to: "/specialties" as const },
+  { label: "Injuries & Conditions", to: "/conditions" as const },
   { label: "Gallery", to: "/gallery" as const },
   { label: "Awards", to: "/awards" as const },
   { label: "Media", to: "/media-coverage" as const },
@@ -18,6 +19,17 @@ const links = [
 ];
 
 const MEGA_COLUMNS = [
+  {
+    heading: "Injuries & Conditions",
+    conditions: true,
+    items: [
+      { slug: "knee-pain-and-lower-leg", label: "Knee Pain & Lower Leg" },
+      { slug: "shoulder-pain", label: "Shoulder Pain" },
+      { slug: "neck-and-back-pain", label: "Neck & Back Pain" },
+      { slug: "foot-and-ankle-pain", label: "Foot & Ankle Pain" },
+      { slug: "elbow-and-wrist-pain", label: "Elbow & Wrist Pain" },
+    ],
+  },
   {
     heading: "Treatments & Procedures",
     items: [
