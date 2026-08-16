@@ -168,9 +168,11 @@
 }
 
 @utility bg-hero-gradient {
-  background-image: radial-gradient(1200px 600px at 10% -10%, oklch(0.9 0.08 210 / 0.55), transparent 60%),
-    radial-gradient(900px 500px at 100% 10%, oklch(0.92 0.07 190 / 0.5), transparent 60%),
-    linear-gradient(180deg, var(--background), var(--background));
+  background-image: linear-gradient(180deg, oklch(0.94 0.028 232), oklch(0.965 0.018 230));
+}
+
+@utility bg-soft-blue {
+  background-color: oklch(0.955 0.022 232);
 }
 
 @utility glass-card {
