@@ -475,3 +475,71 @@ export function ClinicMap({ address }: { address?: string | null }) {
 }
 
 export const HOME_SPECIALTY_LINKS = SPECIALTIES;
+
+/* ------------------------------------------------------------------ */
+/* 20 — Trusted orthopaedic expertise band                              */
+/* ------------------------------------------------------------------ */
+
+const TRUSTED = [
+  {
+    icon: Users,
+    eyebrow: "Patient Trust",
+    title: "Assistant Professor, JSS Hospital",
+    body: "Patient care, surgical training, teaching and academic research in Orthopaedics",
+  },
+  {
+    icon: Stethoscope,
+    eyebrow: "Surgical Volume",
+    title: "Arthroscopy & Trauma",
+    body: "Knee & Shoulder Arthroscopy | Ligament Reconstruction | Meniscal Surgery | Upper & Lower Limb Trauma",
+  },
+  {
+    icon: Trophy,
+    eyebrow: "Awards",
+    title: "Fellowships & Memberships",
+    body: "Fellowships in India, Australia & Thailand · KOA & MOA Member",
+  },
+];
+
+export function TrustedExpertiseBand() {
+  return (
+    <section className="relative overflow-hidden bg-primary text-primary-foreground">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-15"
+        aria-hidden
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] opacity-80">
+            Advanced Orthopaedic Care
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold sm:text-3xl">
+            Trusted Orthopaedic Expertise
+          </h2>
+        </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {TRUSTED.map((t) => (
+            <div key={t.title} className="overflow-hidden rounded-2xl bg-card">
+              <div className="h-1 w-full bg-gradient-to-r from-accent to-success" />
+              <div className="p-6">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <t.icon className="h-5 w-5" />
+                </span>
+                <p className="mt-4 inline-block rounded-full bg-accent/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-accent">
+                  {t.eyebrow}
+                </p>
+                <h3 className="mt-2 font-display text-lg font-semibold text-primary">{t.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{t.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
