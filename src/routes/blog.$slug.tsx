@@ -6,6 +6,7 @@ import { PageHero, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { BLOG_POSTS, formatPostDate, getPost } from "@/lib/blog";
 import { ARTICLE_SECTIONS } from "@/lib/blog-longform";
+import { articleLd, breadcrumbLd, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ context, params }) => {
