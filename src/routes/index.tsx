@@ -51,6 +51,8 @@ import {
   CareRoadmap,
   CentreOfExcellence,
   ClinicMap,
+  FaqSection,
+  PatientVideoStories,
   SpecialtyImageCards,
   StatsBand,
   SurgicalPhilosophy,
@@ -400,6 +402,11 @@ function LandingPage() {
         </div>
       </section>
 
+      <PatientVideoStories
+        youtubeUrl={clinic.youtube_url}
+        reviewsUrl={GOOGLE_REVIEWS_URL}
+      />
+
       <SurgicalPhilosophy image={doctorImg} name={primaryDoctor?.name ?? clinic.doctor_name} />
 
       {/* Where to consult */}
@@ -468,6 +475,7 @@ function LandingPage() {
       <CareRoadmap />
       <AppointmentCtaBand />
       <ClinicMap address={clinic.address} />
+      <FaqSection />
       <TrustedExpertiseBand />
 
       <SiteFooter clinic={clinic} />

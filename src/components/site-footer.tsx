@@ -75,6 +75,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
             <li><Link to="/gallery" className="hover:text-foreground">Gallery</Link></li>
             <li><Link to="/awards" className="hover:text-foreground">Awards</Link></li>
             <li><Link to="/media-coverage" className="hover:text-foreground">Media Coverage</Link></li>
+            <li><Link to="/blog" className="hover:text-foreground">Blog</Link></li>
             <li><Link to="/reviews" className="hover:text-foreground">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-foreground">Contact Us</Link></li>
             <li><Link to="/book" className="hover:text-foreground">Book appointment</Link></li>

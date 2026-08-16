@@ -12,6 +12,7 @@ const links = [
   { label: "Awards", to: "/awards" as const },
   { label: "Media", to: "/media-coverage" as const },
   { label: "Reviews", to: "/reviews" as const },
+  { label: "Blog", to: "/blog" as const },
   { label: "Contact Us", to: "/contact" as const },
 ];
 
