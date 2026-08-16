@@ -36,44 +36,8 @@ export const Route = createFileRoute("/specialties")({
   component: SpecialtiesPage,
 });
 
-const focus = [
-  {
-    img: gKnee,
-    title: "Knee",
-    body: "ACL & PCL reconstruction, meniscus repair, cartilage procedures, knee arthritis and total/partial knee replacement.",
-    points: ["ACL / PCL reconstruction", "Meniscus repair", "Knee replacement", "Knee arthroscopy"],
-  },
-  {
-    img: gShoulder,
-    title: "Shoulder",
-    body: "Rotator cuff repair, recurrent dislocation (Bankart/Latarjet), frozen shoulder and shoulder impingement care.",
-    points: ["Rotator cuff repair", "Bankart repair", "Frozen shoulder", "Shoulder arthroscopy"],
-  },
-  {
-    img: gAnkle,
-    title: "Foot & Ankle",
-    body: "Ankle ligament injuries, ankle arthroscopy, sprains, tendon problems and diabetic foot care.",
-    points: ["Ankle ligament repair", "Ankle arthroscopy", "Sports sprains", "Foot deformity care"],
-  },
-  {
-    img: gArthro,
-    title: "Arthroscopy (Key-hole)",
-    body: "Minimally invasive keyhole surgery of the knee and shoulder with smaller scars and faster recovery.",
-    points: ["Day-care surgery", "Minimal scarring", "Faster recovery", "Early mobilisation"],
-  },
-  {
-    img: gXray,
-    title: "Trauma & Spine Injury",
-    body: "Complex fracture fixation, poly-trauma management and spine injury assessment with structured recovery.",
-    points: ["Fracture fixation", "Poly-trauma care", "Spine injury", "Second opinions"],
-  },
-  {
-    img: gPhysio,
-    title: "Sports Medicine & Rehab",
-    body: "Return-to-sport planning, injury prevention, physiotherapy guidance and post-operative rehabilitation.",
-    points: ["Return-to-sport plans", "Injury prevention", "Post-op rehab", "PRP & injections"],
-  },
-];
+
+
 
 function SpecialtiesPage() {
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
