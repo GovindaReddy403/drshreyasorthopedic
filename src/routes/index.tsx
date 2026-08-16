@@ -46,6 +46,7 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactQR } from "@/components/contact-qr";
 import { FloatingActions } from "@/components/floating-actions";
+import { HeroSlider } from "@/components/hero-slider";
 import { SPECIALTIES } from "@/lib/specialties";
 
 
@@ -143,6 +144,8 @@ function LandingPage() {
         whatsapp={clinic.whatsapp}
         mapsUrl={clinic.google_maps_url ?? GOOGLE_REVIEWS_URL}
       />
+
+      <HeroSlider phone={clinic.phone} />
 
       {/* Hero */}
       <section className="bg-hero-gradient">
