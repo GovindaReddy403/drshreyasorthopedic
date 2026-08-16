@@ -51,7 +51,9 @@ import {
   CareRoadmap,
   CentreOfExcellence,
   ClinicMap,
+  DoctorProfileFeature,
   FaqSection,
+  HomeBlogSection,
   PatientVideoStories,
   SpecialtyImageCards,
   StatsBand,
@@ -199,24 +201,28 @@ function LandingPage() {
       <CentreOfExcellence />
 
       {/* About / Doctors */}
-      <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
-          title={
-            doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`
-          }
-        />
-        <div className="mt-10 space-y-16">
-          {doctors.map((doc, idx) => (
-            <DoctorProfile
-              key={doc.id}
-              doctor={doc}
-              image={idx === 0 ? doctorImg : (doc.photo_url ?? doctorImg)}
-              flip={idx % 2 === 1}
-            />
-          ))}
-        </div>
-      </section>
+      <DoctorProfileFeature
+        image={doctorImg}
+        name={primaryDoctor?.name ?? clinic.doctor_name}
+        qualifications={primaryDoctor?.qualifications ?? clinic.qualifications}
+        about={primaryDoctor?.about ?? clinic.about_doctor}
+      />
+
+      {doctors.length > 1 && (
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <SectionHeader eyebrow="Meet the team" title="Our doctors" />
+          <div className="mt-10 space-y-16">
+            {doctors.slice(1).map((doc, idx) => (
+              <DoctorProfile
+                key={doc.id}
+                doctor={doc}
+                image={doc.photo_url ?? doctorImg}
+                flip={idx % 2 === 0}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <WhyPatientsTrust />
 
@@ -473,10 +479,11 @@ function LandingPage() {
 
       <WhyChooseClinic />
       <CareRoadmap />
-      <AppointmentCtaBand />
-      <ClinicMap address={clinic.address} />
+      <HomeBlogSection />
       <FaqSection />
+      <ClinicMap address={clinic.address} />
       <TrustedExpertiseBand />
+      <AppointmentCtaBand />
 
       <SiteFooter clinic={clinic} />
     </div>

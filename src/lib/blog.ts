@@ -18,6 +18,58 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "bone-health-after-40",
+    title: "Bone Health After 40: Keeping Your Skeleton Strong",
+    excerpt:
+      "Calcium, vitamin D, resistance training and early screening — the simple habits that prevent fragility fractures later in life.",
+    date: "2026-07-20",
+    readingTime: "5 min read",
+    category: "Bone Health",
+    image: gXray,
+    body: [
+      "Bone is living tissue that is constantly remodelled. After the age of 40, breakdown gradually outpaces formation, and in women this accelerates sharply after menopause. The result is osteopenia and, if unchecked, osteoporosis — bone that fractures from a fall no higher than standing height.",
+      "Most people have no symptoms until the first fracture. Wrist, hip and spine fractures are the classic presentations, and a spine fracture may show up only as gradual height loss or a stooped posture.",
+      "Aim for 1,000–1,200 mg of calcium daily from milk, curd, paneer, ragi, sesame and leafy greens, and correct vitamin D with sunlight and supplementation where a blood test shows deficiency. Protein intake matters as much as calcium.",
+      "Weight-bearing and resistance exercise is the strongest non-drug stimulus for bone. Brisk walking, stair climbing and two sessions of strength training a week measurably slow bone loss and improve balance, which prevents falls in the first place.",
+      "A DEXA scan is worth doing for women after menopause, men over 65, anyone on long-term steroids, and anyone who has already had a low-trauma fracture. Where bone density is low, medication can substantially reduce future fracture risk.",
+    ],
+  },
+  {
+    slug: "knee-replacement-and-diabetes",
+    title: "Knee Replacement and Diabetes: What Patients Need to Know",
+    excerpt:
+      "Good sugar control before surgery lowers infection risk and speeds healing — here is how diabetic patients should prepare.",
+    date: "2026-07-06",
+    readingTime: "5 min read",
+    category: "Joint Replacement",
+    image: gKnee,
+    body: [
+      "Diabetes does not rule out knee replacement. It simply means the preparation has to be more thorough, because uncontrolled blood sugar raises the risk of wound infection, delayed healing and stiffness after surgery.",
+      "Before surgery we aim for an HbA1c below 7.5%, ideally under 7%. If it is higher, elective surgery is postponed while your physician adjusts treatment — a delay of a few weeks is far better than a deep implant infection.",
+      "A pre-operative check includes kidney function, a cardiac assessment, a foot and skin examination for diabetic ulcers, and a dental review, since infections anywhere can seed a new joint.",
+      "On the day of surgery, sugars are monitored closely and insulin is adjusted. Antibiotic cover, meticulous sterile technique and early mobilisation all reduce complication rates.",
+      "Diabetic patients often need a slightly longer, more patient rehabilitation programme, particularly if neuropathy affects balance. With good control, long-term outcomes and implant survival are comparable to non-diabetic patients.",
+    ],
+  },
+  {
+    slug: "preventing-common-sports-injuries",
+    title: "Preventing the Most Common Sports Injuries",
+    excerpt:
+      "Warm-ups, load management, strength work and the right footwear prevent most of the knee, shoulder and ankle injuries we treat.",
+    date: "2026-06-24",
+    readingTime: "5 min read",
+    category: "Sports Medicine",
+    image: gPhysio,
+    body: [
+      "The injuries we see most often — ACL tears, ankle sprains, hamstring strains, rotator cuff pain and runner's knee — share the same underlying causes: sudden increases in training load, weak hip and core muscles, poor landing technique and inadequate recovery.",
+      "Warm up properly. Five to ten minutes of light cardio followed by dynamic movements prepares muscles and tendons far better than static stretching alone, which is best kept for after the session.",
+      "Increase training volume gradually. A rough rule is no more than a 10% weekly increase in distance or intensity; most overuse injuries follow a sudden jump after a break.",
+      "Strengthen the hips, glutes and core. Neuromuscular programmes that teach controlled landing and cutting have been shown to cut ACL injury rates significantly in field-sport athletes.",
+      "Use footwear appropriate to the surface, replace worn shoes, tape or brace a previously sprained ankle, and respect pain — training through sharp joint pain is what converts a minor problem into a season-ending one.",
+      "If swelling, instability or pain persists beyond a few days, get it assessed. Early diagnosis of a meniscus or ligament injury protects the joint from long-term cartilage damage.",
+    ],
+  },
+  {
     slug: "acl-tear-recovery-timeline",
     title: "ACL Tear: What Recovery Really Looks Like, Week by Week",
     excerpt:
@@ -119,6 +171,12 @@ export const BLOG_POSTS: BlogPost[] = [
       "Bring your recent scans, list your medications, and follow the fasting instructions given at the pre-operative visit.",
     ],
   },
+];
+
+export const HOME_BLOG_SLUGS = [
+  "bone-health-after-40",
+  "knee-replacement-and-diabetes",
+  "preventing-common-sports-injuries",
 ];
 
 export function getPost(slug: string) {

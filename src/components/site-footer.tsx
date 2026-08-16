@@ -22,7 +22,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
 
   return (
     <footer className="border-t border-border/60 bg-muted/40">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div>
           <div className="flex items-center gap-2">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
@@ -67,6 +67,28 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
             {clinic.address && <li>{clinic.address}</li>}
           </ul>
         </div>
+        <div>
+          <h4 className="text-sm font-semibold">Working hours</h4>
+          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            <li className="flex justify-between gap-4"><span>Monday – Saturday</span><span className="font-medium text-foreground">5:00 PM – 9:00 PM</span></li>
+            <li className="flex justify-between gap-4"><span>Sunday</span><span className="font-medium text-foreground">Closed</span></li>
+          </ul>
+          <h4 className="mt-6 text-sm font-semibold">Visiting Consultant at</h4>
+          <p className="mt-2 text-sm text-muted-foreground">
+            JSS Hospital, Department of Orthopaedics
+            <br />
+            Mahatma Gandhi Road, Agrahara, Mysuru, Karnataka 570004
+          </p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysuru"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-2 inline-block text-sm font-semibold text-accent hover:underline"
+          >
+            Open in Maps →
+          </a>
+        </div>
+
         <div>
           <h4 className="text-sm font-semibold">Quick links</h4>
           <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
