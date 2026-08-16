@@ -24,9 +24,18 @@ type Slide = {
   title: string;
   body: string;
   href: string;
+  portrait?: boolean;
 };
 
 const SLIDES: Slide[] = [
+  {
+    image: doctorSlide,
+    eyebrow: "Dr. Shreyas M. J. — MBBS, MS (Orthopaedics)",
+    title: "Orthopaedic Surgeon, Arthroscopy & Sports Medicine",
+    body: "Assistant Professor, JSS Hospital, Mysore. Fellowship trained in Arthroscopy & Sports Medicine — India, Australia & Thailand.",
+    href: "/about-doctor",
+    portrait: true,
+  },
   {
     image: sArthro,
     eyebrow: "Advanced Orthopaedic Care",
