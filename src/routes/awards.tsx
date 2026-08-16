@@ -1,3 +1,4 @@
+import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Award, Medal, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,16 @@ export const Route = createFileRoute("/awards")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: absUrl("/awards") },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: absUrl("/awards") }],
+    scripts: [
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "Awards", path: "/awards" },
+      ]),
     ],
   }),
   loader: async ({ context }) => {

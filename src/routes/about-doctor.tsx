@@ -1,3 +1,4 @@
+import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CalendarDays, GraduationCap, Languages, Stethoscope } from "lucide-react";
@@ -26,6 +27,16 @@ export const Route = createFileRoute("/about-doctor")({
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: absUrl("/about-doctor") },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: absUrl("/about-doctor") }],
+    scripts: [
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "About the Doctor", path: "/about-doctor" },
+      ]),
     ],
   }),
   loader: async ({ context }) => {

@@ -1,3 +1,4 @@
+import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react";
@@ -25,6 +26,16 @@ export const Route = createFileRoute("/specialties/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: absUrl("/specialties") },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: absUrl("/specialties") }],
+    scripts: [
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "Area of Specialties", path: "/specialties" },
+      ]),
     ],
   }),
   loader: async ({ context }) => {

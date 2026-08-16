@@ -24,8 +24,10 @@ import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpecialtiesIndexRouteImport } from './routes/specialties.index'
+import { Route as ConditionsIndexRouteImport } from './routes/conditions.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as SpecialtiesSlugRouteImport } from './routes/specialties.$slug'
+import { Route as ConditionsSlugRouteImport } from './routes/conditions.$slug'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -110,6 +112,11 @@ const SpecialtiesIndexRoute = SpecialtiesIndexRouteImport.update({
   path: '/specialties/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConditionsIndexRoute = ConditionsIndexRouteImport.update({
+  id: '/conditions/',
+  path: '/conditions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -118,6 +125,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const SpecialtiesSlugRoute = SpecialtiesSlugRouteImport.update({
   id: '/specialties/$slug',
   path: '/specialties/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConditionsSlugRoute = ConditionsSlugRouteImport.update({
+  id: '/conditions/$slug',
+  path: '/conditions/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingCodeRoute = BookingCodeRouteImport.update({
@@ -190,8 +202,10 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/conditions/': typeof ConditionsIndexRoute
   '/specialties/': typeof SpecialtiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -217,8 +231,10 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/conditions': typeof ConditionsIndexRoute
   '/specialties': typeof SpecialtiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -246,8 +262,10 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/conditions/': typeof ConditionsIndexRoute
   '/specialties/': typeof SpecialtiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -275,8 +293,10 @@ export interface FileRouteTypes {
     | '/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog/'
+    | '/conditions/'
     | '/specialties/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -302,8 +322,10 @@ export interface FileRouteTypes {
     | '/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog'
+    | '/conditions'
     | '/specialties'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -330,8 +352,10 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog/'
+    | '/conditions/'
     | '/specialties/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -356,8 +380,10 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BookingCodeRoute: typeof BookingCodeRoute
+  ConditionsSlugRoute: typeof ConditionsSlugRoute
   SpecialtiesSlugRoute: typeof SpecialtiesSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  ConditionsIndexRoute: typeof ConditionsIndexRoute
   SpecialtiesIndexRoute: typeof SpecialtiesIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -470,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecialtiesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conditions/': {
+      id: '/conditions/'
+      path: '/conditions'
+      fullPath: '/conditions/'
+      preLoaderRoute: typeof ConditionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -482,6 +515,13 @@ declare module '@tanstack/react-router' {
       path: '/specialties/$slug'
       fullPath: '/specialties/$slug'
       preLoaderRoute: typeof SpecialtiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conditions/$slug': {
+      id: '/conditions/$slug'
+      path: '/conditions/$slug'
+      fullPath: '/conditions/$slug'
+      preLoaderRoute: typeof ConditionsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/booking/$code': {
@@ -585,8 +625,10 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   BlogSlugRoute: BlogSlugRoute,
   BookingCodeRoute: BookingCodeRoute,
+  ConditionsSlugRoute: ConditionsSlugRoute,
   SpecialtiesSlugRoute: SpecialtiesSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
+  ConditionsIndexRoute: ConditionsIndexRoute,
   SpecialtiesIndexRoute: SpecialtiesIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,

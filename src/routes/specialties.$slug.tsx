@@ -12,6 +12,7 @@ import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { SPECIALTIES, getSpecialty } from "@/lib/specialties";
 import { SPECIALTY_EXTRAS } from "@/lib/specialty-details";
+import { breadcrumbLd, faqLd, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/specialties/$slug")({
   loader: async ({ context, params }) => {
@@ -27,19 +28,24 @@ export const Route = createFileRoute("/specialties/$slug")({
       };
     }
     const { spec } = loaderData;
-    const title = `${spec.title} in Mysuru | Dr. Shreyas Orthopedic Clinic`;
-    const url = `https://drshreyasorthopedic.lovable.app/specialties/${params.slug}`;
+    const path = `/specialties/${params.slug}`;
+    const seo = pageSeo({
+      title: `${spec.title} in Mysuru | Dr. Shreyas Orthopedic Clinic`,
+      description: spec.short,
+      path,
+      type: "article",
+    });
+    const extra = SPECIALTY_EXTRAS[params.slug];
     return {
-      meta: [
-        { title },
-        { name: "description", content: spec.short },
-        { property: "og:title", content: title },
-        { property: "og:description", content: spec.short },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
+      ...seo,
+      scripts: [
+        breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "Area of Specialties", path: "/specialties" },
+          { name: spec.title, path },
+        ]),
+        ...(extra ? [faqLd(extra.faqs)] : []),
       ],
-      links: [{ rel: "canonical", href: url }],
     };
   },
   notFoundComponent: SpecialtyNotFound,

@@ -1,3 +1,4 @@
+import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -48,6 +49,16 @@ export const Route = createFileRoute("/book")({
         content: "Book an orthopaedic consultation with Dr. Shreyas M.J in Mysuru in under a minute. No account needed.",
       },
       { name: "robots", content: "noindex" },
+      { property: "og:url", content: absUrl("/book") },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: absUrl("/book") }],
+    scripts: [
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "Book Appointment", path: "/book" },
+      ]),
     ],
   }),
   component: BookPage,

@@ -94,6 +94,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
           <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
             <li><Link to="/about-doctor" className="hover:text-foreground">About the Doctor</Link></li>
             <li><Link to="/specialties" className="hover:text-foreground">Area of Specialties</Link></li>
+            <li><Link to="/conditions" className="hover:text-foreground">Injuries &amp; Conditions</Link></li>
             <li><Link to="/gallery" className="hover:text-foreground">Gallery</Link></li>
             <li><Link to="/awards" className="hover:text-foreground">Awards</Link></li>
             <li><Link to="/media-coverage" className="hover:text-foreground">Media Coverage</Link></li>

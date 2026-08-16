@@ -8,6 +8,7 @@ const links = [
   { label: "Home", to: "/" as const },
   { label: "About the Doctor", to: "/about-doctor" as const },
   { label: "Area of Specialties", to: "/specialties" as const },
+  { label: "Injuries & Conditions", to: "/conditions" as const },
   { label: "Gallery", to: "/gallery" as const },
   { label: "Awards", to: "/awards" as const },
   { label: "Media", to: "/media-coverage" as const },
@@ -18,6 +19,17 @@ const links = [
 ];
 
 const MEGA_COLUMNS = [
+  {
+    heading: "Injuries & Conditions",
+    conditions: true,
+    items: [
+      { slug: "knee-pain-and-lower-leg", label: "Knee Pain & Lower Leg" },
+      { slug: "shoulder-pain", label: "Shoulder Pain" },
+      { slug: "neck-and-back-pain", label: "Neck & Back Pain" },
+      { slug: "foot-and-ankle-pain", label: "Foot & Ankle Pain" },
+      { slug: "elbow-and-wrist-pain", label: "Elbow & Wrist Pain" },
+    ],
+  },
   {
     heading: "Treatments & Procedures",
     items: [
@@ -168,28 +180,40 @@ export function SiteNav({
                   {l.label} <ChevronDown className="h-3.5 w-3.5" />
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 w-[min(1100px,92vw)] -translate-x-1/2 opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover/item:visible group-hover/item:opacity-100">
-                  <div className="grid grid-cols-4 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
+                  <div className="grid grid-cols-5 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
                     {MEGA_COLUMNS.map((col) => (
                       <div key={col.heading}>
                         <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
                           {col.heading}
                         </p>
                         <ul className="mt-3 space-y-2">
-                          {col.items.map((it) => (
-                            <li key={it.label}>
-                              <Link
-                                to="/specialties/$slug"
-                                params={{ slug: it.slug }}
-                                className="text-sm text-muted-foreground hover:text-primary"
-                              >
-                                {it.label}
-                              </Link>
-                            </li>
-                          ))}
+                          {col.items.map((it) =>
+                            "conditions" in col && col.conditions ? (
+                              <li key={it.label}>
+                                <Link
+                                  to="/conditions/$slug"
+                                  params={{ slug: it.slug }}
+                                  className="text-sm text-muted-foreground hover:text-primary"
+                                >
+                                  {it.label}
+                                </Link>
+                              </li>
+                            ) : (
+                              <li key={it.label}>
+                                <Link
+                                  to="/specialties/$slug"
+                                  params={{ slug: it.slug }}
+                                  className="text-sm text-muted-foreground hover:text-primary"
+                                >
+                                  {it.label}
+                                </Link>
+                              </li>
+                            ),
+                          )}
                         </ul>
                       </div>
                     ))}
-                    <div className="col-span-4 border-t border-border/60 pt-4">
+                    <div className="col-span-full border-t border-border/60 pt-4">
                       <Link to="/specialties">
                         <Button size="sm" variant="outline" className="rounded-full">
                           More Procedures

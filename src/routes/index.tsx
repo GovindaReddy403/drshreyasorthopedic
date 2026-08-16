@@ -46,6 +46,7 @@ import { ContactQR } from "@/components/contact-qr";
 import { FloatingActions } from "@/components/floating-actions";
 import { HeroSlider } from "@/components/hero-slider";
 import { SPECIALTIES } from "@/lib/specialties";
+import { OG_IMAGE, absUrl, clinicLd, faqLd } from "@/lib/seo";
 import {
   AppointmentCtaBand,
   CareRoadmap,
@@ -53,6 +54,7 @@ import {
   ClinicMap,
   DoctorProfileFeature,
   FaqSection,
+  FAQS,
   HomeBlogSection,
   PatientVideoStories,
   SpecialtyImageCards,
@@ -103,8 +105,13 @@ export const Route = createFileRoute("/")({
           "Fellowship-trained orthopedic surgeon in Mysuru. Knee, shoulder and ankle arthroscopy, joint replacement and trauma care.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: absUrl("/") },
+      { property: "og:image", content: OG_IMAGE },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
+    links: [{ rel: "canonical", href: absUrl("/") }],
+    scripts: [clinicLd(), faqLd(FAQS)],
   }),
   loader: async ({ context }) => {
     await Promise.all([

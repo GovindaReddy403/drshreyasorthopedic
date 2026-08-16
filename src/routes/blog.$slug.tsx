@@ -6,6 +6,7 @@ import { PageHero, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { BLOG_POSTS, formatPostDate, getPost } from "@/lib/blog";
 import { ARTICLE_SECTIONS } from "@/lib/blog-longform";
+import { articleLd, breadcrumbLd, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ context, params }) => {
@@ -21,33 +22,32 @@ export const Route = createFileRoute("/blog/$slug")({
       };
     }
     const { post } = loaderData;
-    const url = `https://drshreyasorthopedic.lovable.app/blog/${params.slug}`;
+    const path = `/blog/${params.slug}`;
+    const seo = pageSeo({
+      title: `${post.title} | Dr. Shreyas Orthopedic Clinic`,
+      description: post.excerpt,
+      path,
+      type: "article",
+      image: post.image?.startsWith("http") ? post.image : undefined,
+    });
     return {
-      meta: [
-        { title: `${post.title} | Dr. Shreyas Orthopedic Clinic` },
-        { name: "description", content: post.excerpt },
-        { property: "og:title", content: post.title },
-        { property: "og:description", content: post.excerpt },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-      links: [{ rel: "canonical", href: url }],
+      ...seo,
       scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt,
-            datePublished: post.date,
-            author: { "@type": "Person", name: "Dr. Shreyas M.J" },
-          }),
-        },
+        articleLd({
+          title: post.title,
+          description: post.excerpt,
+          path,
+          datePublished: post.date,
+        }),
+        breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+          { name: post.title, path },
+        ]),
       ],
     };
   },
+
   notFoundComponent: PostNotFound,
   component: BlogPostPage,
 });

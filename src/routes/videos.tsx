@@ -6,27 +6,27 @@ import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO, GOOGLE_REVIEWS_URL } from "@/lib/queries";
 import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
+import { breadcrumbLd, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/videos")({
-  head: () => ({
-    meta: [
-      { title: "Patient Education Videos | Dr. Shreyas Orthopedic Clinic, Mysuru" },
-      {
-        name: "description",
-        content:
-          "Watch patient stories and orthopaedic education videos from Dr. Shreyas M.J — knee and shoulder arthroscopy, joint replacement, PRP and rehabilitation.",
-      },
-      { property: "og:title", content: "Patient Education Videos — Dr. Shreyas Orthopedic Clinic" },
-      {
-        property: "og:description",
-        content: "Patient stories and orthopaedic education videos from the clinic in Mysuru.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://drshreyasorthopedic.lovable.app/videos" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://drshreyasorthopedic.lovable.app/videos" }],
-  }),
+  head: () => {
+    const seo = pageSeo({
+      title: "Patient Education Videos | Dr. Shreyas Orthopedic Clinic, Mysuru",
+      description:
+        "Watch patient stories and orthopaedic education videos from Dr. Shreyas M.J — knee and shoulder arthroscopy, joint replacement, PRP and rehabilitation.",
+      path: "/videos",
+    });
+    return {
+      ...seo,
+      scripts: [
+        breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "Patient Education Videos", path: "/videos" },
+        ]),
+      ],
+    };
+  },
+
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData(clinicQO);
   },
@@ -90,10 +90,15 @@ function VideosPage() {
                 key={v.title}
                 className="card-lift overflow-hidden rounded-2xl border border-border bg-card"
               >
-                <div className="flex aspect-16/10 items-center justify-center bg-soft-blue">
+                <div className="relative flex aspect-16/10 items-center justify-center bg-soft-blue">
                   <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
                     <PlayCircle className="h-7 w-7" />
                   </span>
+                  {v.duration && (
+                    <span className="absolute bottom-2 right-2 rounded bg-primary/90 px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
+                      {v.duration}
+                    </span>
+                  )}
                 </div>
                 <div className="p-5">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
