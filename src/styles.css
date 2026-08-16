@@ -61,27 +61,27 @@
 :root {
   --radius: 0.9rem;
 
-  --background: oklch(0.985 0.012 210);
-  --foreground: oklch(0.22 0.04 230);
+  --background: oklch(0.985 0.008 230);
+  --foreground: oklch(0.28 0.04 250);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.04 230);
+  --card-foreground: oklch(0.28 0.04 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.04 230);
+  --popover-foreground: oklch(0.28 0.04 250);
 
-  /* Calm medical teal-blue */
-  --primary: oklch(0.5 0.11 220);
-  --primary-foreground: oklch(0.99 0.005 210);
-  --primary-soft: oklch(0.94 0.035 210);
+  /* Deep clinical navy with sky-blue accent */
+  --primary: oklch(0.33 0.1 258);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --primary-soft: oklch(0.93 0.035 235);
 
-  --secondary: oklch(0.955 0.015 210);
-  --secondary-foreground: oklch(0.28 0.04 225);
+  --secondary: oklch(0.955 0.018 235);
+  --secondary-foreground: oklch(0.3 0.05 255);
 
-  --muted: oklch(0.955 0.015 210);
-  --muted-foreground: oklch(0.48 0.03 230);
+  --muted: oklch(0.955 0.018 235);
+  --muted-foreground: oklch(0.5 0.03 250);
 
-  --accent: oklch(0.9 0.06 190); /* soft teal */
-  --accent-foreground: oklch(0.24 0.05 215);
+  --accent: oklch(0.72 0.15 240); /* bright sky blue */
+  --accent-foreground: oklch(0.99 0.005 240);
 
   --destructive: oklch(0.6 0.22 27);
   --destructive-foreground: oklch(0.99 0.005 240);
