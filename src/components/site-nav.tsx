@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, Menu, Phone, Stethoscope } from "lucide-react";
+import { CalendarDays, ChevronDown, Menu, Phone, Stethoscope } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -14,6 +14,42 @@ const links = [
   { label: "Reviews", to: "/reviews" as const },
   { label: "Contact Us", to: "/contact" as const },
 ];
+
+const MEGA_COLUMNS = [
+  {
+    heading: "Treatments & Procedures",
+    items: [
+      { slug: "joint-replacement", label: "Joint Replacement Surgery" },
+      { slug: "ortho-biologics", label: "Ortho Biologics (PRP)" },
+      { slug: "trauma-and-fractures", label: "Fracture & Trauma Care" },
+    ],
+  },
+  {
+    heading: "Knee Procedures",
+    items: [
+      { slug: "knee-arthroscopy", label: "Knee Arthroscopy" },
+      { slug: "knee-arthroscopy", label: "ACL / PCL Reconstruction" },
+      { slug: "knee-arthroscopy", label: "Meniscus Repair" },
+    ],
+  },
+  {
+    heading: "Shoulder Procedures",
+    items: [
+      { slug: "shoulder-arthroscopy", label: "Shoulder Arthroscopy" },
+      { slug: "shoulder-arthroscopy", label: "Rotator Cuff Repair" },
+      { slug: "shoulder-arthroscopy", label: "Recurrent Dislocation" },
+    ],
+  },
+  {
+    heading: "Foot, Ankle & Sports",
+    items: [
+      { slug: "foot-and-ankle", label: "Foot & Ankle Surgery" },
+      { slug: "sports-medicine-rehab", label: "Sports Medicine & Rehab" },
+      { slug: "sports-medicine-rehab", label: "Return-to-Play Program" },
+    ],
+  },
+];
+
 
 
 
@@ -100,20 +136,63 @@ export function SiteNav({
 
       {/* Nav row */}
       <nav className="hidden border-t border-primary/10 lg:block">
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
-          {links.map((l, i) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              activeProps={{ className: "text-primary" }}
-              className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary ${
+        <div className="group/mega mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
+          {links.map((l, i) =>
+            l.to === "/specialties" ? (
+              <div key={l.to} className="group/item relative border-l border-primary/15">
+                <Link
+                  to={l.to}
+                  activeProps={{ className: "text-primary" }}
+                  className="flex items-center gap-1 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary"
+                >
+                  {l.label} <ChevronDown className="h-3.5 w-3.5" />
+                </Link>
+                <div className="invisible absolute left-1/2 top-full z-50 w-[min(1100px,92vw)] -translate-x-1/2 opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover/item:visible group-hover/item:opacity-100">
+                  <div className="grid grid-cols-4 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
+                    {MEGA_COLUMNS.map((col) => (
+                      <div key={col.heading}>
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
+                          {col.heading}
+                        </p>
+                        <ul className="mt-3 space-y-2">
+                          {col.items.map((it) => (
+                            <li key={it.slug}>
+                              <Link
+                                to="/specialties/$slug"
+                                params={{ slug: it.slug }}
+                                className="text-sm text-muted-foreground hover:text-primary"
+                              >
+                                {it.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                    <div className="col-span-4 border-t border-border/60 pt-4">
+                      <Link to="/specialties">
+                        <Button size="sm" variant="outline" className="rounded-full">
+                          More Procedures
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={l.to}
+                to={l.to}
+                activeProps={{ className: "text-primary" }}
+                className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary ${
+                  i > 0 ? "border-l border-primary/15" : ""
+                }`}
+              >
+                {l.label}
+              </Link>
+            ),
+          )}
 
-                i > 0 ? "border-l border-primary/15" : ""
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
           <Link
             to="/manage"
             className="border-l border-primary/15 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 hover:text-primary"
