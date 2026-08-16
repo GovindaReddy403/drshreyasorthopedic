@@ -12,15 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SpecialtiesRouteImport } from './routes/specialties'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as MediaCoverageRouteImport } from './routes/media-coverage'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SpecialtiesSlugRouteImport } from './routes/specialties.$slug'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedReceptionRouteImport } from './routes/_authenticated/reception'
@@ -43,6 +46,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaCoverageRoute = MediaCoverageRouteImport.update({
+  id: '/media-coverage',
+  path: '/media-coverage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -70,6 +78,11 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AwardsRoute = AwardsRouteImport.update({
+  id: '/awards',
+  path: '/awards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -88,6 +101,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SpecialtiesSlugRoute = SpecialtiesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SpecialtiesRoute,
 } as any)
 const BookingCodeRoute = BookingCodeRouteImport.update({
   id: '/booking/$code',
@@ -137,20 +155,23 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
+  '/awards': typeof AwardsRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/specialties': typeof SpecialtiesRoute
+  '/specialties': typeof SpecialtiesRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -158,20 +179,23 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
+  '/awards': typeof AwardsRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/specialties': typeof SpecialtiesRoute
+  '/specialties': typeof SpecialtiesRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -181,20 +205,23 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
+  '/awards': typeof AwardsRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/specialties': typeof SpecialtiesRoute
+  '/specialties': typeof SpecialtiesRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
   '/_authenticated/reception': typeof AuthenticatedReceptionRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
@@ -204,11 +231,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about-doctor'
     | '/auth'
+    | '/awards'
     | '/book'
     | '/contact'
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
@@ -218,6 +247,7 @@ export interface FileRouteTypes {
     | '/reception'
     | '/settings'
     | '/booking/$code'
+    | '/specialties/$slug'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
@@ -225,11 +255,13 @@ export interface FileRouteTypes {
     | '/'
     | '/about-doctor'
     | '/auth'
+    | '/awards'
     | '/book'
     | '/contact'
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
@@ -239,6 +271,7 @@ export interface FileRouteTypes {
     | '/reception'
     | '/settings'
     | '/booking/$code'
+    | '/specialties/$slug'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   id:
@@ -247,11 +280,13 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about-doctor'
     | '/auth'
+    | '/awards'
     | '/book'
     | '/contact'
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
@@ -261,6 +296,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reception'
     | '/_authenticated/settings'
     | '/booking/$code'
+    | '/specialties/$slug'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesById: FileRoutesById
@@ -270,14 +306,16 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutDoctorRoute: typeof AboutDoctorRoute
   AuthRoute: typeof AuthRoute
+  AwardsRoute: typeof AwardsRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   ManageRoute: typeof ManageRoute
   McpRoute: typeof McpRoute
+  MediaCoverageRoute: typeof MediaCoverageRoute
   ReviewsRoute: typeof ReviewsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  SpecialtiesRoute: typeof SpecialtiesRoute
+  SpecialtiesRoute: typeof SpecialtiesRouteWithChildren
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   BookingCodeRoute: typeof BookingCodeRoute
@@ -306,6 +344,13 @@ declare module '@tanstack/react-router' {
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media-coverage': {
+      id: '/media-coverage'
+      path: '/media-coverage'
+      fullPath: '/media-coverage'
+      preLoaderRoute: typeof MediaCoverageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -343,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/awards': {
+      id: '/awards'
+      path: '/awards'
+      fullPath: '/awards'
+      preLoaderRoute: typeof AwardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -370,6 +422,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/specialties/$slug': {
+      id: '/specialties/$slug'
+      path: '/$slug'
+      fullPath: '/specialties/$slug'
+      preLoaderRoute: typeof SpecialtiesSlugRouteImport
+      parentRoute: typeof SpecialtiesRoute
     }
     '/booking/$code': {
       id: '/booking/$code'
@@ -445,19 +504,33 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface SpecialtiesRouteChildren {
+  SpecialtiesSlugRoute: typeof SpecialtiesSlugRoute
+}
+
+const SpecialtiesRouteChildren: SpecialtiesRouteChildren = {
+  SpecialtiesSlugRoute: SpecialtiesSlugRoute,
+}
+
+const SpecialtiesRouteWithChildren = SpecialtiesRoute._addFileChildren(
+  SpecialtiesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutDoctorRoute: AboutDoctorRoute,
   AuthRoute: AuthRoute,
+  AwardsRoute: AwardsRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   ManageRoute: ManageRoute,
   McpRoute: McpRoute,
+  MediaCoverageRoute: MediaCoverageRoute,
   ReviewsRoute: ReviewsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  SpecialtiesRoute: SpecialtiesRoute,
+  SpecialtiesRoute: SpecialtiesRouteWithChildren,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,

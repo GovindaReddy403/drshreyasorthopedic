@@ -9,9 +9,12 @@ const links = [
   { label: "About the Doctor", to: "/about-doctor" as const },
   { label: "Area of Specialties", to: "/specialties" as const },
   { label: "Gallery", to: "/gallery" as const },
+  { label: "Awards", to: "/awards" as const },
+  { label: "Media", to: "/media-coverage" as const },
   { label: "Reviews", to: "/reviews" as const },
   { label: "Contact Us", to: "/contact" as const },
 ];
+
 
 
 export function SiteNav({

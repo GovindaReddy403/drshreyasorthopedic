@@ -5,12 +5,8 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gArthro from "@/assets/treat-arthroscopy.jpg";
-import gPhysio from "@/assets/treat-physio.jpg";
-import gXray from "@/assets/treat-xray.jpg";
+import { SPECIALTIES } from "@/lib/specialties";
+
 
 export const Route = createFileRoute("/specialties")({
   head: () => ({
@@ -40,44 +36,8 @@ export const Route = createFileRoute("/specialties")({
   component: SpecialtiesPage,
 });
 
-const focus = [
-  {
-    img: gKnee,
-    title: "Knee",
-    body: "ACL & PCL reconstruction, meniscus repair, cartilage procedures, knee arthritis and total/partial knee replacement.",
-    points: ["ACL / PCL reconstruction", "Meniscus repair", "Knee replacement", "Knee arthroscopy"],
-  },
-  {
-    img: gShoulder,
-    title: "Shoulder",
-    body: "Rotator cuff repair, recurrent dislocation (Bankart/Latarjet), frozen shoulder and shoulder impingement care.",
-    points: ["Rotator cuff repair", "Bankart repair", "Frozen shoulder", "Shoulder arthroscopy"],
-  },
-  {
-    img: gAnkle,
-    title: "Foot & Ankle",
-    body: "Ankle ligament injuries, ankle arthroscopy, sprains, tendon problems and diabetic foot care.",
-    points: ["Ankle ligament repair", "Ankle arthroscopy", "Sports sprains", "Foot deformity care"],
-  },
-  {
-    img: gArthro,
-    title: "Arthroscopy (Key-hole)",
-    body: "Minimally invasive keyhole surgery of the knee and shoulder with smaller scars and faster recovery.",
-    points: ["Day-care surgery", "Minimal scarring", "Faster recovery", "Early mobilisation"],
-  },
-  {
-    img: gXray,
-    title: "Trauma & Spine Injury",
-    body: "Complex fracture fixation, poly-trauma management and spine injury assessment with structured recovery.",
-    points: ["Fracture fixation", "Poly-trauma care", "Spine injury", "Second opinions"],
-  },
-  {
-    img: gPhysio,
-    title: "Sports Medicine & Rehab",
-    body: "Return-to-sport planning, injury prevention, physiotherapy guidance and post-operative rehabilitation.",
-    points: ["Return-to-sport plans", "Injury prevention", "Post-op rehab", "PRP & injections"],
-  },
-];
+
+
 
 function SpecialtiesPage() {
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
@@ -98,31 +58,37 @@ function SpecialtiesPage() {
           description="Every plan starts with an accurate diagnosis, followed by the least invasive treatment that restores function."
         />
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {focus.map((f) => (
+          {SPECIALTIES.map((f) => (
             <article
-              key={f.title}
-              className="group overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
+              key={f.slug}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
             >
               <img
-                src={f.img}
+                src={f.image}
                 alt={`${f.title} treatment at Dr. Shreyas Orthopedic Clinic`}
                 className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-lg font-semibold text-primary">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{f.short}</p>
                 <ul className="mt-4 space-y-1 text-sm text-foreground/80">
-                  {f.points.map((p) => (
+                  {f.conditions.slice(0, 4).map((p) => (
                     <li key={p} className="flex items-center gap-2">
                       <ArrowRight className="h-3.5 w-3.5 text-accent" /> {p}
                     </li>
                   ))}
                 </ul>
+                <Link to="/specialties/$slug" params={{ slug: f.slug }} className="mt-5">
+                  <Button variant="outline" size="sm" className="gap-1 rounded-full">
+                    Read More <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </Link>
               </div>
             </article>
           ))}
         </div>
+
       </section>
 
       <section className="border-y border-border/60 bg-soft-blue">
