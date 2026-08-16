@@ -28,6 +28,11 @@ export type ClinicSettings = {
   google_maps_embed: string | null;
   slot_duration_minutes: number;
   max_per_slot: number;
+  facebook_url?: string | null;
+  instagram_url?: string | null;
+  youtube_url?: string | null;
+  twitter_url?: string | null;
+  linkedin_url?: string | null;
 };
 
 export type Treatment = {
