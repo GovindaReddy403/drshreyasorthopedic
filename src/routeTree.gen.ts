@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SpecialtiesRouteImport } from './routes/specialties'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as GalleryRouteImport } from './routes/gallery'
@@ -37,6 +38,11 @@ const SpecialtiesRoute = SpecialtiesRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialties': typeof SpecialtiesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialties': typeof SpecialtiesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/manage': typeof ManageRoute
   '/mcp': typeof McpRoute
+  '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialties': typeof SpecialtiesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
     | '/.mcp/list-tools'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
     | '/.mcp/list-tools'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/manage'
     | '/mcp'
+    | '/reviews'
     | '/sitemap.xml'
     | '/specialties'
     | '/.mcp/list-tools'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   ManageRoute: typeof ManageRoute
   McpRoute: typeof McpRoute
+  ReviewsRoute: typeof ReviewsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SpecialtiesRoute: typeof SpecialtiesRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
@@ -286,6 +299,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -435,6 +455,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   ManageRoute: ManageRoute,
   McpRoute: McpRoute,
+  ReviewsRoute: ReviewsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SpecialtiesRoute: SpecialtiesRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
