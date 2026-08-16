@@ -125,7 +125,29 @@ export function HeroSlider({ phone }: { phone?: string | null }) {
                       {s.title}
                     </h2>
                     <p className="mt-4 max-w-xl text-sm opacity-90 sm:text-base">{s.body}</p>
+                    {s.bullets && (
+                      <ul className="mt-5 space-y-2 text-sm sm:text-base">
+                        {s.bullets.map((b) => (
+                          <li key={b} className="flex items-start gap-2">
+                            <Check className="mt-1 h-4 w-4 shrink-0 opacity-90" />
+                            <span className="opacity-95">{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     <div className="mt-7 flex flex-wrap gap-3">
+                      {s.bullets && waHref && (
+                        <a href={waHref} target="_blank" rel="noreferrer">
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className="gap-2 rounded-full border-primary-foreground/60 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                          >
+                            <MessageCircle className="h-4 w-4" /> Consult Online via WhatsApp
+                          </Button>
+                        </a>
+                      )}
+
                       <Link to="/book">
                         <Button size="lg" variant="secondary" className="gap-2 rounded-full">
                           Book An Appointment <ArrowRight className="h-4 w-4" />
