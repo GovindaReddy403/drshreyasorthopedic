@@ -232,7 +232,7 @@ function SpecialtyDetail() {
         </div>
       </section>
 
-      <CtaBand title="Ready to move without pain?">
+      <CtaBand>
         <Link to="/book">
           <Button size="lg" variant="secondary" className="rounded-full">
             Book An Appointment
