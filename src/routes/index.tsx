@@ -7,15 +7,17 @@ import {
   Award,
   BadgeCheck,
   CalendarDays,
+  CheckCircle2,
   Clock,
   GraduationCap,
   Languages,
   MapPin,
   MessageCircle,
   Phone,
-  ShieldCheck,
-  Star,
   Stethoscope,
+  Star,
+  Trophy,
+  Users,
 } from "lucide-react";
 
 import heroAsset from "@/assets/hero-doctor.png.asset.json";
@@ -43,6 +45,7 @@ import {
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactQR } from "@/components/contact-qr";
+import { FloatingActions } from "@/components/floating-actions";
 
 import {
   fetchClinic,
@@ -51,7 +54,6 @@ import {
   fetchTreatments,
   fetchWorkingHours,
   formatTime,
-
   WEEKDAY_LABELS,
   type Doctor,
 } from "@/lib/clinic";
@@ -62,7 +64,29 @@ const treatmentsQO = queryOptions({ queryKey: ["treatments"], queryFn: fetchTrea
 const hoursQO = queryOptions({ queryKey: ["hours"], queryFn: fetchWorkingHours });
 const testimonialsQO = queryOptions({ queryKey: ["testimonials"], queryFn: fetchTestimonials });
 
+const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      {
+        title: "Dr. Shreyas M.J | Orthopedic Surgeon in Mysuru | Bone & Joint Care",
+      },
+      {
+        name: "description",
+        content:
+          "Dr. Shreyas M.J, MBBS, MS (Ortho) — arthroscopy, joint replacement, spine, foot & ankle and trauma care in Mysuru. Book an appointment online, Mon–Sat 5–9 PM.",
+      },
+      { property: "og:title", content: "Dr. Shreyas Orthopedic Clinic — Bone & Joint Care, Mysuru" },
+      {
+        property: "og:description",
+        content:
+          "Fellowship-trained orthopedic surgeon in Mysuru. Knee, shoulder and ankle arthroscopy, joint replacement and trauma care.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(clinicQO),
@@ -85,7 +109,11 @@ function LandingPage() {
   const primaryDoctor: Doctor | undefined = doctors[0];
 
   const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
-  const reviewsAutoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const reviewsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
+
+  const waHref = clinic.whatsapp
+    ? `https://wa.me/91${clinic.whatsapp.replace(/\D/g, "")}`
+    : undefined;
 
   const gallery = [
     { src: gKnee, caption: "Knee assessment & ligament care" },
@@ -96,90 +124,155 @@ function LandingPage() {
     { src: gXray, caption: "Imaging review" },
   ];
 
+  const highlights = [
+    "Orthopaedic Surgeon, Fellowship in Arthroscopy & Sports Medicine",
+    "Committed to excellence in bone & joint care",
+    "Advanced arthroscopic (key-hole) techniques",
+    "Practice focus: Knee, Shoulder, Ankle, Joint Replacement, Spine & Trauma",
+  ];
+
   return (
-    <div id="top" className="min-h-screen bg-background">
+    <div id="top" className="min-h-screen bg-background pb-16 lg:pb-0">
       <SiteNav clinicName={clinic.clinic_name} phone={clinic.phone} />
+      <FloatingActions
+        phone={clinic.phone}
+        whatsapp={clinic.whatsapp}
+        mapsUrl={clinic.google_maps_url ?? GOOGLE_REVIEWS_URL}
+      />
 
       {/* Hero */}
-      <section className="bg-hero-gradient relative overflow-hidden">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-20 lg:px-8">
-          <div className="flex flex-col justify-center">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
-              <Stethoscope className="h-3.5 w-3.5" />
-              {clinic.tagline ?? "Bone & Joint Care"}
+      <section className="bg-hero-gradient">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16 lg:px-8">
+          <div className="flex justify-center">
+            <div className="relative">
+              <div
+                className="absolute -inset-4 rounded-full bg-primary/10 blur-2xl"
+                aria-hidden
+              />
+              <img
+                src={heroImg}
+                alt={`${primaryDoctor?.name ?? clinic.doctor_name}, orthopedic surgeon`}
+                width={900}
+                height={900}
+                className="relative aspect-square w-[19rem] rounded-full object-cover shadow-[var(--shadow-glow)] sm:w-[23rem]"
+              />
             </div>
-            <h1 className="mt-4 font-display text-4xl font-bold leading-tight text-foreground sm:text-5xl md:text-6xl">
-              {clinic.clinic_name}
+          </div>
+
+          <div>
+            <h1 className="font-display text-4xl font-bold text-primary sm:text-5xl">
+              {primaryDoctor?.name ?? clinic.doctor_name}
             </h1>
-            <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              {primaryDoctor?.name ?? clinic.doctor_name} —{" "}
-              {primaryDoctor?.specialization ?? clinic.specialization}.
-              Arthroscopy, joint replacement, spine, foot &amp; ankle and trauma care in Mysuru.
+            <p className="mt-2 text-lg text-foreground/80">
+              Knee &amp; Shoulder Arthroscopy | Joint Replacement | Fractures &amp; Trauma
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <ul className="mt-6 space-y-3">
+              {highlights.map((h) => (
+                <li key={h} className="flex gap-2 font-semibold text-foreground">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/book">
-                <Button size="lg" className="gap-2">
-                  Book appointment <ArrowRight className="h-4 w-4" />
+                <Button size="lg" className="gap-2 rounded-full">
+                  Book An Appointment <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              {clinic.whatsapp && (
-                <a
-                  href={`https://wa.me/91${clinic.whatsapp.replace(/\D/g, "")}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button size="lg" variant="outline" className="gap-2">
-                    <MessageCircle className="h-4 w-4" /> WhatsApp
-                  </Button>
-                </a>
-              )}
               {clinic.phone && (
                 <a href={`tel:${clinic.phone.replace(/\s/g, "")}`}>
-                  <Button size="lg" variant="ghost" className="gap-2">
+                  <Button size="lg" variant="outline" className="gap-2 rounded-full">
                     <Phone className="h-4 w-4" /> {clinic.phone}
                   </Button>
                 </a>
               )}
             </div>
-
-            <dl className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {[
-                { label: "Timings", value: "5–9 PM" },
-                { label: "Days", value: "Mon–Sat" },
-                { label: "Experience", value: "12+ yrs" },
-              ].map((s) => (
-                <div key={s.label} className="glass-card rounded-2xl p-4">
-                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">
-                    {s.label}
-                  </dt>
-                  <dd className="mt-1 font-display text-2xl font-semibold text-foreground">
-                    {s.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
           </div>
+        </div>
+      </section>
 
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl" aria-hidden />
-            <img
-              src={heroImg}
-              alt={`${primaryDoctor?.name ?? clinic.doctor_name} at ${clinic.clinic_name}`}
-              width={1600}
-              height={1200}
-              className="relative w-full rounded-[2rem] object-cover shadow-[var(--shadow-glow)]"
-            />
-            <div className="glass-card absolute -bottom-6 left-6 flex items-center gap-3 rounded-2xl px-4 py-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-success/15 text-success">
-                <ShieldCheck className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="text-sm font-semibold">Verified & board-certified</p>
-                <p className="text-xs text-muted-foreground">
-                  {primaryDoctor?.qualifications ?? clinic.qualifications}
-                </p>
-              </div>
-            </div>
+      {/* Headline + CTA */}
+      <section className="border-b border-border/60 bg-background">
+        <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
+          <h2 className="font-display text-3xl font-bold leading-tight text-primary sm:text-4xl">
+            Fellowship-Trained Orthopaedic Surgeon &amp; Sports Medicine Specialist in Mysuru
+          </h2>
+          <p className="mt-3 font-display text-lg font-semibold text-foreground/85">
+            {clinic.clinic_name} — Advanced Technologies in Orthopaedic Care
+          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+            Arthroscopy of knee &amp; shoulder (key-hole surgery), joint replacement, spine injury,
+            foot &amp; ankle and trauma care — restoring pain-free mobility with a personalised
+            treatment plan for every patient.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link to="/book">
+              <Button size="lg" className="rounded-full px-7">
+                Book Clinic Appointment
+              </Button>
+            </Link>
+            {waHref && (
+              <a href={waHref} target="_blank" rel="noreferrer">
+                <Button
+                  size="lg"
+                  className="rounded-full bg-accent px-7 text-accent-foreground hover:bg-accent/90"
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" /> Consult Online via WhatsApp
+                </Button>
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust stats */}
+      <section className="bg-soft-blue">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-accent">
+              Advanced Orthopaedic Care
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+              Trusted Orthopaedic Expertise
+            </h2>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                icon: Users,
+                eyebrow: "Patient Trust",
+                title: "Clinical Experience",
+                body: "12+ years experience · Fellowship trained in Arthroscopy & Sports Medicine (India & Australia)",
+              },
+              {
+                icon: Stethoscope,
+                eyebrow: "Surgical Track Record",
+                title: "Procedures Performed",
+                body: "Knee & Shoulder Arthroscopy | Joint Replacement | Spine Injury | Foot & Ankle | Trauma",
+              },
+              {
+                icon: Trophy,
+                eyebrow: "Recognition",
+                title: "Memberships",
+                body: "KOA & MOA Member · Senior Registrar experience at Fortis Hospital",
+              },
+            ].map((s) => (
+              <Card key={s.title} className="h-full border-primary/10">
+                <CardContent className="p-6">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <s.icon className="h-5 w-5" />
+                  </span>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-accent">
+                    {s.eyebrow}
+                  </p>
+                  <h3 className="mt-1 font-display text-xl font-semibold text-primary">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{s.body}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -188,7 +281,7 @@ function LandingPage() {
       <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
-          title={doctors.length > 1 ? "Our doctors" : primaryDoctor?.name ?? clinic.doctor_name}
+          title={doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`}
         />
         <div className="mt-10 space-y-16">
           {doctors.map((doc, idx) => (
@@ -202,28 +295,23 @@ function LandingPage() {
         </div>
       </section>
 
-
-
-      {/* Treatments */}
-      <section id="treatments" className="border-y border-border/60 bg-muted/40">
+      {/* Treatments / Area of specialties */}
+      <section id="treatments" className="border-y border-border/60 bg-soft-blue">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <SectionHeader
-            eyebrow="Treatments"
-            title="Care tailored to what you need"
+            eyebrow="Area of specialties"
+            title="Conditions & procedures we treat"
             subtitle="Every consultation includes a full history review, examination and a personalised plan."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treatments.map((t) => (
               <Card
                 key={t.id}
-                className="group transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+                className="group border-primary/10 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
               >
                 <CardContent className="flex h-full flex-col p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-xl font-semibold">{t.name}</h3>
-                  </div>
+                  <h3 className="font-display text-xl font-semibold text-primary">{t.name}</h3>
                   <p className="mt-3 text-sm text-muted-foreground">{t.description}</p>
-
                   <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
                     <span className="inline-flex items-center gap-1.5">
                       <Clock className="h-4 w-4" /> {t.duration_minutes} min
@@ -241,7 +329,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Gallery (slider) */}
+      {/* Gallery */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Treatment gallery"
@@ -249,7 +337,11 @@ function LandingPage() {
           subtitle="From detailed assessments to arthroscopic procedures and rehabilitation."
         />
         <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} plugins={[galleryAutoplay.current]} className="w-full">
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            plugins={[galleryAutoplay.current]}
+            className="w-full"
+          >
             <CarouselContent>
               {gallery.map((g, i) => (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
@@ -275,12 +367,129 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Hours + location */}
-      <section id="hours" className="border-y border-border/60 bg-muted/40">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-2 lg:px-8">
+      {/* Google Reviews */}
+      <section id="testimonials" className="border-y border-border/60 bg-soft-blue">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              <GoogleGlyph /> Google Reviews
+            </span>
+            <h2 className="mt-4 font-display text-3xl font-bold text-primary sm:text-4xl">
+              What patients say about {primaryDoctor?.name ?? clinic.doctor_name}
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+              Patient feedback from families treated for orthopaedic care, sports injuries, joint
+              replacement and post-surgery recovery support.
+            </p>
+            <div className="mt-4 flex items-center justify-center gap-2 text-warning">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-current" />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <Carousel
+              opts={{ align: "start", loop: true }}
+              plugins={[reviewsAutoplay.current]}
+              className="w-full"
+            >
+              <CarouselContent>
+                {testimonials.map((t) => {
+                  const initial = t.patient_name.trim().charAt(0).toUpperCase();
+                  const colors = [
+                    "bg-primary/15 text-primary",
+                    "bg-success/15 text-success",
+                    "bg-warning/15 text-warning",
+                  ];
+                  const color = colors[t.patient_name.charCodeAt(0) % colors.length];
+                  return (
+                    <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
+                      <Card className="h-full border-primary/10">
+                        <CardContent className="flex h-full flex-col p-6">
+                          <div className="flex items-center gap-3">
+                            <span
+                              className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}
+                            >
+                              {initial}
+                            </span>
+                            <div className="flex-1">
+                              <p className="font-medium leading-tight">{t.patient_name}</p>
+                              <p className="text-xs text-muted-foreground">Google Review</p>
+                            </div>
+                            <GoogleGlyph />
+                          </div>
+                          <div className="mt-4 flex gap-0.5 text-warning">
+                            {Array.from({ length: t.rating }).map((_, i) => (
+                              <Star key={i} className="h-4 w-4 fill-current" />
+                            ))}
+                          </div>
+                          <p className="mt-3 text-sm leading-relaxed text-foreground/85">
+                            {t.content}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+          </div>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+              <Button variant="outline" className="gap-2 rounded-full">
+                <GoogleGlyph /> Read Google Reviews
+              </Button>
+            </a>
+            <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+              <Button className="rounded-full">Write a Review</Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Where to consult */}
+      <section id="hours" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <SectionHeader eyebrow="Where to consult" title="Visit the clinic" />
+        <div className="mt-10 grid gap-10 md:grid-cols-2">
+          <div className="rounded-2xl border border-border bg-card p-6">
+            <h3 className="font-display text-xl font-semibold text-primary">
+              Primary Private Practice
+            </h3>
+            <div className="mt-4 flex items-start gap-3">
+              <MapPin className="mt-1 h-5 w-5 text-accent" />
+              <div>
+                <p className="font-medium">{clinic.clinic_name}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{clinic.address}</p>
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              <span className="font-semibold text-foreground">Best for:</span> OPD consultations,
+              second opinions, sports injury assessment and non-surgical joint preservation.
+            </p>
+            {clinic.google_maps_url && (
+              <a href={clinic.google_maps_url} target="_blank" rel="noreferrer">
+                <Button variant="outline" className="mt-6 w-full rounded-full">
+                  Open in Google Maps
+                </Button>
+              </a>
+            )}
+            <Link to="/book">
+              <Button className="mt-3 w-full gap-2 rounded-full">
+                <CalendarDays className="h-4 w-4" /> Book appointment
+              </Button>
+            </Link>
+            <div className="mt-6">
+              <ContactQR clinic={clinic} />
+            </div>
+          </div>
+
           <div>
-            <SectionHeader eyebrow="Working hours" title="When we're open" />
-            <div className="mt-8 divide-y divide-border/60 rounded-2xl border border-border bg-card">
+            <h3 className="font-display text-xl font-semibold text-primary">Consulting hours</h3>
+            <div className="mt-4 divide-y divide-border/60 rounded-2xl border border-border bg-card">
               {hours.map((h) => (
                 <div key={h.weekday} className="flex items-center justify-between px-5 py-3">
                   <span className="font-medium">{WEEKDAY_LABELS[h.weekday]}</span>
@@ -300,112 +509,8 @@ function LandingPage() {
               ))}
             </div>
           </div>
-          <div>
-            <SectionHeader eyebrow="Find us" title="Visit the clinic" />
-            <div className="mt-8 rounded-2xl border border-border bg-card p-6">
-              <div className="flex items-start gap-3">
-                <MapPin className="mt-1 h-5 w-5 text-primary" />
-                <div>
-                  <p className="font-medium">{clinic.clinic_name}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{clinic.address}</p>
-                </div>
-              </div>
-              {clinic.google_maps_url && (
-                <a href={clinic.google_maps_url} target="_blank" rel="noreferrer">
-                  <Button variant="outline" className="mt-6 w-full">
-                    Open in Google Maps
-                  </Button>
-                </a>
-              )}
-              <Link to="/book">
-                <Button className="mt-3 w-full gap-2">
-                  <CalendarDays className="h-4 w-4" /> Book appointment
-                </Button>
-              </Link>
-            </div>
-            <div className="mt-6">
-              <ContactQR clinic={clinic} />
-            </div>
-          </div>
         </div>
       </section>
-
-      {/* Google Reviews (slider) */}
-      <section id="testimonials" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-            Patient Reviews
-          </p>
-          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-            What our patients say
-          </h2>
-          <div className="mt-4 flex items-center gap-3">
-            <div className="flex gap-0.5 text-warning">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-current" />
-              ))}
-            </div>
-            <span className="text-sm text-muted-foreground">
-              5.0 · sample reviews · verified Google reviews will appear here once connected
-            </span>
-          </div>
-        </div>
-        <div className="mt-10">
-          <Carousel opts={{ align: "start", loop: true }} plugins={[reviewsAutoplay.current]} className="w-full">
-            <CarouselContent>
-              {testimonials.map((t) => {
-                const initial = t.patient_name.trim().charAt(0).toUpperCase();
-                const colors = [
-                  "bg-primary/15 text-primary",
-                  "bg-success/15 text-success",
-                  "bg-warning/15 text-warning",
-                ];
-                const color = colors[t.patient_name.charCodeAt(0) % colors.length];
-                return (
-                  <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
-                    <Card className="relative h-full">
-                      <CardContent className="flex h-full flex-col p-6">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}
-                          >
-                            {initial}
-                          </span>
-                          <div className="flex-1">
-                            <p className="font-medium leading-tight">{t.patient_name}</p>
-                            <p className="text-xs text-muted-foreground">via Google</p>
-                          </div>
-                          <GoogleGlyph />
-                        </div>
-                        <div className="mt-4 flex items-center gap-2">
-                          <div className="flex gap-0.5 text-warning">
-                            {Array.from({ length: t.rating }).map((_, i) => (
-                              <Star key={i} className="h-4 w-4 fill-current" />
-                            ))}
-                          </div>
-                        </div>
-                        <p className="mt-3 text-sm leading-relaxed text-foreground/85">
-                          {t.content}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
-          </Carousel>
-        </div>
-        <div className="mt-8 flex justify-center">
-          <a href="https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7" target="_blank" rel="noreferrer">
-            <Button variant="outline" className="gap-2">
-              <GoogleGlyph /> Read reviews on Google
-            </Button>
-          </a>
-        </div>
-      </section>
-
 
       <SiteFooter clinic={clinic} />
     </div>
@@ -434,7 +539,9 @@ function DoctorProfile({
         />
       </div>
       <div className="md:col-span-3 md:[direction:ltr]">
-        <h3 className="font-display text-3xl font-semibold sm:text-4xl">{doctor.name}</h3>
+        <h3 className="font-display text-3xl font-semibold text-primary sm:text-4xl">
+          {doctor.name}
+        </h3>
         <p className="mt-1 text-muted-foreground">
           {doctor.qualifications}
           {doctor.specialization ? ` · ${doctor.specialization}` : ""}
@@ -446,11 +553,7 @@ function DoctorProfile({
         )}
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <InfoCard icon={GraduationCap} title="Education" body={doctor.education} />
-          <InfoCard
-            icon={Stethoscope}
-            title="Experience"
-            body={doctor.professional_experience}
-          />
+          <InfoCard icon={Stethoscope} title="Experience" body={doctor.professional_experience} />
           <InfoCard icon={BadgeCheck} title="Fellowship" body={doctor.certifications} />
           <InfoCard icon={Award} title="Memberships" body={doctor.memberships} />
         </div>
@@ -476,8 +579,8 @@ function SectionHeader({
 }) {
   return (
     <div className="max-w-2xl">
-      <p className="text-sm font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>
-      <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
+      <p className="text-sm font-semibold uppercase tracking-widest text-accent">{eyebrow}</p>
+      <h2 className="mt-2 font-display text-3xl font-semibold text-primary sm:text-4xl">{title}</h2>
       {subtitle && <p className="mt-3 text-muted-foreground">{subtitle}</p>}
     </div>
   );
@@ -496,7 +599,7 @@ function InfoCard({
   return (
     <div className="rounded-2xl border border-border bg-card p-4">
       <div className="flex items-center gap-2">
-        <Icon className="h-4 w-4 text-primary" />
+        <Icon className="h-4 w-4 text-accent" />
         <h4 className="text-sm font-semibold">{title}</h4>
       </div>
       <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{body}</p>
