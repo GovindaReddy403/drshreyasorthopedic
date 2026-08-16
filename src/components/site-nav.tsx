@@ -187,21 +187,33 @@ export function SiteNav({
                           {col.heading}
                         </p>
                         <ul className="mt-3 space-y-2">
-                          {col.items.map((it) => (
-                            <li key={it.label}>
-                              <Link
-                                to="/specialties/$slug"
-                                params={{ slug: it.slug }}
-                                className="text-sm text-muted-foreground hover:text-primary"
-                              >
-                                {it.label}
-                              </Link>
-                            </li>
-                          ))}
+                          {col.items.map((it) =>
+                            "conditions" in col && col.conditions ? (
+                              <li key={it.label}>
+                                <Link
+                                  to="/conditions/$slug"
+                                  params={{ slug: it.slug }}
+                                  className="text-sm text-muted-foreground hover:text-primary"
+                                >
+                                  {it.label}
+                                </Link>
+                              </li>
+                            ) : (
+                              <li key={it.label}>
+                                <Link
+                                  to="/specialties/$slug"
+                                  params={{ slug: it.slug }}
+                                  className="text-sm text-muted-foreground hover:text-primary"
+                                >
+                                  {it.label}
+                                </Link>
+                              </li>
+                            ),
+                          )}
                         </ul>
                       </div>
                     ))}
-                    <div className="col-span-4 border-t border-border/60 pt-4">
+                    <div className="col-span-full border-t border-border/60 pt-4">
                       <Link to="/specialties">
                         <Button size="sm" variant="outline" className="rounded-full">
                           More Procedures
