@@ -67,15 +67,15 @@ export function SiteNav({
               <div className="mt-8 flex flex-col gap-1">
                 {links.map((l) => (
                   <Link
-                    key={l.hash}
-                    to="/"
-                    hash={l.hash}
+                    key={l.to}
+                    to={l.to}
                     onClick={() => setOpen(false)}
                     className="rounded-md px-3 py-3 text-sm hover:bg-muted"
                   >
                     {l.label}
                   </Link>
                 ))}
+
                 <Link to="/book" onClick={() => setOpen(false)} className="mt-2">
                   <Button className="w-full rounded-full">Book appointment</Button>
                 </Link>
