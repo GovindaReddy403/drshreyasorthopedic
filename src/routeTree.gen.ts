@@ -27,6 +27,7 @@ import { Route as SpecialtiesIndexRouteImport } from './routes/specialties.index
 import { Route as ConditionsIndexRouteImport } from './routes/conditions.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as SpecialtiesSlugRouteImport } from './routes/specialties.$slug'
+import { Route as ConditionsSlugRouteImport } from './routes/conditions.$slug'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
@@ -126,6 +127,11 @@ const SpecialtiesSlugRoute = SpecialtiesSlugRouteImport.update({
   path: '/specialties/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConditionsSlugRoute = ConditionsSlugRouteImport.update({
+  id: '/conditions/$slug',
+  path: '/conditions/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookingCodeRoute = BookingCodeRouteImport.update({
   id: '/booking/$code',
   path: '/booking/$code',
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/conditions/': typeof ConditionsIndexRoute
@@ -224,6 +231,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog': typeof BlogIndexRoute
   '/conditions': typeof ConditionsIndexRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
+  '/conditions/$slug': typeof ConditionsSlugRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/conditions/': typeof ConditionsIndexRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog/'
     | '/conditions/'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog'
     | '/conditions'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/blog/$slug'
     | '/booking/$code'
+    | '/conditions/$slug'
     | '/specialties/$slug'
     | '/blog/'
     | '/conditions/'
@@ -368,6 +380,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BookingCodeRoute: typeof BookingCodeRoute
+  ConditionsSlugRoute: typeof ConditionsSlugRoute
   SpecialtiesSlugRoute: typeof SpecialtiesSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ConditionsIndexRoute: typeof ConditionsIndexRoute
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecialtiesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conditions/$slug': {
+      id: '/conditions/$slug'
+      path: '/conditions/$slug'
+      fullPath: '/conditions/$slug'
+      preLoaderRoute: typeof ConditionsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/booking/$code': {
       id: '/booking/$code'
       path: '/booking/$code'
@@ -605,6 +625,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   BlogSlugRoute: BlogSlugRoute,
   BookingCodeRoute: BookingCodeRoute,
+  ConditionsSlugRoute: ConditionsSlugRoute,
   SpecialtiesSlugRoute: SpecialtiesSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ConditionsIndexRoute: ConditionsIndexRoute,
