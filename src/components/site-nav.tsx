@@ -36,10 +36,10 @@ export function SiteNav({
             <Stethoscope className="h-6 w-6" />
           </span>
           <span className="leading-tight">
-            <span className="block font-display text-base font-bold tracking-tight text-primary sm:text-xl">
+            <span className="block font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-primary sm:text-2xl lg:text-3xl">
               {clinicName}
             </span>
-            <span className="block text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.3em] text-accent sm:text-xs">
               Bone &amp; Joint Care
             </span>
           </span>

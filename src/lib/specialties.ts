@@ -4,6 +4,7 @@ import gAnkle from "@/assets/treat-ankle.jpg";
 import gArthro from "@/assets/treat-arthroscopy.jpg";
 import gPhysio from "@/assets/treat-physio.jpg";
 import gXray from "@/assets/treat-xray.jpg";
+import gBio from "@/assets/treat-biologics.jpg";
 
 export type Specialty = {
   slug: string;
@@ -237,6 +238,43 @@ export const SPECIALTIES: Specialty[] = [
       "Strength testing before return to sport",
       "Load management guidance for training",
       "Ongoing review during the competitive season",
+    ],
+  },
+  {
+    slug: "ortho-biologics",
+    title: "Ortho Biologics — PRP & Hylast",
+    short:
+      "PRP (Platelet-Rich Plasma) therapy and Hylast (hyaluronic acid) injections for selected joint and tendon conditions.",
+    image: gBio,
+    intro:
+      "Not every orthopaedic problem needs surgery. Ortho biologics use the body's own healing capacity, or joint lubricating agents, to reduce pain and improve function in carefully selected patients. Treatment is recommended only after a detailed clinical assessment and appropriate imaging, with an individualised approach based on the patient's condition and requirements.",
+    conditions: [
+      "Early and moderate osteoarthritis of the knee",
+      "Tendon injuries — tennis elbow, Achilles, patellar tendinopathy",
+      "Partial ligament and muscle injuries in sport",
+      "Degenerative joint pain with stiffness",
+      "Plantar fasciitis",
+      "Post-arthroscopy joint discomfort",
+    ],
+    procedures: [
+      {
+        name: "PRP (Platelet-Rich Plasma) therapy",
+        body: "Your own blood is concentrated to isolate growth factors, which are injected into the injured tendon, ligament or joint to support healing.",
+      },
+      {
+        name: "Hylast (hyaluronic acid) injections",
+        body: "Viscosupplementation to improve lubrication, pain and mobility in selected patients with osteoarthritis and degenerative joint disease.",
+      },
+      {
+        name: "Image-guided injection",
+        body: "Accurate placement of the injection into the target tissue for a more reliable result.",
+      },
+    ],
+    recovery: [
+      "Day-care procedure — usually under 30 minutes",
+      "Relative rest for 48 hours, then graded activity",
+      "Benefit typically builds over 3-6 weeks",
+      "Reviewed with a rehabilitation plan alongside the injection",
     ],
   },
 ];

@@ -17,6 +17,9 @@ import sKnee from "@/assets/treat-knee.jpg";
 import sShoulder from "@/assets/treat-shoulder.jpg";
 import sArthro from "@/assets/treat-arthroscopy.jpg";
 import sPhysio from "@/assets/treat-physio.jpg";
+import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
+
+const doctorSlide = doctorSlideAsset.url;
 
 type Slide = {
   image: string;
@@ -24,9 +27,18 @@ type Slide = {
   title: string;
   body: string;
   href: string;
+  portrait?: boolean;
 };
 
 const SLIDES: Slide[] = [
+  {
+    image: doctorSlide,
+    eyebrow: "Dr. Shreyas M. J. — MBBS, MS (Orthopaedics)",
+    title: "Orthopaedic Surgeon, Arthroscopy & Sports Medicine",
+    body: "Assistant Professor, JSS Hospital, Mysore. Fellowship trained in Arthroscopy & Sports Medicine — India, Australia & Thailand.",
+    href: "/about-doctor",
+    portrait: true,
+  },
   {
     image: sArthro,
     eyebrow: "Advanced Orthopaedic Care",
@@ -71,17 +83,34 @@ export function HeroSlider({ phone }: { phone?: string | null }) {
           {SLIDES.map((s) => (
             <CarouselItem key={s.title} className="pl-0">
               <div className="relative h-[420px] w-full sm:h-[500px] lg:h-[560px]">
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/20"
-                  aria-hidden
-                />
+                {s.portrait ? (
+                  <>
+                    <div className="absolute inset-0 bg-hero-gradient" aria-hidden />
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="absolute bottom-0 right-0 h-full w-1/2 object-cover object-top opacity-90 sm:w-[42%] lg:w-[38%]"
+                    />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/30"
+                      aria-hidden
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/20"
+                      aria-hidden
+                    />
+                  </>
+                )}
                 <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                  <div className="max-w-2xl text-primary-foreground">
+                  <div className="max-w-xl text-primary-foreground sm:max-w-2xl">
                     <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary-foreground/80">
                       {s.eyebrow}
                     </p>
