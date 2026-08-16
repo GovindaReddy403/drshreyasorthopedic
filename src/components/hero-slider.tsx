@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Check, MessageCircle, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -76,8 +76,15 @@ const SLIDES: Slide[] = [
   },
 ];
 
-export function HeroSlider({ phone }: { phone?: string | null }) {
+export function HeroSlider({
+  phone,
+  whatsapp,
+}: {
+  phone?: string | null;
+  whatsapp?: string | null;
+}) {
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const waHref = whatsapp ? `https://wa.me/91${whatsapp.replace(/\D/g, "")}` : undefined;
 
   return (
     <section className="relative">
