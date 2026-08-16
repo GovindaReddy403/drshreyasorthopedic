@@ -156,7 +156,7 @@ export function SiteNav({
                         </p>
                         <ul className="mt-3 space-y-2">
                           {col.items.map((it) => (
-                            <li key={it.slug}>
+                            <li key={it.label}>
                               <Link
                                 to="/specialties/$slug"
                                 params={{ slug: it.slug }}
