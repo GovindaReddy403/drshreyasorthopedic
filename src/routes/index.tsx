@@ -20,8 +20,6 @@ import {
   Users,
 } from "lucide-react";
 
-import heroAsset from "@/assets/hero-doctor.png.asset.json";
-const heroImg = heroAsset.url;
 import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
 const doctorImg = doctorAsset.url;
 
