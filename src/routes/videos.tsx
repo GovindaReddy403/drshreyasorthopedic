@@ -8,25 +8,24 @@ import { clinicQO, GOOGLE_REVIEWS_URL } from "@/lib/queries";
 import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
 
 export const Route = createFileRoute("/videos")({
-  head: () => ({
-    meta: [
-      { title: "Patient Education Videos | Dr. Shreyas Orthopedic Clinic, Mysuru" },
-      {
-        name: "description",
-        content:
-          "Watch patient stories and orthopaedic education videos from Dr. Shreyas M.J — knee and shoulder arthroscopy, joint replacement, PRP and rehabilitation.",
-      },
-      { property: "og:title", content: "Patient Education Videos — Dr. Shreyas Orthopedic Clinic" },
-      {
-        property: "og:description",
-        content: "Patient stories and orthopaedic education videos from the clinic in Mysuru.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://drshreyasorthopedic.lovable.app/videos" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://drshreyasorthopedic.lovable.app/videos" }],
-  }),
+  head: () => {
+    const seo = pageSeo({
+      title: "Patient Education Videos | Dr. Shreyas Orthopedic Clinic, Mysuru",
+      description:
+        "Watch patient stories and orthopaedic education videos from Dr. Shreyas M.J — knee and shoulder arthroscopy, joint replacement, PRP and rehabilitation.",
+      path: "/videos",
+    });
+    return {
+      ...seo,
+      scripts: [
+        breadcrumbLd([
+          { name: "Home", path: "/" },
+          { name: "Patient Education Videos", path: "/videos" },
+        ]),
+      ],
+    };
+  },
+
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData(clinicQO);
   },
