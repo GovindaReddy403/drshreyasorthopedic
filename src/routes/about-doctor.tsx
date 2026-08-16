@@ -12,17 +12,17 @@ const doctorImg = doctorAsset.url;
 export const Route = createFileRoute("/about-doctor")({
   head: () => ({
     meta: [
-      { title: "About Dr. Shreyas M.J | Orthopedic & Arthroscopy Surgeon, Mysuru" },
+      { title: "About Dr. Shreyas M. J. | Arthroscopy & Sports Medicine, Mysore" },
       {
         name: "description",
         content:
-          "Dr. Shreyas M.J — MBBS, MS (Ortho), JSS Medical College. Fellowship in Arthroscopy & Sports Medicine. Knee, shoulder and ankle specialist in Mysuru.",
+          "Dr. Shreyas M. J. — MBBS, MS (Ortho), Assistant Professor at JSS Hospital Mysore. Fellowships in Arthroscopy & Sports Medicine in India, Australia and Thailand.",
       },
-      { property: "og:title", content: "About Dr. Shreyas M.J — Orthopedic Surgeon, Mysuru" },
+      { property: "og:title", content: "About Dr. Shreyas M. J. — Orthopaedic Surgeon, Mysore" },
       {
         property: "og:description",
         content:
-          "Overview, fellowships, memberships, field of expertise and languages spoken by Dr. Shreyas M.J.",
+          "Overview, advanced fellowship training, current position, areas of special interest and regenerative treatments offered by Dr. Shreyas M. J.",
       },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
