@@ -180,7 +180,7 @@ export function SiteNav({
                   {l.label} <ChevronDown className="h-3.5 w-3.5" />
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 w-[min(1100px,92vw)] -translate-x-1/2 opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover/item:visible group-hover/item:opacity-100">
-                  <div className="grid grid-cols-4 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
+                  <div className="grid grid-cols-5 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
                     {MEGA_COLUMNS.map((col) => (
                       <div key={col.heading}>
                         <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
