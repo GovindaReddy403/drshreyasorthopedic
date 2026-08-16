@@ -18,6 +18,7 @@ import { Route as ManageRouteImport } from './routes/manage'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
@@ -25,6 +26,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpecialtiesSlugRouteImport } from './routes/specialties.$slug'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedReceptionRouteImport } from './routes/_authenticated/reception'
 import { Route as AuthenticatedDoctorRouteImport } from './routes/_authenticated/doctor'
@@ -78,6 +80,11 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AwardsRoute = AwardsRouteImport.update({
   id: '/awards',
   path: '/awards',
@@ -111,6 +118,11 @@ const BookingCodeRoute = BookingCodeRouteImport.update({
   id: '/booking/$code',
   path: '/booking/$code',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   id: '/settings',
@@ -156,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -170,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -180,6 +194,7 @@ export interface FileRoutesByTo {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -194,6 +209,7 @@ export interface FileRoutesByTo {
   '/doctor': typeof AuthenticatedDoctorRoute
   '/reception': typeof AuthenticatedReceptionRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -206,6 +222,7 @@ export interface FileRoutesById {
   '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/awards': typeof AwardsRoute
+  '/blog': typeof BlogRouteWithChildren
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
@@ -220,6 +237,7 @@ export interface FileRoutesById {
   '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
   '/_authenticated/reception': typeof AuthenticatedReceptionRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/booking/$code': typeof BookingCodeRoute
   '/specialties/$slug': typeof SpecialtiesSlugRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -232,6 +250,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -246,6 +265,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/reception'
     | '/settings'
+    | '/blog/$slug'
     | '/booking/$code'
     | '/specialties/$slug'
     | '/.lovable/oauth/consent'
@@ -256,6 +276,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -270,6 +291,7 @@ export interface FileRouteTypes {
     | '/doctor'
     | '/reception'
     | '/settings'
+    | '/blog/$slug'
     | '/booking/$code'
     | '/specialties/$slug'
     | '/.lovable/oauth/consent'
@@ -281,6 +303,7 @@ export interface FileRouteTypes {
     | '/about-doctor'
     | '/auth'
     | '/awards'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/gallery'
@@ -295,6 +318,7 @@ export interface FileRouteTypes {
     | '/_authenticated/doctor'
     | '/_authenticated/reception'
     | '/_authenticated/settings'
+    | '/blog/$slug'
     | '/booking/$code'
     | '/specialties/$slug'
     | '/.lovable/oauth/consent'
@@ -307,6 +331,7 @@ export interface RootRouteChildren {
   AboutDoctorRoute: typeof AboutDoctorRoute
   AuthRoute: typeof AuthRoute
   AwardsRoute: typeof AwardsRoute
+  BlogRoute: typeof BlogRouteWithChildren
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
@@ -388,6 +413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/awards': {
       id: '/awards'
       path: '/awards'
@@ -436,6 +468,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/booking/$code'
       preLoaderRoute: typeof BookingCodeRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
@@ -504,6 +543,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 interface SpecialtiesRouteChildren {
   SpecialtiesSlugRoute: typeof SpecialtiesSlugRoute
 }
@@ -522,6 +571,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutDoctorRoute: AboutDoctorRoute,
   AuthRoute: AuthRoute,
   AwardsRoute: AwardsRoute,
+  BlogRoute: BlogRouteWithChildren,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,

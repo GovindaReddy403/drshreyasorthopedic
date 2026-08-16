@@ -9,6 +9,7 @@ import {
   HeartPulse,
   MapPin,
   Microscope,
+  PlayCircle,
   Quote,
   Route as RouteIcon,
   ScanLine,
@@ -24,6 +25,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { SPECIALTIES } from "@/lib/specialties";
 
 import gKnee from "@/assets/treat-knee.jpg";
@@ -565,6 +572,168 @@ export function TrustedExpertiseBand() {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Patient video stories                                                */
+/* ------------------------------------------------------------------ */
+
+const VIDEO_STORIES = [
+  {
+    image: gKnee,
+    name: "Ravi, 34 — ACL Reconstruction",
+    line: "Back to weekend football nine months after key-hole ACL surgery.",
+  },
+  {
+    image: gShoulder,
+    name: "Lakshmi, 58 — Rotator Cuff Repair",
+    line: "Pain-free sleep and full overhead movement after arthroscopic repair.",
+  },
+  {
+    image: gAnkle,
+    name: "Imran, 27 — Ankle Instability",
+    line: "No more twisting on uneven ground after ligament reconstruction and rehab.",
+  },
+];
+
+export function PatientVideoStories({
+  youtubeUrl,
+  reviewsUrl,
+}: {
+  youtubeUrl?: string | null;
+  reviewsUrl: string;
+}) {
+  return (
+    <section className="border-y border-border/60 bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Patient stories
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+            Recovery journeys, in patients&rsquo; own words
+          </h2>
+          <p className="mt-3 text-muted-foreground">
+            Short testimonial videos from patients treated for sports injuries, joint replacement
+            and trauma at the clinic.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {VIDEO_STORIES.map((v) => (
+            <a
+              key={v.name}
+              href={youtubeUrl ?? reviewsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group overflow-hidden rounded-3xl border border-border bg-card"
+            >
+              <div className="relative">
+                <img
+                  src={v.image}
+                  alt={v.name}
+                  loading="lazy"
+                  className="aspect-16/10 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute inset-0 flex items-center justify-center bg-primary/25">
+                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
+                    <PlayCircle className="h-7 w-7" />
+                  </span>
+                </span>
+              </div>
+              <div className="p-5">
+                <h3 className="font-display text-base font-semibold text-primary">{v.name}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{v.line}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <a href={youtubeUrl ?? reviewsUrl} target="_blank" rel="noreferrer">
+            <Button variant="outline" className="rounded-full">
+              Watch more patient stories
+            </Button>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* FAQs                                                                 */
+/* ------------------------------------------------------------------ */
+
+const FAQS = [
+  {
+    q: "Do I need an appointment, or can I walk in?",
+    a: "Walk-ins are accepted during consulting hours, but booking online guarantees a slot and keeps your waiting time short. Clinic hours are 5 PM to 9 PM, Monday to Saturday.",
+  },
+  {
+    q: "What should I bring for my first consultation?",
+    a: "Please carry any previous X-rays, MRI or CT scans, earlier prescriptions and a list of medications you currently take, including for diabetes, blood pressure or blood thinners.",
+  },
+  {
+    q: "Is arthroscopy (key-hole surgery) painful, and how long is the stay?",
+    a: "Arthroscopy is done through very small incisions, so pain is significantly less than open surgery. Most procedures are day-care or a single overnight stay, and walking usually starts the same day.",
+  },
+  {
+    q: "When can I return to work or sport after surgery?",
+    a: "Desk work is usually possible within one to two weeks. Return to sport after ligament reconstruction is cleared at 9 to 12 months, based on strength testing rather than dates alone.",
+  },
+  {
+    q: "Do you offer non-surgical treatment options?",
+    a: "Yes. Many conditions are managed with physiotherapy, activity modification, bracing, PRP and viscosupplementation injections. Surgery is advised only when it is genuinely the better option.",
+  },
+  {
+    q: "Can I get a second opinion on a surgery advised elsewhere?",
+    a: "Absolutely. Bring your scans and reports and you will get an honest assessment of whether surgery is required and what the alternatives are.",
+  },
+  {
+    q: "Are consultations available online?",
+    a: "Yes, follow-up and second-opinion consultations can be arranged over WhatsApp. First visits for a new problem are best done in person so a proper examination can be performed.",
+  },
+];
+
+export function FaqSection() {
+  return (
+    <section id="faqs" className="border-y border-border/60 bg-soft-blue">
+      <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Frequently asked questions
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+            Answers before your visit
+          </h2>
+        </div>
+        <Accordion type="single" collapsible className="mt-10 space-y-3">
+          {FAQS.map((f, i) => (
+            <AccordionItem
+              key={f.q}
+              value={`faq-${i}`}
+              className="overflow-hidden rounded-2xl border border-border bg-card px-5"
+            >
+              <AccordionTrigger className="text-left font-display text-base font-semibold text-primary hover:no-underline">
+                {f.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                {f.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+        <div className="mt-8 text-center">
+          <Link to="/contact">
+            <Button variant="outline" className="rounded-full">
+              Still have a question? Contact us
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
