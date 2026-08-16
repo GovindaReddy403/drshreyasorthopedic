@@ -479,11 +479,11 @@ function LandingPage() {
 
       <WhyChooseClinic />
       <CareRoadmap />
-      <AppointmentCtaBand />
-      <ClinicMap address={clinic.address} />
       <HomeBlogSection />
       <FaqSection />
+      <ClinicMap address={clinic.address} />
       <TrustedExpertiseBand />
+      <AppointmentCtaBand />
 
       <SiteFooter clinic={clinic} />
     </div>
