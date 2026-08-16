@@ -147,58 +147,6 @@ function LandingPage() {
 
       <HeroSlider phone={clinic.phone} />
 
-      {/* Hero */}
-      <section className="bg-hero-gradient">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 md:py-16 lg:px-8">
-          <div className="flex justify-center">
-            <div className="relative">
-              <div
-                className="absolute -inset-4 rounded-full bg-primary/10 blur-2xl"
-                aria-hidden
-              />
-              <img
-                src={heroImg}
-                alt={`${primaryDoctor?.name ?? clinic.doctor_name}, orthopedic surgeon`}
-                width={900}
-                height={900}
-                className="relative aspect-square w-[19rem] rounded-full object-cover shadow-[var(--shadow-glow)] sm:w-[23rem]"
-              />
-            </div>
-          </div>
-
-          <div>
-            <h1 className="font-display text-4xl font-bold text-primary sm:text-5xl">
-              {primaryDoctor?.name ?? clinic.doctor_name}
-            </h1>
-            <p className="mt-2 text-lg text-foreground/80">
-              Knee &amp; Shoulder Arthroscopy | Joint Replacement | Fractures &amp; Trauma
-            </p>
-            <ul className="mt-6 space-y-3">
-              {highlights.map((h) => (
-                <li key={h} className="flex gap-2 font-semibold text-foreground">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  <span>{h}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/book">
-                <Button size="lg" className="gap-2 rounded-full">
-                  Book An Appointment <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              {clinic.phone && (
-                <a href={`tel:${clinic.phone.replace(/\s/g, "")}`}>
-                  <Button size="lg" variant="outline" className="gap-2 rounded-full">
-                    <Phone className="h-4 w-4" /> {clinic.phone}
-                  </Button>
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Headline + CTA */}
       <section className="border-b border-border/60 bg-background">
         <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
@@ -230,6 +178,55 @@ function LandingPage() {
               </a>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* Centre of Excellence */}
+      <section className="border-b border-border/60 bg-background">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionHeader
+            eyebrow="Centre of Excellence"
+            title="Centre of Excellence For Arthroscopic Surgery, Joint Replacements, Sports Medicine Injuries, Ortho Biologics, Fracture & Trauma Care"
+            subtitle="Comprehensive orthopaedic care under one roof — from key-hole surgery and joint replacement to regenerative injections and complex trauma."
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {SPECIALTIES.map((s) => (
+              <Link key={s.slug} to="/specialties/$slug" params={{ slug: s.slug }}>
+                <Card className="h-full border-primary/10 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
+                  <CardContent className="flex h-full items-start gap-4 p-6">
+                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <BadgeCheck className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h3 className="font-display text-lg font-semibold text-primary">{s.title}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
+                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                        Read More <ArrowRight className="h-3.5 w-3.5" />
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About / Doctors */}
+      <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
+          title={doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`}
+        />
+        <div className="mt-10 space-y-16">
+          {doctors.map((doc, idx) => (
+            <DoctorProfile
+              key={doc.id}
+              doctor={doc}
+              image={idx === 0 ? doctorImg : doc.photo_url ?? doctorImg}
+              flip={idx % 2 === 1}
+            />
+          ))}
         </div>
       </section>
 
@@ -281,24 +278,6 @@ function LandingPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* About / Doctors */}
-      <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow={doctors.length > 1 ? "Meet the team" : "About the doctor"}
-          title={doctors.length > 1 ? "Our doctors" : `Meet ${primaryDoctor?.name ?? clinic.doctor_name}`}
-        />
-        <div className="mt-10 space-y-16">
-          {doctors.map((doc, idx) => (
-            <DoctorProfile
-              key={doc.id}
-              doctor={doc}
-              image={idx === 0 ? doctorImg : doc.photo_url ?? doctorImg}
-              flip={idx % 2 === 1}
-            />
-          ))}
         </div>
       </section>
 
