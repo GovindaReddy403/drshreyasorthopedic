@@ -46,6 +46,18 @@ import { ContactQR } from "@/components/contact-qr";
 import { FloatingActions } from "@/components/floating-actions";
 import { HeroSlider } from "@/components/hero-slider";
 import { SPECIALTIES } from "@/lib/specialties";
+import {
+  AppointmentCtaBand,
+  CareRoadmap,
+  CentreOfExcellence,
+  ClinicMap,
+  SpecialtyImageCards,
+  StatsBand,
+  SurgicalPhilosophy,
+  TrustedExpertiseBand,
+  WhyChooseClinic,
+  WhyPatientsTrust,
+} from "@/components/home-sections";
 
 
 import {
@@ -179,36 +191,10 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Centre of Excellence */}
-      <section className="border-b border-border/60 bg-background">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionHeader
-            eyebrow="Centre of Excellence"
-            title="Centre of Excellence For Arthroscopic Surgery, Joint Replacements, Sports Medicine Injuries, Ortho Biologics, Fracture & Trauma Care"
-            subtitle="Comprehensive orthopaedic care under one roof — from key-hole surgery and joint replacement to regenerative injections and complex trauma."
-          />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {SPECIALTIES.map((s) => (
-              <Link key={s.slug} to="/specialties/$slug" params={{ slug: s.slug }}>
-                <Card className="h-full border-primary/10 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
-                  <CardContent className="flex h-full items-start gap-4 p-6">
-                    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                      <BadgeCheck className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h3 className="font-display text-lg font-semibold text-primary">{s.title}</h3>
-                      <p className="mt-2 text-sm text-muted-foreground">{s.short}</p>
-                      <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent">
-                        Read More <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StatsBand />
+      <SpecialtyImageCards />
+      <CentreOfExcellence />
+
 
       {/* About / Doctors */}
       <section id="about" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -228,56 +214,8 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Trust stats */}
-      <section className="bg-soft-blue">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-accent">
-              Advanced Orthopaedic Care
-            </p>
-            <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
-              Trusted Orthopaedic Expertise
-            </h2>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {[
-              {
-                icon: Users,
-                eyebrow: "Academic Practice",
-                title: "Assistant Professor, JSS Hospital",
-                body: "Patient care, surgical training, teaching and academic research in Orthopaedics",
-              },
-              {
-                icon: Stethoscope,
-                eyebrow: "Surgical Focus",
-                title: "Arthroscopy & Trauma",
-                body: "Knee & Shoulder Arthroscopy | Ligament Reconstruction | Meniscal Surgery | Upper & Lower Limb Trauma",
-              },
-              {
-                icon: Trophy,
-                eyebrow: "Recognition",
-                title: "Fellowships & Memberships",
-                body: "Fellowships in India, Australia & Thailand · KOA & MOA Member",
-              },
-            ].map((s) => (
-              <Card key={s.title} className="h-full border-primary/10">
-                <CardContent className="p-6">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <s.icon className="h-5 w-5" />
-                  </span>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-accent">
-                    {s.eyebrow}
-                  </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold text-primary">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{s.body}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WhyPatientsTrust />
+
 
       {/* Treatments / Area of specialties — slider with Read More */}
       <section id="treatments" className="border-y border-border/60 bg-soft-blue">
@@ -460,7 +398,10 @@ function LandingPage() {
         </div>
       </section>
 
+      <SurgicalPhilosophy image={doctorImg} name={primaryDoctor?.name ?? clinic.doctor_name} />
+
       {/* Where to consult */}
+
       <section id="hours" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <SectionHeader eyebrow="Where to consult" title="Visit the clinic" />
         <div className="mt-10 grid gap-10 md:grid-cols-2">
@@ -520,6 +461,12 @@ function LandingPage() {
           </div>
         </div>
       </section>
+
+      <WhyChooseClinic />
+      <CareRoadmap />
+      <AppointmentCtaBand />
+      <ClinicMap address={clinic.address} />
+      <TrustedExpertiseBand />
 
       <SiteFooter clinic={clinic} />
     </div>
