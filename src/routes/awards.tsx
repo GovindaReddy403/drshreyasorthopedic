@@ -100,7 +100,7 @@ function AwardsPage() {
         <SectionHeader
           eyebrow="Milestones"
           title="Fellowships, memberships & recognition"
-          description="A career built on structured training at leading orthopaedic institutions across India and Australia."
+          description="A career built on structured training at leading orthopaedic institutions across India, Australia and Thailand."
         />
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {honours.map((h) => (
@@ -121,9 +121,9 @@ function AwardsPage() {
       <section className="border-y border-border/60 bg-soft-blue">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">
           {[
-            { k: "12+", v: "Years of orthopaedic practice" },
-            { k: "Knee · Shoulder · Ankle", v: "Core areas of expertise" },
-            { k: "KOA & MOA", v: "Professional memberships" },
+            { k: "3 Fellowships", v: "India · Australia · Thailand" },
+            { k: "Knee · Shoulder · Trauma", v: "Core areas of expertise" },
+            { k: "Assistant Professor", v: "JSS Hospital, Mysore" },
           ].map((s) => (
             <div key={s.v} className="rounded-2xl bg-card p-6 text-center shadow-[var(--shadow-soft)]">
               <p className="font-display text-2xl font-bold text-primary">{s.k}</p>
