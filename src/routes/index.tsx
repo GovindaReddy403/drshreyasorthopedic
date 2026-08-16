@@ -160,7 +160,7 @@ function LandingPage() {
         mapsUrl={clinic.google_maps_url ?? GOOGLE_REVIEWS_URL}
       />
 
-      <HeroSlider phone={clinic.phone} />
+      <HeroSlider phone={clinic.phone} whatsapp={clinic.whatsapp} />
 
       {/* Headline + CTA */}
       <section className="border-b border-border/60 bg-background">

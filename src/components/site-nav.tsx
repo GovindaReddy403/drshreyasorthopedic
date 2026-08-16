@@ -11,6 +11,7 @@ const links = [
   { label: "Gallery", to: "/gallery" as const },
   { label: "Awards", to: "/awards" as const },
   { label: "Media", to: "/media-coverage" as const },
+  { label: "Videos", to: "/videos" as const },
   { label: "Reviews", to: "/reviews" as const },
   { label: "Blog", to: "/blog" as const },
   { label: "Contact Us", to: "/contact" as const },
@@ -63,7 +64,28 @@ export function SiteNav({
 
   return (
     <header className="sticky top-0 z-40 w-full bg-hero-gradient/95 backdrop-blur">
+      {/* Utility bar (desktop) */}
+      <div className="hidden bg-primary text-primary-foreground lg:block">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 text-sm sm:px-6 lg:px-8">
+          {phone ? (
+            <a href={telHref} className="inline-flex items-center gap-2 font-medium">
+              <Phone className="h-3.5 w-3.5" /> {phone}
+            </a>
+          ) : (
+            <span className="text-xs uppercase tracking-widest opacity-80">
+              Mon–Sat · 5:00 PM – 9:00 PM
+            </span>
+          )}
+          <Link to="/book">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground px-4 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary-foreground/90">
+              <CalendarDays className="h-3.5 w-3.5" /> Book An Appointment
+            </span>
+          </Link>
+        </div>
+      </div>
+
       {/* Brand row */}
+
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" hash="top" className="flex items-center gap-3">
           <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground">

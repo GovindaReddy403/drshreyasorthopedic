@@ -121,28 +121,21 @@ function ContactPage() {
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
-            {clinic.google_maps_embed ? (
-              <iframe
-                title="Clinic location map"
-                src={clinic.google_maps_embed}
-                className="h-full min-h-[420px] w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            ) : (
-              <div className="flex h-full min-h-[420px] items-center justify-center bg-soft-blue p-8 text-center text-sm text-muted-foreground">
-                Map link:{" "}
-                <a
-                  className="ml-1 font-semibold text-primary underline"
-                  href={clinic.google_maps_url ?? GOOGLE_REVIEWS_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Open in Google Maps
-                </a>
-              </div>
-            )}
+            <iframe
+              title="Clinic location map"
+              src={
+                clinic.google_maps_embed ??
+                `https://www.google.com/maps?q=${encodeURIComponent(
+                  clinic.address ??
+                    "Dr Shreyas Orthopedic Clinic, Vivekananda Cir Rd, Vivekananda Nagar, Mysuru, Karnataka 570023",
+                )}&output=embed`
+              }
+              className="h-full min-h-[420px] w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
+
         </div>
       </section>
 

@@ -32,6 +32,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SPECIALTIES } from "@/lib/specialties";
+import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
 import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 
 import gKnee from "@/assets/treat-knee.jpg";
@@ -586,24 +587,6 @@ export function TrustedExpertiseBand() {
 /* Patient video stories                                                */
 /* ------------------------------------------------------------------ */
 
-const VIDEO_STORIES = [
-  {
-    image: gKnee,
-    name: "Ravi, 34 — ACL Reconstruction",
-    line: "Back to weekend football nine months after key-hole ACL surgery.",
-  },
-  {
-    image: gShoulder,
-    name: "Lakshmi, 58 — Rotator Cuff Repair",
-    line: "Pain-free sleep and full overhead movement after arthroscopic repair.",
-  },
-  {
-    image: gAnkle,
-    name: "Imran, 27 — Ankle Instability",
-    line: "No more twisting on uneven ground after ligament reconstruction and rehab.",
-  },
-];
-
 export function PatientVideoStories({
   youtubeUrl,
   reviewsUrl,
@@ -611,6 +594,9 @@ export function PatientVideoStories({
   youtubeUrl?: string | null;
   reviewsUrl: string;
 }) {
+  const featuredId = youtubeVideoId(youtubeUrl);
+  const cards = CLINIC_VIDEOS.slice(0, 3);
+
   return (
     <section className="border-y border-border/60 bg-background">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -622,45 +608,63 @@ export function PatientVideoStories({
             Recovery journeys, in patients&rsquo; own words
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Short testimonial videos from patients treated for sports injuries, joint replacement
-            and trauma at the clinic.
+            Short testimonial and patient-education videos from the clinic — sports injuries, joint
+            replacement, trauma care and rehabilitation.
           </p>
         </div>
 
+        <div className="mx-auto mt-10 max-w-4xl overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-soft)]">
+          {featuredId ? (
+            <iframe
+              title="Patient story video"
+              src={youtubeEmbedSrc(featuredId, { autoplay: true })}
+              className="aspect-video w-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 bg-soft-blue text-center">
+              <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
+                <PlayCircle className="h-8 w-8" />
+              </span>
+              <p className="font-display text-lg font-semibold text-primary">Video coming soon</p>
+              <p className="max-w-md px-6 text-sm text-muted-foreground">
+                Patient story films are being recorded at the clinic and will appear here shortly.
+              </p>
+            </div>
+          )}
+        </div>
+
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {VIDEO_STORIES.map((v) => (
-            <a
-              key={v.name}
-              href={youtubeUrl ?? reviewsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="group overflow-hidden rounded-3xl border border-border bg-card"
-            >
-              <div className="relative">
-                <img
-                  src={v.image}
-                  alt={v.name}
-                  loading="lazy"
-                  className="aspect-16/10 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute inset-0 flex items-center justify-center bg-primary/25">
-                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
-                    <PlayCircle className="h-7 w-7" />
-                  </span>
+          {cards.map((v) => (
+            <div key={v.title} className="card-lift overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="flex aspect-16/10 items-center justify-center bg-soft-blue">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
+                  <PlayCircle className="h-7 w-7" />
                 </span>
               </div>
               <div className="p-5">
-                <h3 className="font-display text-base font-semibold text-primary">{v.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{v.line}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+                  {v.category}
+                </p>
+                <h3 className="mt-2 font-display text-base font-semibold text-primary">{v.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{v.description}</p>
+                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Video coming soon
+                </p>
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link to="/videos">
+            <Button className="rounded-full">Watch more patient stories</Button>
+          </Link>
           <a href={youtubeUrl ?? reviewsUrl} target="_blank" rel="noreferrer">
             <Button variant="outline" className="rounded-full">
-              Watch more patient stories
+              View all videos
             </Button>
           </a>
         </div>
@@ -668,6 +672,7 @@ export function PatientVideoStories({
     </section>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* FAQs                                                                 */

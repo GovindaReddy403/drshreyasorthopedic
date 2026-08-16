@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Check, MessageCircle, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +28,7 @@ type Slide = {
   body: string;
   href: string;
   portrait?: boolean;
+  bullets?: string[];
 };
 
 const SLIDES: Slide[] = [
@@ -38,7 +39,13 @@ const SLIDES: Slide[] = [
     body: "Assistant Professor, JSS Hospital, Mysore. Fellowship trained in Arthroscopy & Sports Medicine — India, Australia & Thailand.",
     href: "/about-doctor",
     portrait: true,
+    bullets: [
+      "Orthopaedic Surgeon — Fellowship in Arthroscopy & Sports Medicine",
+      "Assistant Professor, JSS Hospital, Mysore",
+      "Advanced Technologies in Orthopaedics",
+    ],
   },
+
   {
     image: sArthro,
     eyebrow: "Advanced Orthopaedic Care",
@@ -69,8 +76,15 @@ const SLIDES: Slide[] = [
   },
 ];
 
-export function HeroSlider({ phone }: { phone?: string | null }) {
+export function HeroSlider({
+  phone,
+  whatsapp,
+}: {
+  phone?: string | null;
+  whatsapp?: string | null;
+}) {
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const waHref = whatsapp ? `https://wa.me/91${whatsapp.replace(/\D/g, "")}` : undefined;
 
   return (
     <section className="relative">
@@ -118,7 +132,29 @@ export function HeroSlider({ phone }: { phone?: string | null }) {
                       {s.title}
                     </h2>
                     <p className="mt-4 max-w-xl text-sm opacity-90 sm:text-base">{s.body}</p>
+                    {s.bullets && (
+                      <ul className="mt-5 space-y-2 text-sm sm:text-base">
+                        {s.bullets.map((b) => (
+                          <li key={b} className="flex items-start gap-2">
+                            <Check className="mt-1 h-4 w-4 shrink-0 opacity-90" />
+                            <span className="opacity-95">{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                     <div className="mt-7 flex flex-wrap gap-3">
+                      {s.bullets && waHref && (
+                        <a href={waHref} target="_blank" rel="noreferrer">
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className="gap-2 rounded-full border-primary-foreground/60 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                          >
+                            <MessageCircle className="h-4 w-4" /> Consult Online via WhatsApp
+                          </Button>
+                        </a>
+                      )}
+
                       <Link to="/book">
                         <Button size="lg" variant="secondary" className="gap-2 rounded-full">
                           Book An Appointment <ArrowRight className="h-4 w-4" />

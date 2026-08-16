@@ -181,3 +181,15 @@
   border: 1px solid color-mix(in oklab, var(--border) 100%, transparent);
   box-shadow: var(--shadow-soft);
 }
+
+@utility bg-ice-blue {
+  background-color: #dfeef4;
+}
+
+@utility card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+  }
+}
