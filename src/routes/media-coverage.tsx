@@ -1,3 +1,4 @@
+import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Newspaper, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,16 @@ export const Route = createFileRoute("/media-coverage")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: absUrl("/media-coverage") },
+      { property: "og:image", content: OG_IMAGE },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: absUrl("/media-coverage") }],
+    scripts: [
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "Media", path: "/media-coverage" },
+      ]),
     ],
   }),
   loader: async ({ context }) => {
