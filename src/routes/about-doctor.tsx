@@ -124,14 +124,23 @@ function AboutDoctorPage() {
             <div id="overview" className="scroll-mt-28 pt-8">
               <SectionHeader align="left" title="Overview" />
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                {doc?.about ??
-                  "Dr. Shreyas M.J is an orthopaedic surgeon focused on restoring movement through precise, minimally invasive care. He completed MBBS and MS (Orthopaedics) at JSS Medical College & Hospitals, began his career as Senior Resident at the Sanjay Gandhi Institute of Trauma & Orthopaedics, and pursued a Fellowship in Arthroscopy and Sports Medicine at Fortis Hospital under Dr. Chirag N Thonse, later serving as Senior Registrar there."}
+                Dr. Shreyas M. J. is a qualified Orthopaedic Surgeon with specialised training and
+                extensive experience in Arthroscopy, Sports Medicine, Knee and Shoulder Surgery, and
+                Upper and Lower Limb Trauma. He completed his MBBS and MS (Orthopaedics) at JSS
+                Medical College and Hospital, Mysore.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                He began his professional career as a Senior Resident in the Department of
+                Orthopaedics at the Sanjay Gandhi Institute of Trauma &amp; Orthopaedics, Bengaluru,
+                where he gained significant experience in trauma management and complex orthopaedic
+                care. He integrates strong academic training, international fellowship experience and
+                clinical expertise to deliver evidence-based, patient-centred orthopaedic care.
               </p>
               <TickList
                 items={[
                   {
-                    title: "Patient-first approach",
-                    body: "Clear diagnosis, transparent plan and recovery guidance at every visit.",
+                    title: "Assistant Professor, JSS Hospital, Mysore",
+                    body: "Department of Orthopaedics — patient care, surgical training, teaching and academic research.",
                   },
                   {
                     title: "Minimally invasive focus",
@@ -139,23 +148,35 @@ function AboutDoctorPage() {
                   },
                   {
                     title: "Sports injury expertise",
-                    body: "Knee, shoulder and ankle injuries with structured rehab planning.",
+                    body: "Knee, shoulder and sports injuries with structured rehabilitation planning.",
                   },
                   {
                     title: "Trauma & joint replacement",
-                    body: "Complex fracture care and joint replacement with modern implants.",
+                    body: "Upper and lower limb trauma and joint replacement with modern implants.",
                   },
                 ]}
               />
             </div>
 
             <div id="membership" className="scroll-mt-28 pt-12">
-              <SectionHeader align="left" title="Fellowship & Membership" />
+              <SectionHeader align="left" title="Advanced Fellowship Training & Membership" />
               <TickList
                 items={[
                   {
-                    title: "Fellowship in Arthroscopy & Sports Medicine (India & Australia)",
-                    body: "Knee, shoulder and sports injury management.",
+                    title: "Fellowship in Arthroscopy & Sports Medicine, Fortis Hospital",
+                    body: "Under the mentorship of Dr. Chirag N. Thonse.",
+                  },
+                  {
+                    title: "Senior Registrar, Dept. of Orthopaedics, Fortis Hospital",
+                    body: "Extensive exposure to arthroscopic and sports injury procedures.",
+                  },
+                  {
+                    title: "Fellowship in Arthroscopy & Upper Limb Trauma, Sydney, Australia",
+                    body: "Under Dr. Jonathan Herald — advanced arthroscopic techniques and upper limb trauma management.",
+                  },
+                  {
+                    title: "Fellowship in Arthroscopy (Knee & Shoulder), Thammasat University, Bangkok",
+                    body: "Under Dr. Bancha Chernchujit — focused training in advanced knee and shoulder arthroscopy.",
                   },
                   {
                     title: "KOA & MOA Member",
@@ -166,16 +187,45 @@ function AboutDoctorPage() {
             </div>
 
             <div id="expertise" className="scroll-mt-28 pt-12">
-              <SectionHeader align="left" title="Field of Expertise" />
+              <SectionHeader align="left" title="Areas of Special Interest" />
               <TickList
                 items={[
-                  { title: "Knee", body: "ACL/PCL injuries, meniscus tears, cartilage damage, arthritis." },
-                  { title: "Shoulder", body: "Rotator cuff tears, instability, SLAP/Bankart lesions, frozen shoulder." },
-                  { title: "Ankle & Foot", body: "Ligament injuries, ankle arthroscopy, sprains and deformity care." },
-                  { title: "Trauma & Replacement", body: "Complex fractures, spine injury and joint replacement." },
+                  { title: "Knee Arthroscopy", body: "ACL/PCL reconstruction, cartilage procedures and sports injuries." },
+                  { title: "Shoulder Arthroscopy", body: "Rotator cuff repair, shoulder instability, SLAP/Bankart lesions." },
+                  { title: "Ligament & Meniscal Surgery", body: "Ligament reconstruction and meniscal repair or trimming." },
+                  { title: "Upper Limb Trauma & Sports Medicine", body: "Complex upper and lower limb trauma with return-to-sport planning." },
                 ]}
               />
             </div>
+
+            <div id="regenerative" className="scroll-mt-28 pt-12">
+              <SectionHeader align="left" title="Regenerative & Non-Surgical Treatments" />
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                Dr. Shreyas also offers PRP (Platelet-Rich Plasma) therapy and Hylast (Hyaluronic
+                Acid) injections for appropriately selected patients. PRP may be considered for
+                certain sports injuries, tendon and ligament conditions, while Hylast injections may
+                help improve pain, mobility and joint function in selected patients with
+                osteoarthritis and degenerative joint conditions.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Treatment is recommended following a detailed clinical assessment and appropriate
+                imaging, with an individualised approach based on the patient's condition and
+                requirements.
+              </p>
+              <TickList
+                items={[
+                  {
+                    title: "PRP (Platelet-Rich Plasma) therapy",
+                    body: "For selected sports injuries, tendon and ligament conditions.",
+                  },
+                  {
+                    title: "Hylast (Hyaluronic Acid) injections",
+                    body: "To improve pain, mobility and joint function in selected osteoarthritis patients.",
+                  },
+                ]}
+              />
+            </div>
+
 
             <div id="languages" className="scroll-mt-28 pt-12">
               <SectionHeader align="left" title="Languages Spoken" />
