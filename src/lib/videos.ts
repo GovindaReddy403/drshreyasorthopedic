@@ -3,6 +3,10 @@ export type ClinicVideo = {
   description: string;
   category: string;
   youtubeId?: string | null;
+  /** Display duration, e.g. "4:12". */
+  duration?: string;
+  /** Optional thumbnail; falls back to a themed placeholder. */
+  thumbnail?: string;
 };
 
 /** Extract a YouTube video id from any common YouTube URL form. */
@@ -37,30 +41,36 @@ export const CLINIC_VIDEOS: ClinicVideo[] = [
     title: "ACL reconstruction — a patient's recovery journey",
     description: "Key-hole ligament surgery and the return to weekend sport, explained step by step.",
     category: "Patient story",
+    duration: "3:48",
   },
   {
     title: "Rotator cuff repair — sleeping pain-free again",
     description: "What arthroscopic shoulder repair involves and how rehabilitation progresses.",
     category: "Patient story",
+    duration: "4:12",
   },
   {
     title: "Ankle instability — no more twisting on uneven ground",
     description: "Ligament reconstruction and balance retraining for a stable ankle.",
     category: "Patient story",
+    duration: "3:05",
   },
   {
     title: "Knee replacement: what to expect on the day of surgery",
     description: "Admission, anaesthesia, walking the same day and going home.",
     category: "Patient education",
+    duration: "5:20",
   },
   {
     title: "Exercises after knee arthroscopy — weeks 1 to 6",
     description: "A simple home programme to restore movement and quadriceps strength.",
     category: "Patient education",
+    duration: "6:02",
   },
   {
     title: "PRP and ortho biologics — who actually benefits?",
     description: "How platelet-rich plasma works and which conditions respond to it.",
     category: "Patient education",
+    duration: "4:35",
   },
 ];
