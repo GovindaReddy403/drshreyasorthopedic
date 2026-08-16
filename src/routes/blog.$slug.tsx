@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, CalendarDays, Clock } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { BLOG_POSTS, formatPostDate, getPost } from "@/lib/blog";
+import { ARTICLE_SECTIONS } from "@/lib/blog-longform";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ context, params }) => {
@@ -13,13 +14,14 @@ export const Route = createFileRoute("/blog/$slug")({
     await context.queryClient.ensureQueryData(clinicQO);
     return { post };
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
         meta: [{ title: "Article not found | Dr. Shreyas Orthopedic Clinic" }, { name: "robots", content: "noindex" }],
       };
     }
     const { post } = loaderData;
+    const url = `https://drshreyasorthopedic.lovable.app/blog/${params.slug}`;
     return {
       meta: [
         { title: `${post.title} | Dr. Shreyas Orthopedic Clinic` },
@@ -27,7 +29,22 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.excerpt },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            description: post.excerpt,
+            datePublished: post.date,
+            author: { "@type": "Person", name: "Dr. Shreyas M.J" },
+          }),
+        },
       ],
     };
   },
@@ -50,6 +67,7 @@ function PostNotFound() {
 
 function BlogPostPage() {
   const { post } = Route.useLoaderData();
+  const sections = ARTICLE_SECTIONS[post.slug];
   const related = BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
@@ -57,6 +75,18 @@ function BlogPostPage() {
       <PageHero eyebrow={post.category} title={post.title} subtitle={post.excerpt} crumb="Blog" />
 
       <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+          <Link to="/" className="hover:text-primary">
+            Home
+          </Link>
+          <span>/</span>
+          <Link to="/blog" className="hover:text-primary">
+            Blog
+          </Link>
+          <span>/</span>
+          <span className="text-foreground">{post.category}</span>
+        </nav>
+
         <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <CalendarDays className="h-3.5 w-3.5" /> {formatPostDate(post.date)}
@@ -70,11 +100,47 @@ function BlogPostPage() {
           alt={post.title}
           className="mt-6 aspect-16/9 w-full rounded-3xl object-cover"
         />
-        <div className="mt-8 space-y-5 text-base leading-relaxed text-foreground/85">
-          {post.body.map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
+
+        {sections ? (
+          <div className="mt-8 space-y-8">
+            {sections.map((s) => (
+              <section key={s.heading}>
+                <h2 className="font-display text-xl font-bold text-primary sm:text-2xl">{s.heading}</h2>
+                <div className="mt-3 space-y-4 text-base leading-relaxed text-foreground/85">
+                  {s.paragraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8 space-y-5 text-base leading-relaxed text-foreground/85">
+            {post.body.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-10 flex gap-4 rounded-2xl border border-border bg-card p-6">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-soft-blue text-primary">
+            <Stethoscope className="h-6 w-6" />
+          </span>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">About the author</p>
+            <h3 className="mt-1 font-display text-lg font-semibold text-primary">Dr. Shreyas M.J</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Consultant Orthopaedic Surgeon in Mysuru specialising in arthroscopy of the knee and
+              shoulder, joint replacement, foot &amp; ankle surgery and trauma care. Fellowship-trained
+              in arthroscopy and sports medicine (India, Australia and Thailand) and Assistant
+              Professor at JSS Hospital.
+            </p>
+            <Link to="/about-doctor" className="mt-3 inline-block text-sm font-semibold text-accent">
+              Read full profile →
+            </Link>
+          </div>
         </div>
+
         <p className="mt-8 rounded-2xl border border-border bg-muted/40 p-5 text-sm text-muted-foreground">
           This article is general information and not a substitute for a clinical examination. For
           advice on your specific problem, book a consultation at the clinic.

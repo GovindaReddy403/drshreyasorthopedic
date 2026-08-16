@@ -8,7 +8,7 @@ import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
 
 
-export const Route = createFileRoute("/specialties")({
+export const Route = createFileRoute("/specialties/")({
   head: () => ({
     meta: [
       { title: "Area of Specialties | Knee, Shoulder & Ankle Surgeon in Mysuru" },

@@ -7,7 +7,7 @@ import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
 import { BLOG_POSTS, formatPostDate } from "@/lib/blog";
 
-export const Route = createFileRoute("/blog")({
+export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
       { title: "Orthopaedic Health Blog | Dr. Shreyas M.J, Mysuru" },
