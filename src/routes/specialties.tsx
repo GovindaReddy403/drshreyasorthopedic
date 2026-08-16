@@ -5,12 +5,8 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gArthro from "@/assets/treat-arthroscopy.jpg";
-import gPhysio from "@/assets/treat-physio.jpg";
-import gXray from "@/assets/treat-xray.jpg";
+import { SPECIALTIES } from "@/lib/specialties";
+
 
 export const Route = createFileRoute("/specialties")({
   head: () => ({
@@ -98,31 +94,37 @@ function SpecialtiesPage() {
           description="Every plan starts with an accurate diagnosis, followed by the least invasive treatment that restores function."
         />
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {focus.map((f) => (
+          {SPECIALTIES.map((f) => (
             <article
-              key={f.title}
-              className="group overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
+              key={f.slug}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
             >
               <img
-                src={f.img}
+                src={f.image}
                 alt={`${f.title} treatment at Dr. Shreyas Orthopedic Clinic`}
                 className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
-              <div className="p-6">
+              <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-lg font-semibold text-primary">{f.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{f.short}</p>
                 <ul className="mt-4 space-y-1 text-sm text-foreground/80">
-                  {f.points.map((p) => (
+                  {f.conditions.slice(0, 4).map((p) => (
                     <li key={p} className="flex items-center gap-2">
                       <ArrowRight className="h-3.5 w-3.5 text-accent" /> {p}
                     </li>
                   ))}
                 </ul>
+                <Link to="/specialties/$slug" params={{ slug: f.slug }} className="mt-5">
+                  <Button variant="outline" size="sm" className="gap-1 rounded-full">
+                    Read More <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </Link>
               </div>
             </article>
           ))}
         </div>
+
       </section>
 
       <section className="border-y border-border/60 bg-soft-blue">

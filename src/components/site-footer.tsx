@@ -69,12 +69,20 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
         </div>
         <div>
           <h4 className="text-sm font-semibold">Quick links</h4>
-          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+          <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            <li><Link to="/about-doctor" className="hover:text-foreground">About the Doctor</Link></li>
+            <li><Link to="/specialties" className="hover:text-foreground">Area of Specialties</Link></li>
+            <li><Link to="/gallery" className="hover:text-foreground">Gallery</Link></li>
+            <li><Link to="/awards" className="hover:text-foreground">Awards</Link></li>
+            <li><Link to="/media-coverage" className="hover:text-foreground">Media Coverage</Link></li>
+            <li><Link to="/reviews" className="hover:text-foreground">Reviews</Link></li>
+            <li><Link to="/contact" className="hover:text-foreground">Contact Us</Link></li>
             <li><Link to="/book" className="hover:text-foreground">Book appointment</Link></li>
             <li><Link to="/manage" className="hover:text-foreground">Manage appointment</Link></li>
             <li><Link to="/auth" className="hover:text-foreground">Staff login</Link></li>
           </ul>
         </div>
+
       </div>
       <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} {clinic.clinic_name}. All rights reserved.

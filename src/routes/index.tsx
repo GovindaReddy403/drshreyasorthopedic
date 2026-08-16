@@ -46,6 +46,8 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ContactQR } from "@/components/contact-qr";
 import { FloatingActions } from "@/components/floating-actions";
+import { SPECIALTIES } from "@/lib/specialties";
+
 
 import {
   fetchClinic,
@@ -110,6 +112,8 @@ function LandingPage() {
 
   const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
   const reviewsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
+  const specialtiesAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false }));
+
 
   const waHref = clinic.whatsapp
     ? `https://wa.me/91${clinic.whatsapp.replace(/\D/g, "")}`
@@ -295,7 +299,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Treatments / Area of specialties */}
+      {/* Treatments / Area of specialties — slider with Read More */}
       <section id="treatments" className="border-y border-border/60 bg-soft-blue">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <SectionHeader
@@ -303,31 +307,56 @@ function LandingPage() {
             title="Conditions & procedures we treat"
             subtitle="Every consultation includes a full history review, examination and a personalised plan."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {treatments.map((t) => (
-              <Card
-                key={t.id}
-                className="group border-primary/10 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
-              >
-                <CardContent className="flex h-full flex-col p-6">
-                  <h3 className="font-display text-xl font-semibold text-primary">{t.name}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground">{t.description}</p>
-                  <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Clock className="h-4 w-4" /> {t.duration_minutes} min
-                    </span>
-                    <Link to="/book" search={{ treatment: t.id }}>
-                      <Button size="sm" variant="ghost" className="gap-1">
-                        Book <ArrowRight className="h-3.5 w-3.5" />
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="mt-10">
+            <Carousel
+              opts={{ align: "start", loop: true }}
+              plugins={[specialtiesAutoplay.current]}
+              className="w-full"
+            >
+              <CarouselContent>
+                {SPECIALTIES.map((s) => (
+                  <CarouselItem key={s.slug} className="md:basis-1/2 lg:basis-1/3">
+                    <Card className="h-full overflow-hidden border-primary/10 py-0 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
+                      <img
+                        src={s.image}
+                        alt={s.title}
+                        loading="lazy"
+                        className="aspect-4/3 w-full object-cover"
+                      />
+                      <CardContent className="flex h-full flex-col p-6">
+                        <h3 className="font-display text-xl font-semibold text-primary">{s.title}</h3>
+                        <p className="mt-3 text-sm text-muted-foreground">{s.short}</p>
+                        <div className="mt-6 flex items-center justify-between pb-6">
+                          <Link to="/specialties/$slug" params={{ slug: s.slug }}>
+                            <Button size="sm" variant="outline" className="gap-1 rounded-full">
+                              Read More <ArrowRight className="h-3.5 w-3.5" />
+                            </Button>
+                          </Link>
+                          <Link to="/book">
+                            <Button size="sm" variant="ghost" className="gap-1">
+                              Book <ArrowRight className="h-3.5 w-3.5" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex" />
+              <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+          </div>
+          <div className="mt-8 text-center">
+            <Link to="/specialties">
+              <Button variant="outline" className="rounded-full">
+                View all specialties
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
+
 
       {/* Gallery */}
       <section id="gallery" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
