@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VideosRouteImport } from './routes/videos'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as MediaCoverageRouteImport } from './routes/media-coverage'
@@ -35,6 +36,11 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
+const VideosRoute = VideosRouteImport.update({
+  id: '/videos',
+  path: '/videos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/videos': typeof VideosRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/doctor': typeof AuthenticatedDoctorRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/videos': typeof VideosRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/doctor': typeof AuthenticatedDoctorRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/media-coverage': typeof MediaCoverageRoute
   '/reviews': typeof ReviewsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/videos': typeof VideosRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
@@ -258,6 +267,7 @@ export interface FileRouteTypes {
     | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
+    | '/videos'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/doctor'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
+    | '/videos'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/doctor'
@@ -311,6 +322,7 @@ export interface FileRouteTypes {
     | '/media-coverage'
     | '/reviews'
     | '/sitemap.xml'
+    | '/videos'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/doctor'
@@ -339,6 +351,7 @@ export interface RootRouteChildren {
   MediaCoverageRoute: typeof MediaCoverageRoute
   ReviewsRoute: typeof ReviewsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  VideosRoute: typeof VideosRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -352,6 +365,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/videos': {
+      id: '/videos'
+      path: '/videos'
+      fullPath: '/videos'
+      preLoaderRoute: typeof VideosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -559,6 +579,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaCoverageRoute: MediaCoverageRoute,
   ReviewsRoute: ReviewsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  VideosRoute: VideosRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
