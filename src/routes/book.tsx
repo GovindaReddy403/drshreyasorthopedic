@@ -42,8 +42,11 @@ export const Route = createFileRoute("/book")({
   },
   head: () => ({
     meta: [
-      { title: "Book appointment — Meridian Family Clinic" },
-      { name: "description", content: "Book your appointment in under a minute. No account needed." },
+      { title: "Book Appointment | Dr. Shreyas Orthopedic Clinic" },
+      {
+        name: "description",
+        content: "Book an orthopaedic consultation with Dr. Shreyas M.J in Mysuru in under a minute. No account needed.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
