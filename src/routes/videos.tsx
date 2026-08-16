@@ -90,10 +90,15 @@ function VideosPage() {
                 key={v.title}
                 className="card-lift overflow-hidden rounded-2xl border border-border bg-card"
               >
-                <div className="flex aspect-16/10 items-center justify-center bg-soft-blue">
+                <div className="relative flex aspect-16/10 items-center justify-center bg-soft-blue">
                   <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
                     <PlayCircle className="h-7 w-7" />
                   </span>
+                  {v.duration && (
+                    <span className="absolute bottom-2 right-2 rounded bg-primary/90 px-2 py-0.5 text-[11px] font-semibold text-primary-foreground">
+                      {v.duration}
+                    </span>
+                  )}
                 </div>
                 <div className="p-5">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
