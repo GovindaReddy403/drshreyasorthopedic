@@ -43,14 +43,14 @@ import clinic1 from "@/assets/clinic-1.jpg";
 /* ------------------------------------------------------------------ */
 
 const STATS = [
-  { icon: Trophy, value: "12+", label: "Years of Orthopaedic Practice", primary: true },
-  { icon: Scissors, value: "5,000+", label: "Surgeries Performed" },
-  { icon: Users, value: "20,000+", label: "Patients Treated" },
-  { icon: Activity, value: "2,000+", label: "Knee Arthroscopies" },
-  { icon: Bone, value: "1,500+", label: "Joint Replacements" },
-  { icon: HeartPulse, value: "1,000+", label: "Shoulder Arthroscopies" },
-  { icon: ShieldCheck, value: "1,200+", label: "Trauma & Fracture Cases" },
-  { icon: Sparkles, value: "4", label: "Fellowships — India, Australia, Thailand" },
+  { icon: Trophy, value: "15+", label: "Years of Experience", primary: true },
+  { icon: Scissors, value: "5,000+", label: "Orthopaedic Surgeries Performed" },
+  { icon: Users, value: "20,000+", label: "Happy Patients" },
+  { icon: Activity, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
+  { icon: Bone, value: "1,500+", label: "Joint Replacement Surgeries" },
+  { icon: HeartPulse, value: "1,000+", label: "Shoulder Arthroscopy Surgeries" },
+  { icon: ShieldCheck, value: "500+", label: "Trauma & Fracture Cases" },
+  { icon: Sparkles, value: "100+", label: "Robotic-Assisted Knee Replacements" },
 ];
 
 export function StatsBand() {
@@ -59,7 +59,7 @@ export function StatsBand() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
-            Surgical Track Record
+            Surgical Track Record & Clinical Statistics
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
             High-volume orthopaedic expertise backed by verifiable surgical numbers
@@ -254,7 +254,7 @@ const TRUST_CARDS = [
   },
   {
     icon: Stethoscope,
-    title: "Academic Practice at JSS Hospital",
+    title: "Assistant Professor at JSS Hospital",
     body: "Assistant Professor in Orthopaedics — teaching, research and complex case exposure every week.",
   },
   {
@@ -264,13 +264,13 @@ const TRUST_CARDS = [
   },
   {
     icon: Syringe,
-    title: "Ortho Biologics (Non-Surgical)",
+    title: "Ortho Biologics & PRP (Non-Surgical)",
     body: "PRP, viscosupplementation and image-guided injections for early arthritis and tendon pain.",
   },
   {
-    icon: Dumbbell,
-    title: "Structured Rehabilitation",
-    body: "Milestone-based physiotherapy plans that guide you safely back to work and sport.",
+    icon: Trophy,
+    title: "International Fellowships",
+    body: "Advanced arthroscopy and sports medicine training in India, Australia and Thailand.",
   },
   {
     icon: MapPin,
@@ -285,10 +285,10 @@ export function WhyPatientsTrust() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
-            Why Patients Trust
+            Why Patients Trust Us
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
-            Care built on training, technique and follow-through
+            Why Patients Across Mysuru Trust Dr. Shreyas
           </h2>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -327,7 +327,10 @@ export function SurgicalPhilosophy({ image, name }: { image: string; name: strin
         </div>
         <div className="md:col-span-3">
           <Quote className="h-9 w-9 text-accent" />
-          <p className="mt-4 font-display text-xl leading-relaxed text-primary sm:text-2xl">
+          <p className="mt-4 text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Surgical Philosophy
+          </p>
+          <p className="mt-3 font-display text-xl leading-relaxed text-primary sm:text-2xl">
             “I combine advanced international surgical precision with localized, empathetic patient
             care — the right operation at the right time, and never an operation that can be
             avoided.”
@@ -471,14 +474,14 @@ export function AppointmentCtaBand() {
     <section className="bg-accent text-accent-foreground">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-4 py-10 text-center sm:px-6 md:flex-row md:text-left lg:px-8">
         <p className="font-display text-xl font-semibold sm:text-2xl">
-          You can request an appointment online — we will confirm your slot right away.
+          Request an appointment with Dr. Shreyas Orthopedic Clinic online
         </p>
         <Link to="/book">
           <Button
             size="lg"
             className="gap-2 rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary/90"
           >
-            <CalendarDays className="h-4 w-4" /> Book An Appointment
+            <CalendarDays className="h-4 w-4" /> BOOK AN APPOINTMENT
           </Button>
         </Link>
       </div>
