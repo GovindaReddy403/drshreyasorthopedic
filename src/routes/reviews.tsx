@@ -1,0 +1,88 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PageShell } from "@/components/page-shell";
+import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
+import { clinicQO, testimonialsQO, GOOGLE_REVIEWS_URL } from "@/lib/queries";
+
+export const Route = createFileRoute("/reviews")({
+  head: () => ({
+    meta: [
+      { title: "Patient Reviews | Dr. Shreyas Orthopedic Clinic, Mysuru" },
+      {
+        name: "description",
+        content:
+          "Read patient experiences and reviews for Dr. Shreyas M.J, orthopaedic and arthroscopy surgeon in Mysuru.",
+      },
+      { property: "og:title", content: "Patient Reviews — Dr. Shreyas Orthopedic Clinic" },
+      {
+        property: "og:description",
+        content: "What patients say about knee, shoulder and ankle care at the clinic.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(clinicQO),
+      context.queryClient.ensureQueryData(testimonialsQO),
+    ]);
+  },
+  component: ReviewsPage,
+});
+
+function ReviewsPage() {
+  const { data: reviews } = useSuspenseQuery(testimonialsQO);
+
+  return (
+    <PageShell>
+      <PageHero
+        eyebrow="Patient experiences"
+        title="Reviews"
+        subtitle="Feedback from patients treated for knee, shoulder, ankle, trauma and joint replacement care."
+        crumb="Reviews"
+      />
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow="Testimonials"
+          title="What our patients say"
+          description="Verified reviews are also available on our Google Business profile."
+        />
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {reviews.map((r) => (
+            <blockquote key={r.id} className="glass-card rounded-2xl p-6">
+              <div className="flex gap-1 text-warning">
+                {Array.from({ length: r.rating }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-current" />
+                ))}
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">{r.content}</p>
+              <footer className="mt-4 text-sm font-semibold text-primary">— {r.patient_name}</footer>
+            </blockquote>
+          ))}
+        </div>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+            <Button variant="outline" className="rounded-full">
+              Read reviews on Google
+            </Button>
+          </a>
+          <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+            <Button className="rounded-full">Write a review</Button>
+          </a>
+        </div>
+      </section>
+
+      <CtaBand>
+        <Link to="/book">
+          <Button size="lg" variant="secondary" className="rounded-full">
+            Book An Appointment
+          </Button>
+        </Link>
+      </CtaBand>
+    </PageShell>
+  );
+}

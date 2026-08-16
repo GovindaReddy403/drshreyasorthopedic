@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const links = [
-  { label: "Home", hash: "top" },
-  { label: "About the Doctor", hash: "about" },
-  { label: "Area of Specialties", hash: "treatments" },
-  { label: "Gallery", hash: "gallery" },
-  { label: "Reviews", hash: "testimonials" },
-  { label: "Contact Us", hash: "hours" },
+  { label: "Home", to: "/" as const },
+  { label: "About the Doctor", to: "/about-doctor" as const },
+  { label: "Area of Specialties", to: "/specialties" as const },
+  { label: "Gallery", to: "/gallery" as const },
+  { label: "Reviews", to: "/reviews" as const },
+  { label: "Contact Us", to: "/contact" as const },
 ];
+
 
 export function SiteNav({
   clinicName = "Dr. Shreyas Orthopedic Clinic",
@@ -66,15 +67,15 @@ export function SiteNav({
               <div className="mt-8 flex flex-col gap-1">
                 {links.map((l) => (
                   <Link
-                    key={l.hash}
-                    to="/"
-                    hash={l.hash}
+                    key={l.to}
+                    to={l.to}
                     onClick={() => setOpen(false)}
                     className="rounded-md px-3 py-3 text-sm hover:bg-muted"
                   >
                     {l.label}
                   </Link>
                 ))}
+
                 <Link to="/book" onClick={() => setOpen(false)} className="mt-2">
                   <Button className="w-full rounded-full">Book appointment</Button>
                 </Link>
@@ -99,10 +100,11 @@ export function SiteNav({
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
           {links.map((l, i) => (
             <Link
-              key={l.hash}
-              to="/"
-              hash={l.hash}
+              key={l.to}
+              to={l.to}
+              activeProps={{ className: "text-primary" }}
               className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary ${
+
                 i > 0 ? "border-l border-primary/15" : ""
               }`}
             >
