@@ -32,6 +32,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { SPECIALTIES } from "@/lib/specialties";
+import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 
 import gKnee from "@/assets/treat-knee.jpg";
 import gShoulder from "@/assets/treat-shoulder.jpg";
@@ -674,32 +675,40 @@ export function PatientVideoStories({
 
 const FAQS = [
   {
+    q: "What is the cost of knee replacement surgery in Mysuru?",
+    a: "The cost depends on the implant type, whether one or both knees are done, the hospital category and your room choice. You will be given a written estimate covering surgery, implant, stay and physiotherapy before you decide — there are no hidden additions later.",
+  },
+  {
+    q: "Is orthopaedic surgery covered by insurance?",
+    a: "Yes. Joint replacement, arthroscopy and trauma surgery are covered by most health insurance policies and cashless TPA networks, subject to your waiting period and sub-limits. The clinic team helps with pre-authorisation paperwork.",
+  },
+  {
+    q: "When should I see an orthopaedic surgeon?",
+    a: "See a specialist if joint pain lasts beyond two to three weeks, if you have night pain, swelling, locking or giving way of a joint, difficulty climbing stairs, or any injury after which you cannot bear weight.",
+  },
+  {
+    q: "Robotic-assisted versus traditional knee replacement — which is better?",
+    a: "Robotic assistance improves the accuracy of bone cuts and implant alignment, which can mean a more natural-feeling knee and better long-term implant survival. Traditional replacement in experienced hands still gives excellent results; the right choice depends on your deformity, bone quality and budget.",
+  },
+  {
+    q: "Can knee replacement be avoided?",
+    a: "Often, yes — especially in early and moderate arthritis. Weight management, targeted physiotherapy, medication, bracing, PRP and viscosupplementation injections can delay or avoid surgery for years. Replacement is advised only when pain limits daily life despite these measures.",
+  },
+  {
+    q: "Where can I consult Dr. Shreyas?",
+    a: "At Dr. Shreyas Orthopedic Clinic, Vivekananda Nagar, Mysuru — Monday to Saturday, 5:00 PM to 9:00 PM (Sunday closed). He is also Assistant Professor in the Department of Orthopaedics at JSS Hospital, Mysore.",
+  },
+  {
+    q: "Which conditions does Dr. Shreyas treat?",
+    a: "Knee and shoulder arthroscopy, ACL and ligament reconstruction, meniscus and rotator cuff repair, joint replacement, foot and ankle problems, sports injuries, fractures and trauma, and non-surgical ortho biologics such as PRP.",
+  },
+  {
+    q: "What should I expect after arthroscopy (key-hole surgery)?",
+    a: "Most arthroscopies are day-care or a single overnight stay. You will walk the same or next day with support, use two or three small dressings, and begin guided physiotherapy within days. Desk work usually resumes in one to two weeks.",
+  },
+  {
     q: "Do I need an appointment, or can I walk in?",
-    a: "Walk-ins are accepted during consulting hours, but booking online guarantees a slot and keeps your waiting time short. Clinic hours are 5 PM to 9 PM, Monday to Saturday.",
-  },
-  {
-    q: "What should I bring for my first consultation?",
-    a: "Please carry any previous X-rays, MRI or CT scans, earlier prescriptions and a list of medications you currently take, including for diabetes, blood pressure or blood thinners.",
-  },
-  {
-    q: "Is arthroscopy (key-hole surgery) painful, and how long is the stay?",
-    a: "Arthroscopy is done through very small incisions, so pain is significantly less than open surgery. Most procedures are day-care or a single overnight stay, and walking usually starts the same day.",
-  },
-  {
-    q: "When can I return to work or sport after surgery?",
-    a: "Desk work is usually possible within one to two weeks. Return to sport after ligament reconstruction is cleared at 9 to 12 months, based on strength testing rather than dates alone.",
-  },
-  {
-    q: "Do you offer non-surgical treatment options?",
-    a: "Yes. Many conditions are managed with physiotherapy, activity modification, bracing, PRP and viscosupplementation injections. Surgery is advised only when it is genuinely the better option.",
-  },
-  {
-    q: "Can I get a second opinion on a surgery advised elsewhere?",
-    a: "Absolutely. Bring your scans and reports and you will get an honest assessment of whether surgery is required and what the alternatives are.",
-  },
-  {
-    q: "Are consultations available online?",
-    a: "Yes, follow-up and second-opinion consultations can be arranged over WhatsApp. First visits for a new problem are best done in person so a proper examination can be performed.",
+    a: "Walk-ins are accepted during consulting hours, but booking online guarantees a slot and keeps your waiting time short. Please carry previous X-rays, MRI or CT scans and your current medication list.",
   },
 ];
 
@@ -735,6 +744,171 @@ export function FaqSection() {
           <Link to="/contact">
             <Button variant="outline" className="rounded-full">
               Still have a question? Contact us
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Doctor profile — featured two-column layout                          */
+/* ------------------------------------------------------------------ */
+
+const PROFILE_TAGS = [
+  "Robotic Joint Replacement",
+  "Knee & Shoulder Arthroscopy",
+  "KOA & MOA Member",
+  "JSS Hospital, Mysore",
+  "Languages: English / Kannada / Hindi",
+];
+
+const PROFILE_STATS = [
+  { value: "15+", label: "Years" },
+  { value: "5,000+", label: "Surgeries" },
+  { value: "20,000+", label: "Patients" },
+];
+
+export function DoctorProfileFeature({
+  image,
+  name,
+  qualifications,
+  about,
+}: {
+  image: string;
+  name: string;
+  qualifications?: string | null;
+  about?: string | null;
+}) {
+  return (
+    <section id="about" className="border-b border-border/60 bg-background">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div className="relative mx-auto w-full max-w-md">
+          <div className="rounded-[28px] bg-[linear-gradient(140deg,var(--primary),var(--accent))] p-[6px] shadow-[var(--shadow-soft)]">
+            <div className="overflow-hidden rounded-[22px] bg-card">
+              <img
+                src={image}
+                alt={name}
+                width={900}
+                height={1100}
+                loading="lazy"
+                className="aspect-4/5 w-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="mx-4 -mt-10 rounded-2xl border border-border bg-card p-4 text-center shadow-[var(--shadow-soft)]">
+            <p className="font-display text-base font-bold text-primary">{name}</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Orthopaedic Surgeon &amp; Sports Medicine Specialist
+            </p>
+          </div>
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            {PROFILE_STATS.map((s) => (
+              <div key={s.label} className="rounded-2xl border border-border/60 bg-card p-3 text-center">
+                <p className="font-display text-xl font-bold text-primary">{s.value}</p>
+                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Doctor Profile
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+            Meet {name}
+          </h2>
+          {qualifications && (
+            <p className="mt-2 font-medium text-foreground/80">{qualifications}</p>
+          )}
+          {about && (
+            <p className="mt-5 whitespace-pre-line leading-relaxed text-muted-foreground">
+              {about}
+            </p>
+          )}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {PROFILE_TAGS.map((t) => (
+              <span
+                key={t}
+                className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/about-doctor">
+              <Button variant="outline" className="rounded-full">
+                Full profile
+              </Button>
+            </Link>
+            <Link to="/book">
+              <Button className="gap-2 rounded-full">
+                <CalendarDays className="h-4 w-4" /> Book an appointment
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Blog teaser                                                          */
+/* ------------------------------------------------------------------ */
+
+export function HomeBlogSection() {
+  const posts = HOME_BLOG_SLUGS.map((slug) => BLOG_POSTS.find((p) => p.slug === slug)).filter(
+    (p): p is (typeof BLOG_POSTS)[number] => Boolean(p),
+  );
+  return (
+    <section className="border-b border-border/60 bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">Blog</p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
+            Orthopaedic health guides from the clinic
+          </h2>
+        </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {posts.map((p) => (
+            <Card
+              key={p.slug}
+              className="h-full overflow-hidden border-primary/10 py-0 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+            >
+              <img
+                src={p.image}
+                alt={p.title}
+                loading="lazy"
+                className="aspect-16/10 w-full object-cover"
+              />
+              <CardContent className="p-6">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+                  {p.category}
+                </p>
+                <h3 className="mt-2 font-display text-lg font-semibold text-primary">{p.title}</h3>
+                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{p.excerpt}</p>
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: p.slug }}
+                  className="mt-4 inline-block text-sm font-semibold text-accent hover:underline"
+                >
+                  Read More →
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link to="/blog">
+            <Button variant="outline" className="rounded-full">
+              View all articles
             </Button>
           </Link>
         </div>
