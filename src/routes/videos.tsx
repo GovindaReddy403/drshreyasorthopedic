@@ -6,6 +6,7 @@ import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO, GOOGLE_REVIEWS_URL } from "@/lib/queries";
 import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
+import { breadcrumbLd, pageSeo } from "@/lib/seo";
 
 export const Route = createFileRoute("/videos")({
   head: () => {
