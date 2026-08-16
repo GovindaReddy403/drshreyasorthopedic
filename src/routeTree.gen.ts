@@ -14,6 +14,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutDoctorRouteImport } from './routes/about-doctor'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookingCodeRouteImport } from './routes/booking.$code'
@@ -48,6 +49,11 @@ const BookRoute = BookRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutDoctorRoute = AboutDoctorRouteImport.update({
+  id: '/about-doctor',
+  path: '/about-doctor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -105,6 +111,7 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about-doctor': typeof AboutDoctorRoute
   '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/manage': typeof ManageRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about-doctor'
     | '/auth'
     | '/book'
     | '/manage'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about-doctor'
     | '/auth'
     | '/book'
     | '/manage'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/about-doctor'
     | '/auth'
     | '/book'
     | '/manage'
@@ -208,6 +220,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutDoctorRoute: typeof AboutDoctorRoute
   AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
   ManageRoute: typeof ManageRoute
@@ -255,6 +268,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about-doctor': {
+      id: '/about-doctor'
+      path: '/about-doctor'
+      fullPath: '/about-doctor'
+      preLoaderRoute: typeof AboutDoctorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -348,6 +368,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutDoctorRoute: AboutDoctorRoute,
   AuthRoute: AuthRoute,
   BookRoute: BookRoute,
   ManageRoute: ManageRoute,
