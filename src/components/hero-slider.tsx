@@ -28,6 +28,7 @@ type Slide = {
   body: string;
   href: string;
   portrait?: boolean;
+  bullets?: string[];
 };
 
 const SLIDES: Slide[] = [
@@ -38,7 +39,13 @@ const SLIDES: Slide[] = [
     body: "Assistant Professor, JSS Hospital, Mysore. Fellowship trained in Arthroscopy & Sports Medicine — India, Australia & Thailand.",
     href: "/about-doctor",
     portrait: true,
+    bullets: [
+      "Orthopaedic Surgeon — Fellowship in Arthroscopy & Sports Medicine",
+      "Assistant Professor, JSS Hospital, Mysore",
+      "Advanced Technologies in Orthopaedics",
+    ],
   },
+
   {
     image: sArthro,
     eyebrow: "Advanced Orthopaedic Care",
