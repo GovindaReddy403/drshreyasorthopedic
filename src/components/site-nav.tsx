@@ -11,6 +11,7 @@ const links = [
   { label: "Gallery", to: "/gallery" as const },
   { label: "Awards", to: "/awards" as const },
   { label: "Media", to: "/media-coverage" as const },
+  { label: "Videos", to: "/videos" as const },
   { label: "Reviews", to: "/reviews" as const },
   { label: "Blog", to: "/blog" as const },
   { label: "Contact Us", to: "/contact" as const },
