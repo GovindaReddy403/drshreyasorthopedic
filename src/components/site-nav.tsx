@@ -70,7 +70,12 @@ export function SiteNav({
   phone?: string | null;
 }) {
   const [open, setOpen] = useState(false);
+  const [exp, setExp] = useState<string | null>(null);
   const telHref = phone ? `tel:${phone.replace(/\s/g, "")}` : undefined;
+
+  const navLinkBase =
+    "font-['Poppins'] text-[14px] font-medium uppercase tracking-wide text-[#3E3E3E] transition-colors hover:bg-[#eb6a56] hover:text-white hover:rounded-md";
+  const navLinkActive = "bg-[#eb6a56] text-white rounded-md";
 
   return (
     <header className="sticky top-0 z-40 w-full bg-[#dfeef4]">
@@ -108,34 +113,91 @@ export function SiteNav({
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
-                <Menu className="h-5 w-5" />
+                <Menu className="h-5 w-5 text-[#3E3E3E]" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <div className="mt-8 flex flex-col gap-1">
-                {links.map((l) => (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    onClick={() => setOpen(false)}
-                    className="rounded-md px-3 py-3 text-sm hover:bg-muted"
-                  >
-                    {l.label}
-                  </Link>
-                ))}
+            <SheetContent side="right" className="flex w-72 flex-col p-0">
+              {/* Top — phone + Book An Appointment */}
+              <div className="flex flex-col gap-3 border-b border-black/10 px-5 pt-6 pb-4">
+                {phone && (
+                  <a href={telHref} className="flex items-center gap-2 text-[15px] font-medium text-black">
+                    <Phone className="h-4 w-4" /> {phone}
+                  </a>
+                )}
+                <Link
+                  to="/book"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-[36px] bg-[#000B43] px-5 py-3 text-sm font-semibold text-white"
+                >
+                  <CalendarDays className="h-4 w-4" /> Book An Appointment
+                </Link>
+              </div>
 
-                <Link to="/book" onClick={() => setOpen(false)} className="mt-2">
-                  <Button className="w-full rounded-full">Book appointment</Button>
+              {/* Middle — nav links with accordion submenu */}
+              <nav className="flex-1 overflow-y-auto px-2 py-2">
+                {links.map((l) =>
+                  l.to === "/specialties" ? (
+                    <div key={l.to}>
+                      <button
+                        onClick={() => setExp(exp === "sp" ? null : "sp")}
+                        className="flex w-full items-center justify-between rounded-md px-3 py-3 font-['Poppins'] text-[14px] font-medium uppercase tracking-wide text-[#3E3E3E]"
+                      >
+                        {l.label}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${exp === "sp" ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {exp === "sp" && (
+                        <div className="ml-3 border-l border-black/10 pl-3">
+                          {MEGA_COLUMNS.map((col) => (
+                            <div key={col.heading} className="py-1">
+                              <p className="px-2 py-1 text-[12px] font-bold uppercase tracking-wide text-primary">
+                                {col.heading}
+                              </p>
+                              {col.items.map((it) => (
+                                <Link
+                                  key={it.label}
+                                  to="/specialties/$slug"
+                                  params={{ slug: it.slug }}
+                                  onClick={() => setOpen(false)}
+                                  className="block rounded-md px-2 py-1.5 text-[14px] text-[#3E3E3E] transition-colors hover:text-[#eb6a56]"
+                                >
+                                  {it.label}
+                                </Link>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={l.to}
+                      to={l.to}
+                      onClick={() => setOpen(false)}
+                      className="block rounded-md px-3 py-3 font-['Poppins'] text-[14px] font-medium uppercase tracking-wide text-[#3E3E3E] transition-colors hover:bg-[#eb6a56] hover:text-white"
+                    >
+                      {l.label}
+                    </Link>
+                  ),
+                )}
+              </nav>
+
+              {/* Bottom — Manage + Staff Login (not in main nav) */}
+              <div className="mt-auto flex flex-col gap-2 border-t border-black/10 px-5 py-4">
+                <Link
+                  to="/manage"
+                  onClick={() => setOpen(false)}
+                  className="text-[14px] font-medium text-[#3E3E3E] transition-colors hover:text-[#eb6a56]"
+                >
+                  Manage appointment
                 </Link>
-                <Link to="/manage" onClick={() => setOpen(false)} className="mt-2">
-                  <Button variant="outline" className="w-full rounded-full">
-                    Manage appointment
-                  </Button>
-                </Link>
-                <Link to="/auth" onClick={() => setOpen(false)} className="mt-2">
-                  <Button variant="ghost" className="w-full">
-                    Staff login
-                  </Button>
+                <Link
+                  to="/auth"
+                  onClick={() => setOpen(false)}
+                  className="text-[14px] font-medium text-[#3E3E3E] transition-colors hover:text-[#eb6a56]"
+                >
+                  Staff login
                 </Link>
               </div>
             </SheetContent>
@@ -148,11 +210,11 @@ export function SiteNav({
         <div className="group/mega mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
           {links.map((l, i) =>
             l.to === "/specialties" ? (
-              <div key={l.to} className="group/item relative border-l border-primary/15">
+              <div key={l.to} className={`group/item relative ${i > 0 ? "border-l border-black/10" : ""}`}>
                 <Link
                   to={l.to}
-                  activeProps={{ className: "text-primary" }}
-                  className="flex items-center gap-1 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary"
+                  activeProps={{ className: navLinkActive }}
+                  className={`flex items-center gap-1 px-6 py-6 ${navLinkBase}`}
                 >
                   {l.label} <ChevronDown className="h-3.5 w-3.5" />
                 </Link>
@@ -190,10 +252,8 @@ export function SiteNav({
               <Link
                 key={l.to}
                 to={l.to}
-                activeProps={{ className: "text-primary" }}
-                className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 transition-colors hover:text-primary ${
-                  i > 0 ? "border-l border-primary/15" : ""
-                }`}
+                activeProps={{ className: navLinkActive }}
+                className={`block px-6 py-6 ${navLinkBase} ${i > 0 ? "border-l border-black/10" : ""}`}
               >
                 {l.label}
               </Link>
