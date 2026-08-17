@@ -147,6 +147,40 @@ function AboutDoctorPage() {
                 care. He integrates strong academic training, international fellowship experience and
                 clinical expertise to deliver evidence-based, patient-centred orthopaedic care.
               </p>
+
+              <div className="mt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+                  Qualification Highlights
+                </p>
+                <ul className="mt-3 space-y-2.5">
+                  {[
+                    {
+                      title: "International Fellowships",
+                      body: "Arthroscopy & Sports Medicine — India, Australia & Thailand.",
+                    },
+                    {
+                      title: "Hospital affiliations",
+                      body: "JSS Hospital, Mysore & Sanjay Gandhi Institute of Trauma & Orthopaedics, Bengaluru.",
+                    },
+                    {
+                      title: "Languages spoken",
+                      body: "English, Kannada, Hindi & Tamil.",
+                    },
+                  ].map((h) => (
+                    <li
+                      key={h.title}
+                      className="flex items-start gap-3 rounded-xl border border-border/60 bg-card p-3.5"
+                    >
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                      <div>
+                        <p className="font-semibold text-foreground">{h.title}</p>
+                        <p className="mt-0.5 text-sm text-muted-foreground">{h.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <TickList
                 items={[
                   {
