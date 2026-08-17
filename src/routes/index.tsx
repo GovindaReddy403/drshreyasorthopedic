@@ -45,6 +45,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { ContactQR } from "@/components/contact-qr";
 import { FloatingActions } from "@/components/floating-actions";
 import { HeroSlider } from "@/components/hero-slider";
+import { GoogleGlyph, ReviewsCarousel } from "@/components/reviews-carousel";
 import { SPECIALTIES } from "@/lib/specialties";
 import { OG_IMAGE, absUrl, clinicLd, faqLd } from "@/lib/seo";
 import {
@@ -136,7 +137,6 @@ function LandingPage() {
   const primaryDoctor: Doctor | undefined = doctors[0];
 
   const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
-  const reviewsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
   const specialtiesAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false }));
 
   const waHref = clinic.whatsapp
@@ -361,53 +361,8 @@ function LandingPage() {
           </div>
 
           <div className="mt-10">
-            <Carousel
-              opts={{ align: "start", loop: true }}
-              plugins={[reviewsAutoplay.current]}
-              className="w-full"
-            >
-              <CarouselContent>
-                {testimonials.map((t) => {
-                  const initial = t.patient_name.trim().charAt(0).toUpperCase();
-                  const colors = [
-                    "bg-primary/15 text-primary",
-                    "bg-success/15 text-success",
-                    "bg-warning/15 text-warning",
-                  ];
-                  const color = colors[t.patient_name.charCodeAt(0) % colors.length];
-                  return (
-                    <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
-                      <Card className="h-full border-primary/10">
-                        <CardContent className="flex h-full flex-col p-6">
-                          <div className="flex items-center gap-3">
-                            <span
-                              className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}
-                            >
-                              {initial}
-                            </span>
-                            <div className="flex-1">
-                              <p className="font-medium leading-tight">{t.patient_name}</p>
-                              <p className="text-xs text-muted-foreground">Google Review</p>
-                            </div>
-                            <GoogleGlyph />
-                          </div>
-                          <div className="mt-4 flex gap-0.5 text-warning">
-                            {Array.from({ length: t.rating }).map((_, i) => (
-                              <Star key={i} className="h-4 w-4 fill-current" />
-                            ))}
-                          </div>
-                          <p className="mt-3 text-sm leading-relaxed text-foreground/85">
-                            {t.content}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
-            </Carousel>
+            <ReviewsCarousel reviews={testimonials} />
+
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -587,25 +542,3 @@ function InfoCard({
   );
 }
 
-function GoogleGlyph() {
-  return (
-    <svg viewBox="0 0 48 48" className="h-5 w-5" aria-label="Google">
-      <path
-        fill="#EA4335"
-        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-      />
-      <path
-        fill="#4285F4"
-        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-      />
-      <path
-        fill="#34A853"
-        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-      />
-    </svg>
-  );
-}
