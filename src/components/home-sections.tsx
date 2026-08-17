@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import {
   Activity,
+  ArrowRight,
   Bone,
   CalendarDays,
   CheckCircle2,
