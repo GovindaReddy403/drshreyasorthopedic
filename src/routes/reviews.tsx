@@ -62,19 +62,10 @@ function ReviewsPage() {
           title="What our patients say"
           description="Verified reviews are also available on our Google Business profile."
         />
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r) => (
-            <blockquote key={r.id} className="glass-card rounded-2xl p-6">
-              <div className="flex gap-1 text-warning">
-                {Array.from({ length: r.rating }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">{r.content}</p>
-              <footer className="mt-4 text-sm font-semibold text-primary">— {r.patient_name}</footer>
-            </blockquote>
-          ))}
+        <div className="mt-10">
+          <ReviewsCarousel reviews={reviews} />
         </div>
+
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
             <Button variant="outline" className="rounded-full">
