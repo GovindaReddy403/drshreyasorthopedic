@@ -140,14 +140,28 @@ export function HeroSlider({
 }) {
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
   const waHref = whatsapp ? `https://wa.me/91${whatsapp.replace(/\D/g, "")}` : undefined;
+  const [api, setApi] = useState<CarouselApi>();
+  const [selected, setSelected] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setSelected(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
 
   return (
     <section className="relative">
       <Carousel
+        setApi={setApi}
         opts={{ loop: true }}
         plugins={[autoplay.current, Fade()]}
         className="w-full"
       >
+
         <CarouselContent className="ml-0">
           {SLIDES.map((s) => (
             <CarouselItem key={s.title} className="pl-0">
