@@ -15,7 +15,7 @@ import gElbow from "@/assets/treat-elbow.jpg";
 
 const PROCEDURE_CATEGORIES: {
   title: string;
-  image: string;
+  image?: string;
   procedures: string[];
 }[] = [
   {
@@ -80,6 +80,53 @@ const PROCEDURE_CATEGORIES: {
       "Elbow Ligament Reconstruction",
       "Elbow Tendon Repair",
     ],
+  },
+  {
+    title: "Other Procedures",
+    procedures: [
+      "Spine Injury Management",
+      "Diabetic Foot Care",
+      "Wrist TFCC Reconstruction",
+    ],
+  },
+];
+
+const SPECIALTY_FAQS: { q: string; a: string }[] = [
+  {
+    q: "What does an orthopaedic surgeon in Mysuru treat?",
+    a: "An orthopaedic surgeon treats disorders of bones, joints, ligaments, tendons and muscles. Dr. Shreyas manages knee, shoulder, foot & ankle, hip and elbow conditions, spine injuries, sports injuries, fractures and degenerative joint disease using both surgical and non-surgical methods.",
+  },
+  {
+    q: "Is Dr. Shreyas the best orthopaedic surgeon in Mysuru?",
+    a: "Dr. Shreyas M. J. is a fellowship-trained orthopaedic surgeon with specialised training in Arthroscopy and Sports Medicine from India, Australia and Thailand. Patients choose him for minimally invasive techniques, personalised care and consistent outcomes in joint replacement and sports injury treatment in Mysuru.",
+  },
+  {
+    q: "What is the cost of orthopaedic surgery in Mysuru?",
+    a: "Costs vary by procedure — key-hole arthroscopy, ligament reconstruction and joint replacement each have different scopes. Dr. Shreyas provides a clear estimate after your consultation and diagnosis. Please call 86609 50443 or book online to discuss your case and expected expenses.",
+  },
+  {
+    q: "Is orthopaedic surgery covered by insurance?",
+    a: "Most medically necessary orthopaedic procedures are covered by health insurance, subject to your policy terms. We assist with the documentation, pre-authorisation and discharge summaries you need to file a cashless or reimbursement claim with your insurer.",
+  },
+  {
+    q: "Does Dr. Shreyas perform robotic orthopaedic surgery?",
+    a: "Yes. Robotic-assisted and computer-navigated techniques are offered for select knee replacement and arthroscopy cases where they improve precision in bone cuts and implant positioning. Suitability is decided after assessing your scans and joint condition.",
+  },
+  {
+    q: "How do I book an appointment?",
+    a: "Book online through our appointment page in under two minutes — select a consultation type, choose an available slot and confirm with an OTP. You can also call 86609 50443. The clinic is open Monday to Saturday, 5 PM to 9 PM.",
+  },
+  {
+    q: "What is minimally invasive orthopaedic surgery?",
+    a: "Minimally invasive or key-hole surgery (arthroscopy) uses small incisions and a camera to treat joint problems, causing less tissue damage, smaller scars, less pain and a faster return to activity compared to open surgery. Dr. Shreyas routinely performs arthroscopy of the knee, shoulder, ankle, hip and elbow.",
+  },
+  {
+    q: "Can athletes be treated at Dr. Shreyas's clinic?",
+    a: "Yes. With fellowship training in Arthroscopy and Sports Medicine, Dr. Shreyas treats sports injuries such as ACL tears, shoulder dislocations, rotator cuff tears and ankle sprains, with a focus on safe return-to-play and injury prevention for athletes of all levels.",
+  },
+  {
+    q: "What hospitals is Dr. Shreyas associated with?",
+    a: "Dr. Shreyas M. J. consults at his clinic in Vivekanandanagar, Mysuru and is a visiting consultant at JSS Hospital, Mysore, enabling access to advanced theatre, imaging and inpatient facilities when surgery or admission is required.",
   },
 ];
 
