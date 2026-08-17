@@ -216,6 +216,13 @@ function LandingPage() {
         about={primaryDoctor?.about ?? clinic.about_doctor}
       />
 
+      <MeetDrShreyas
+        name={primaryDoctor?.name ?? clinic.doctor_name}
+        clinicName={clinic.clinic_name}
+        address={clinic.address}
+        mapsUrl={clinic.google_maps_url}
+      />
+
       {doctors.length > 1 && (
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Meet the team" title="Our doctors" />
