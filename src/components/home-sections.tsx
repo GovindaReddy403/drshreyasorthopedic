@@ -800,7 +800,6 @@ export function FaqSection() {
 const PROFILE_TAGS = [
   "Robotic Joint Replacement",
   "Knee & Shoulder Arthroscopy",
-  "KOA & MOA Member",
   "JSS Hospital, Mysore",
   "Languages: English / Kannada / Hindi",
 ];
@@ -810,6 +809,9 @@ const PROFILE_STATS = [
   { value: "5,000+", label: "Surgeries" },
   { value: "20,000+", label: "Patients" },
 ];
+
+const PROFILE_SUBTITLE =
+  "Orthopaedic Surgeon & Sports Medicine Specialist";
 
 export function DoctorProfileFeature({
   image,
