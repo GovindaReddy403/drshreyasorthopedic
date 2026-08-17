@@ -17,13 +17,14 @@ const links = [
 
 const MEGA_COLUMNS = [
   {
-    heading: "Treatments & Procedures",
+    heading: "Treatment & Procedures",
     items: [
-      { slug: "arthroscopic-surgery", label: "Arthroscopic Surgery" },
+      { slug: "knee-arthroscopy", label: "Arthroscopic Surgery" },
       { slug: "joint-replacement", label: "Joint Replacement Surgery" },
-      { slug: "sports-medicine-solutions", label: "Sports Medicine Solutions" },
+      { slug: "sports-medicine-rehab", label: "Sports Medicine Solutions" },
       { slug: "trauma-and-fractures", label: "Fracture & Trauma Care" },
       { slug: "ortho-biologics", label: "Ortho Biologics (PRP)" },
+      { slug: "foot-and-ankle", label: "Foot & Ankle Surgery" },
     ],
   },
   {
@@ -33,6 +34,16 @@ const MEGA_COLUMNS = [
       { slug: "knee-arthroscopy", label: "ACL / PCL Reconstruction" },
       { slug: "knee-arthroscopy", label: "Meniscus Repair" },
       { slug: "knee-arthroscopy", label: "Cartilage Repair" },
+      { slug: "joint-replacement", label: "Total Knee Replacement" },
+    ],
+  },
+  {
+    heading: "Hip Procedures",
+    items: [
+      { slug: "joint-replacement", label: "Total Hip Replacement" },
+      { slug: "joint-replacement", label: "Hip Resurfacing" },
+      { slug: "trauma-and-fractures", label: "Hip Fracture Fixation" },
+      { slug: "joint-replacement", label: "Revision Hip Surgery" },
     ],
   },
   {
@@ -42,25 +53,20 @@ const MEGA_COLUMNS = [
       { slug: "shoulder-arthroscopy", label: "Rotator Cuff Repair" },
       { slug: "shoulder-arthroscopy", label: "Recurrent Dislocation" },
       { slug: "shoulder-arthroscopy", label: "SLAP / Bankart Repair" },
+      { slug: "joint-replacement", label: "Shoulder Replacement" },
     ],
   },
   {
-    heading: "Foot & Ankle",
+    heading: "Elbow Procedures",
     items: [
-      { slug: "foot-and-ankle", label: "Foot & Ankle Surgery" },
-      { slug: "foot-and-ankle", label: "Ankle Ligament Reconstruction" },
-      { slug: "foot-and-ankle", label: "Achilles Tendon Repair" },
-    ],
-  },
-  {
-    heading: "Sports Medicine & Rehab",
-    items: [
-      { slug: "sports-medicine-rehab", label: "Sports Medicine & Rehab" },
-      { slug: "sports-medicine-rehab", label: "Return-to-Play Program" },
-      { slug: "ortho-biologics", label: "PRP & Biologics" },
+      { slug: "trauma-and-fractures", label: "Elbow Fracture Fixation" },
+      { slug: "sports-medicine-rehab", label: "Tennis / Golfer's Elbow" },
+      { slug: "shoulder-arthroscopy", label: "Elbow Arthroscopy" },
+      { slug: "trauma-and-fractures", label: "Stiff Elbow Release" },
     ],
   },
 ];
+
 
 export function SiteNav({
   clinicName = "Dr. Shreyas Orthopedic Clinic",
