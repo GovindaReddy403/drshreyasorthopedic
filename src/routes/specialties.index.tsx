@@ -7,6 +7,81 @@ import { PageShell } from "@/components/page-shell";
 import { SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
+import gKnee from "@/assets/treat-knee.jpg";
+import gShoulder from "@/assets/treat-shoulder.jpg";
+import gAnkle from "@/assets/treat-ankle.jpg";
+import gHip from "@/assets/treat-hip.jpg";
+import gElbow from "@/assets/treat-elbow.jpg";
+
+const PROCEDURE_CATEGORIES: {
+  title: string;
+  image: string;
+  procedures: string[];
+}[] = [
+  {
+    title: "Knee Procedures",
+    image: gKnee,
+    procedures: [
+      "Knee Arthroscopy",
+      "Total Knee Replacement",
+      "Partial Knee Replacement",
+      "ACL Reconstruction",
+      "PCL Reconstruction",
+      "Meniscal Surgery",
+      "Cartilage Repair",
+      "Patellar Tendon Repair",
+      "Knee Osteotomy",
+      "Robotic-Assisted Surgeries",
+    ],
+  },
+  {
+    title: "Shoulder Procedures",
+    image: gShoulder,
+    procedures: [
+      "Shoulder Arthroscopy",
+      "SLAP Repair",
+      "Bankart Repair",
+      "Rotator Cuff Repair",
+      "Shoulder Joint Replacement",
+      "Recurrent Dislocation Surgery",
+      "Frozen Shoulder Release",
+      "Labrum Reconstruction",
+    ],
+  },
+  {
+    title: "Foot & Ankle Procedures",
+    image: gAnkle,
+    procedures: [
+      "Ankle Arthroscopy",
+      "Ankle Ligament Reconstruction (ATFL)",
+      "Achilles Tendon Repair",
+      "Plantar Fasciitis Treatment",
+      "Deformity Correction",
+      "Ankle Fracture Fixation",
+    ],
+  },
+  {
+    title: "Hip Procedures",
+    image: gHip,
+    procedures: [
+      "Hip Arthroscopy",
+      "Total Hip Replacement",
+      "Hip Labral Repair",
+      "Hip Fracture Surgery",
+    ],
+  },
+  {
+    title: "Elbow Procedures",
+    image: gElbow,
+    procedures: [
+      "Elbow Arthroscopy",
+      "Tennis Elbow Surgery",
+      "Golfer Elbow Surgery",
+      "Elbow Ligament Reconstruction",
+      "Elbow Tendon Repair",
+    ],
+  },
+];
 
 
 export const Route = createFileRoute("/specialties/")({
