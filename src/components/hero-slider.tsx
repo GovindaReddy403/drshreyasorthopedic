@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
@@ -7,11 +7,13 @@ import { ArrowRight, Check, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+
 
 import sKnee from "@/assets/treat-knee.jpg";
 import sShoulder from "@/assets/treat-shoulder.jpg";
