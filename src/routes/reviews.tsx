@@ -165,6 +165,34 @@ function ReviewsPage() {
         )}
       </section>
 
+      {/* Write a Review CTA */}
+      <section className="bg-[#EAF8FF]">
+        <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-6 rounded-3xl border border-border/60 bg-card p-8 text-center shadow-[var(--shadow-soft)] sm:p-12">
+            <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-black/5">
+              <GoogleGlyph className="h-12 w-12" />
+            </span>
+            <div className="space-y-2">
+              <h2 className="font-display text-2xl font-bold text-primary sm:text-3xl">
+                Share Your Experience
+              </h2>
+              <p className="mx-auto max-w-xl text-sm text-muted-foreground sm:text-base">
+                Your feedback helps other patients find trusted orthopaedic care.
+                Leave a review on our Google Business profile — it only takes a minute.
+              </p>
+            </div>
+            <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noreferrer">
+              <Button size="lg" className="gap-2 rounded-full">
+                <GoogleGlyph className="h-5 w-5" /> Write a Review on Google
+              </Button>
+            </a>
+            <p className="text-xs text-muted-foreground">
+              Reviews are public on Google. You'll need a Google account to post.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <CtaBand>
         <Link to="/book">
           <Button size="lg" variant="secondary" className="rounded-full">
