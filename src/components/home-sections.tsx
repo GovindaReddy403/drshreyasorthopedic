@@ -1175,7 +1175,7 @@ export function PreFooterDoctorCard({ image }: { image: string }) {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/about">
+              <Link to="/about-doctor">
                 <Button variant="outline" className="rounded-full px-6">
                   Full profile
                 </Button>
