@@ -1,10 +1,16 @@
-import { OG_IMAGE, absUrl, breadcrumbLd, CLINIC_PHONE } from "@/lib/seo";
+import { faqLd, OG_IMAGE, absUrl, breadcrumbLd, CLINIC_PHONE } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, CalendarCheck, CheckCircle2, Phone } from "lucide-react";
+import { ArrowRight, Bone, CalendarCheck, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
 import gKnee from "@/assets/treat-knee.jpg";
@@ -15,7 +21,7 @@ import gElbow from "@/assets/treat-elbow.jpg";
 
 const PROCEDURE_CATEGORIES: {
   title: string;
-  image: string;
+  image?: string;
   procedures: string[];
 }[] = [
   {
@@ -81,6 +87,53 @@ const PROCEDURE_CATEGORIES: {
       "Elbow Tendon Repair",
     ],
   },
+  {
+    title: "Other Procedures",
+    procedures: [
+      "Spine Injury Management",
+      "Diabetic Foot Care",
+      "Wrist TFCC Reconstruction",
+    ],
+  },
+];
+
+const SPECIALTY_FAQS: { q: string; a: string }[] = [
+  {
+    q: "What does an orthopaedic surgeon in Mysuru treat?",
+    a: "An orthopaedic surgeon treats disorders of bones, joints, ligaments, tendons and muscles. Dr. Shreyas manages knee, shoulder, foot & ankle, hip and elbow conditions, spine injuries, sports injuries, fractures and degenerative joint disease using both surgical and non-surgical methods.",
+  },
+  {
+    q: "Is Dr. Shreyas the best orthopaedic surgeon in Mysuru?",
+    a: "Dr. Shreyas M. J. is a fellowship-trained orthopaedic surgeon with specialised training in Arthroscopy and Sports Medicine from India, Australia and Thailand. Patients choose him for minimally invasive techniques, personalised care and consistent outcomes in joint replacement and sports injury treatment in Mysuru.",
+  },
+  {
+    q: "What is the cost of orthopaedic surgery in Mysuru?",
+    a: "Costs vary by procedure — key-hole arthroscopy, ligament reconstruction and joint replacement each have different scopes. Dr. Shreyas provides a clear estimate after your consultation and diagnosis. Please call 86609 50443 or book online to discuss your case and expected expenses.",
+  },
+  {
+    q: "Is orthopaedic surgery covered by insurance?",
+    a: "Most medically necessary orthopaedic procedures are covered by health insurance, subject to your policy terms. We assist with the documentation, pre-authorisation and discharge summaries you need to file a cashless or reimbursement claim with your insurer.",
+  },
+  {
+    q: "Does Dr. Shreyas perform robotic orthopaedic surgery?",
+    a: "Yes. Robotic-assisted and computer-navigated techniques are offered for select knee replacement and arthroscopy cases where they improve precision in bone cuts and implant positioning. Suitability is decided after assessing your scans and joint condition.",
+  },
+  {
+    q: "How do I book an appointment?",
+    a: "Book online through our appointment page in under two minutes — select a consultation type, choose an available slot and confirm with an OTP. You can also call 86609 50443. The clinic is open Monday to Saturday, 5 PM to 9 PM.",
+  },
+  {
+    q: "What is minimally invasive orthopaedic surgery?",
+    a: "Minimally invasive or key-hole surgery (arthroscopy) uses small incisions and a camera to treat joint problems, causing less tissue damage, smaller scars, less pain and a faster return to activity compared to open surgery. Dr. Shreyas routinely performs arthroscopy of the knee, shoulder, ankle, hip and elbow.",
+  },
+  {
+    q: "Can athletes be treated at Dr. Shreyas's clinic?",
+    a: "Yes. With fellowship training in Arthroscopy and Sports Medicine, Dr. Shreyas treats sports injuries such as ACL tears, shoulder dislocations, rotator cuff tears and ankle sprains, with a focus on safe return-to-play and injury prevention for athletes of all levels.",
+  },
+  {
+    q: "What hospitals is Dr. Shreyas associated with?",
+    a: "Dr. Shreyas M. J. consults at his clinic in Vivekanandanagar, Mysuru and is a visiting consultant at JSS Hospital, Mysore, enabling access to advanced theatre, imaging and inpatient facilities when surgery or admission is required.",
+  },
 ];
 
 
@@ -111,6 +164,7 @@ export const Route = createFileRoute("/specialties/")({
         { name: "Home", path: "/" },
         { name: "Area of Specialties", path: "/specialties" },
       ]),
+      faqLd(SPECIALTY_FAQS),
     ],
   }),
   loader: async ({ context }) => {
@@ -228,12 +282,18 @@ function SpecialtiesPage() {
                 key={c.title}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
               >
-                <img
-                  src={c.image}
-                  alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
-                  loading="lazy"
-                  className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {c.image ? (
+                  <img
+                    src={c.image}
+                    alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
+                    loading="lazy"
+                    className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-40 w-full items-center justify-center bg-gradient-to-br from-primary/10 to-accent/15">
+                    <Bone className="h-12 w-12 text-accent" />
+                  </div>
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="font-display text-lg font-semibold text-primary">
                     {c.title}
@@ -317,6 +377,36 @@ function SpecialtiesPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-y border-border/60 bg-soft-blue/40">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              Frequently asked questions
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+              Your orthopaedic questions, answered
+            </h2>
+          </div>
+          <Accordion type="single" collapsible className="mt-10 space-y-3">
+            {SPECIALTY_FAQS.map((f, i) => (
+              <AccordionItem
+                key={f.q}
+                value={`faq-${i}`}
+                className="overflow-hidden rounded-2xl border border-border bg-card px-5"
+              >
+                <AccordionTrigger className="text-left font-display text-base font-semibold text-primary hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
