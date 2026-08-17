@@ -196,43 +196,33 @@ export function HeroSlider({
                 </div>
               ) : (
                 /* ---- Standard full-bleed background slide ---- */
-                <div className="relative h-[420px] w-full sm:h-[500px] lg:h-[560px]">
+                <div className="relative h-[520px] w-full sm:h-[560px] md:h-[560px]">
                   <img
                     src={s.image}
                     alt={s.title}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <div
-                    className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/20"
+                    className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/30"
                     aria-hidden
                   />
-                  <div className="relative mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                  <div className="relative mx-auto flex h-full max-w-7xl items-center px-5 py-6 sm:px-8 sm:py-8 lg:px-8">
                     <div className="max-w-xl text-primary-foreground sm:max-w-2xl">
-                      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary-foreground/80">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
-                      <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+                      <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
                         {s.title}
                       </h2>
-                      <p className="mt-4 max-w-xl text-sm opacity-90 sm:text-base">
+                      <p className="mt-3 max-w-lg text-sm opacity-90 sm:text-base">
                         {s.body}
                       </p>
-                      <div className="mt-7 flex flex-wrap gap-3">
-                        <Link to="/book">
-                          <Button size="lg" variant="secondary" className="gap-2 rounded-full">
-                            Book An Appointment <ArrowRight className="h-4 w-4" />
-                          </Button>
-                        </Link>
-                        <Link to={s.href}>
-                          <Button
-                            size="lg"
-                            variant="outline"
-                            className="rounded-full border-primary-foreground/60 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-                          >
-                            Read More
-                          </Button>
-                        </Link>
-                      </div>
+                      <SlideCTAs
+                        href={s.href}
+                        waHref={waHref}
+                        phone={phone}
+                        showBullets={false}
+                      />
                     </div>
                   </div>
                 </div>
@@ -240,9 +230,27 @@ export function HeroSlider({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-4 hidden border-none bg-background/70 sm:flex" />
-        <CarouselNext className="right-4 hidden border-none bg-background/70 sm:flex" />
+        <CarouselPrevious className="left-2 border-none bg-background/70 sm:left-4" />
+        <CarouselNext className="right-2 border-none bg-background/70 sm:right-4" />
+
+        {/* Dots */}
+        <div className="absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-2">
+          {SLIDES.map((s, i) => (
+            <button
+              key={s.title}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => api?.scrollTo(i)}
+              className={`h-2.5 rounded-full transition-all ${
+                selected === i
+                  ? "w-6 bg-primary-foreground"
+                  : "w-2.5 bg-primary-foreground/50 hover:bg-primary-foreground/80"
+              }`}
+            />
+          ))}
+        </div>
       </Carousel>
     </section>
   );
 }
+
