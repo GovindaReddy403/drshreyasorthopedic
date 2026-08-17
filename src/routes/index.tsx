@@ -361,53 +361,8 @@ function LandingPage() {
           </div>
 
           <div className="mt-10">
-            <Carousel
-              opts={{ align: "start", loop: true }}
-              plugins={[reviewsAutoplay.current]}
-              className="w-full"
-            >
-              <CarouselContent>
-                {testimonials.map((t) => {
-                  const initial = t.patient_name.trim().charAt(0).toUpperCase();
-                  const colors = [
-                    "bg-primary/15 text-primary",
-                    "bg-success/15 text-success",
-                    "bg-warning/15 text-warning",
-                  ];
-                  const color = colors[t.patient_name.charCodeAt(0) % colors.length];
-                  return (
-                    <CarouselItem key={t.id} className="md:basis-1/2 lg:basis-1/3">
-                      <Card className="h-full border-primary/10">
-                        <CardContent className="flex h-full flex-col p-6">
-                          <div className="flex items-center gap-3">
-                            <span
-                              className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-semibold ${color}`}
-                            >
-                              {initial}
-                            </span>
-                            <div className="flex-1">
-                              <p className="font-medium leading-tight">{t.patient_name}</p>
-                              <p className="text-xs text-muted-foreground">Google Review</p>
-                            </div>
-                            <GoogleGlyph />
-                          </div>
-                          <div className="mt-4 flex gap-0.5 text-warning">
-                            {Array.from({ length: t.rating }).map((_, i) => (
-                              <Star key={i} className="h-4 w-4 fill-current" />
-                            ))}
-                          </div>
-                          <p className="mt-3 text-sm leading-relaxed text-foreground/85">
-                            {t.content}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex" />
-              <CarouselNext className="hidden sm:flex" />
-            </Carousel>
+            <ReviewsCarousel reviews={testimonials} />
+
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
