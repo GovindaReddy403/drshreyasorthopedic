@@ -38,6 +38,10 @@ import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 import gKnee from "@/assets/treat-knee.jpg";
 import gShoulder from "@/assets/treat-shoulder.jpg";
 import gAnkle from "@/assets/treat-ankle.jpg";
+import gArthroscopy from "@/assets/treat-arthroscopy.jpg";
+import gJoint from "@/assets/treat-xray.jpg";
+import gSports from "@/assets/treat-physio.jpg";
+import gBiologics from "@/assets/treat-biologics.jpg";
 import clinic1 from "@/assets/clinic-1.jpg";
 
 /* ------------------------------------------------------------------ */
