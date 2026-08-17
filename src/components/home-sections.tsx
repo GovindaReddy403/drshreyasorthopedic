@@ -192,22 +192,26 @@ const EXCELLENCE = [
   {
     slug: "knee-arthroscopy",
     title: "Arthroscopic Surgery",
+    image: gArthroscopy,
     body: "Key-hole surgery of the knee and shoulder allows the joint to be inspected and repaired through incisions a few millimetres wide — ACL and PCL reconstruction, meniscus repair, cartilage procedures and rotator cuff repair.",
   },
   {
     slug: "joint-replacement",
     title: "Joint Replacement Surgery",
+    image: gJoint,
     body: "Modern knee and hip implants with rapid-recovery protocols, individually planned alignment and structured physiotherapy so patients stand and walk the same or next day.",
   },
   {
     slug: "sports-medicine-rehab",
     title: "Sports Medicine",
+    image: gSports,
     body: "Return-to-play care for athletes — injury assessment, ligament reconstruction and milestone-based rehabilitation. Benefits of the minimally invasive approach:",
     checklist: KEYHOLE_BENEFITS,
   },
   {
     slug: "trauma-and-fractures",
     title: "Fractures & Biologic Treatments",
+    image: gBiologics,
     body: "High-volume trauma experience from the Sanjay Gandhi Institute of Trauma & Orthopaedics, plus regenerative options such as PRP and viscosupplementation for early arthritis and tendon problems.",
   },
 ];
@@ -220,29 +224,54 @@ export function CentreOfExcellence() {
           Centre of Excellence For Arthroscopic Surgery, Joint Replacements, Sports Medicine
           Injuries, Ortho Biologics, Fracture &amp; Trauma Care
         </h2>
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {EXCELLENCE.map((e) => (
-            <div key={e.slug} className="rounded-2xl border border-border/60 bg-card p-7">
-              <h3 className="font-display text-xl font-semibold text-primary">{e.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{e.body}</p>
-              {e.checklist && (
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {e.checklist.map((c) => (
-                    <li key={c} className="flex items-center gap-2 text-sm text-foreground/85">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" /> {c}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Link
-                to="/specialties/$slug"
-                params={{ slug: e.slug }}
-                className="mt-5 inline-block text-sm font-semibold text-accent hover:underline"
+        <div className="mt-12 flex flex-col gap-12">
+          {EXCELLENCE.map((e, i) => {
+            const imageLeft = i % 2 === 0;
+            return (
+              <div
+                key={e.slug}
+                className="grid items-center gap-8 md:grid-cols-2 md:gap-12"
               >
-                Read More
-              </Link>
-            </div>
-          ))}
+                <div className={imageLeft ? "md:order-1" : "md:order-2"}>
+                  <img
+                    src={e.image}
+                    alt={e.title}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full rounded-2xl border border-border/60 object-cover shadow-[var(--shadow-soft)]"
+                  />
+                </div>
+                <div className={imageLeft ? "md:order-2" : "md:order-1"}>
+                  <h3 className="font-display text-2xl font-bold text-primary">
+                    {e.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {e.body}
+                  </p>
+                  {e.checklist && (
+                    <ul className="mt-5 grid gap-2 sm:grid-cols-2">
+                      {e.checklist.map((c) => (
+                        <li
+                          key={c}
+                          className="flex items-center gap-2 text-sm font-medium text-foreground/85"
+                        >
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-accent" />
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <Link
+                    to="/specialties/$slug"
+                    params={{ slug: e.slug }}
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95"
+                  >
+                    Read More
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
