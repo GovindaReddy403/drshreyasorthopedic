@@ -55,12 +55,88 @@ function SpecialtiesPage() {
 
   return (
     <PageShell>
-      <PageHero
-        eyebrow="Advanced Orthopaedic Care"
-        title="Area of Specialties"
-        subtitle="Arthroscopy Knee & Shoulder (Key Hole) · Joint Replacement · Spine Injury · Foot & Ankle · Trauma"
-        crumb="Area of Specialties"
-      />
+      {/* Page header with CTAs */}
+      <section className="border-b border-border/60 bg-hero-gradient">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Advanced Orthopaedic Care
+          </p>
+          <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold text-primary sm:text-4xl lg:text-5xl">
+            Your Trusted Orthopaedic Surgeon in Bangalore — Comprehensive Joint
+            Care Under One Roof
+          </h1>
+          <p className="mt-4 max-w-3xl text-base text-muted-foreground">
+            From key-hole arthroscopy of the knee and shoulder to joint
+            replacement, spine injury, foot & ankle and trauma care — Dr.
+            Shreyas M. J. offers evidence-based, minimally invasive orthopaedic
+            treatment tailored to your recovery goals.
+          </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link to="/book">
+              <Button size="lg" className="gap-2 rounded-full">
+                <CalendarCheck className="h-4 w-4" /> Book a Consultation
+              </Button>
+            </Link>
+            <a href={`tel:${CLINIC_PHONE.replace(/\s+/g, "")}`}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2 rounded-full"
+              >
+                <Phone className="h-4 w-4" /> Call: {CLINIC_PHONE}
+              </Button>
+            </a>
+          </div>
+          <nav className="mt-6 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <Link to="/" className="hover:text-primary">
+              Home
+            </Link>
+            <span className="px-2">/</span>
+            <span className="text-primary">Area of Specialties</span>
+          </nav>
+        </div>
+      </section>
+
+      {/* About + clinic highlights */}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              About Dr. Shreyas M. J.
+            </p>
+            <h2 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
+              Fellowship-trained Orthopaedic Surgeon & Sports Medicine
+              Specialist
+            </h2>
+            <p className="mt-4 text-sm text-muted-foreground sm:text-base">
+              Dr. Shreyas M. J. is an Orthopaedic Surgeon with specialised
+              training in Arthroscopy, Sports Medicine, Knee & Shoulder
+              surgery and Upper & Lower Limb Trauma. With fellowships in
+              India, Australia and Thailand, he combines international
+              techniques with a patient-first approach to deliver faster,
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-[var(--shadow-soft)]">
+            <h3 className="font-display text-lg font-semibold text-primary">
+              Clinic Highlights
+            </h3>
+            <ul className="mt-4 space-y-3">
+              {[
+                "Fellowship-trained in Arthroscopy & Sports Medicine",
+                "Visiting consultant at JSS Hospital, Mysore",
+                "Minimally invasive procedures for faster recovery",
+                "Multilingual patient care — Kannada, Hindi, English",
+                "Open Monday to Saturday | 5 PM – 9 PM",
+              ].map((h) => (
+                <li key={h} className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <span className="text-sm text-foreground/90">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <SectionHeader
