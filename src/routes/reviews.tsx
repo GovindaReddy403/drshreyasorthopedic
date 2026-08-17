@@ -1,9 +1,9 @@
 import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
+import { ReviewsCarousel } from "@/components/reviews-carousel";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO, testimonialsQO, GOOGLE_REVIEWS_URL } from "@/lib/queries";
 
