@@ -59,6 +59,7 @@ import {
   HomeBlogSection,
   MeetDrShreyas,
   PatientVideoStories,
+  PreFooterDoctorCard,
   SpecialtyImageCards,
   StatsBand,
   SurgicalPhilosophy,
