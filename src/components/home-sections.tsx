@@ -1141,7 +1141,7 @@ const PREFOOTER_STATS = [
 export function PreFooterDoctorCard({ image }: { image: string }) {
   return (
     <section className="bg-soft-blue">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-28">
         <div className="grid items-center gap-10 rounded-3xl border border-primary/10 bg-card p-6 shadow-[var(--shadow-soft)] md:grid-cols-2 md:p-10">
           <div className="order-1 mx-auto max-w-sm md:order-1">
             <img
