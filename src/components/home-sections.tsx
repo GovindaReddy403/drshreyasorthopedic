@@ -3,6 +3,7 @@ import {
   Activity,
   ArrowRight,
   Bone,
+  Building2,
   CalendarDays,
   CheckCircle2,
   ClipboardList,
