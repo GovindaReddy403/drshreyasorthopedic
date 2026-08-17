@@ -945,7 +945,7 @@ export function MeetDrShreyas({
 }: {
   name: string;
   clinicName: string;
-  address: string;
+  address?: string | null;
   mapsUrl?: string | null;
 }) {
   return (
