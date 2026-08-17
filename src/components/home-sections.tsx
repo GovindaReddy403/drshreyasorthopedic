@@ -61,7 +61,7 @@ const HERO_STATS = [
 export function HeroStatsRow() {
   return (
     <section className="border-b border-border/60 bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-28">
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:divide-x lg:divide-border/60">
           {HERO_STATS.map((s) => (
             <div
