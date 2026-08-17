@@ -1,10 +1,10 @@
-import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
+import { OG_IMAGE, absUrl, breadcrumbLd, CLINIC_PHONE } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CalendarCheck, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
-import { PageHero, SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
+import { SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
 
