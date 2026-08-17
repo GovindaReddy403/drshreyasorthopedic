@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   ClipboardList,
   Dumbbell,
+  GraduationCap,
   HeartPulse,
   MapPin,
   Microscope,
