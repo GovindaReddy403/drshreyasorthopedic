@@ -212,19 +212,6 @@ export function SiteNav({
               </Link>
             ),
           )}
-
-          <Link
-            to="/manage"
-            className="border-l border-primary/15 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 hover:text-primary"
-          >
-            Manage
-          </Link>
-          <Link
-            to="/auth"
-            className="border-l border-primary/15 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-foreground/75 hover:text-primary"
-          >
-            Staff Login
-          </Link>
         </div>
       </nav>
     </header>
