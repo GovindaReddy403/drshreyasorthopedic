@@ -380,6 +380,36 @@ function SpecialtiesPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="border-y border-border/60 bg-soft-blue/40">
+        <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              Frequently asked questions
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+              Your orthopaedic questions, answered
+            </h2>
+          </div>
+          <Accordion type="single" collapsible className="mt-10 space-y-3">
+            {SPECIALTY_FAQS.map((f, i) => (
+              <AccordionItem
+                key={f.q}
+                value={`faq-${i}`}
+                className="overflow-hidden rounded-2xl border border-border bg-card px-5"
+              >
+                <AccordionTrigger className="text-left font-display text-base font-semibold text-primary hover:no-underline">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
       <TrustBand />
       <CtaBand>
         <Link to="/book">
