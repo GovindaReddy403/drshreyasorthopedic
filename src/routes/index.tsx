@@ -488,9 +488,9 @@ function LandingPage() {
       <CareRoadmap />
       <HomeBlogSection />
       <FaqSection />
+      <AppointmentCtaBand />
       <ClinicMap address={clinic.address} />
       <TrustedExpertiseBand />
-      <AppointmentCtaBand />
 
       <SiteFooter clinic={clinic} />
     </div>
