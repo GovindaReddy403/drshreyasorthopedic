@@ -7,6 +7,81 @@ import { PageShell } from "@/components/page-shell";
 import { SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
+import gKnee from "@/assets/treat-knee.jpg";
+import gShoulder from "@/assets/treat-shoulder.jpg";
+import gAnkle from "@/assets/treat-ankle.jpg";
+import gHip from "@/assets/treat-hip.jpg";
+import gElbow from "@/assets/treat-elbow.jpg";
+
+const PROCEDURE_CATEGORIES: {
+  title: string;
+  image: string;
+  procedures: string[];
+}[] = [
+  {
+    title: "Knee Procedures",
+    image: gKnee,
+    procedures: [
+      "Knee Arthroscopy",
+      "Total Knee Replacement",
+      "Partial Knee Replacement",
+      "ACL Reconstruction",
+      "PCL Reconstruction",
+      "Meniscal Surgery",
+      "Cartilage Repair",
+      "Patellar Tendon Repair",
+      "Knee Osteotomy",
+      "Robotic-Assisted Surgeries",
+    ],
+  },
+  {
+    title: "Shoulder Procedures",
+    image: gShoulder,
+    procedures: [
+      "Shoulder Arthroscopy",
+      "SLAP Repair",
+      "Bankart Repair",
+      "Rotator Cuff Repair",
+      "Shoulder Joint Replacement",
+      "Recurrent Dislocation Surgery",
+      "Frozen Shoulder Release",
+      "Labrum Reconstruction",
+    ],
+  },
+  {
+    title: "Foot & Ankle Procedures",
+    image: gAnkle,
+    procedures: [
+      "Ankle Arthroscopy",
+      "Ankle Ligament Reconstruction (ATFL)",
+      "Achilles Tendon Repair",
+      "Plantar Fasciitis Treatment",
+      "Deformity Correction",
+      "Ankle Fracture Fixation",
+    ],
+  },
+  {
+    title: "Hip Procedures",
+    image: gHip,
+    procedures: [
+      "Hip Arthroscopy",
+      "Total Hip Replacement",
+      "Hip Labral Repair",
+      "Hip Fracture Surgery",
+    ],
+  },
+  {
+    title: "Elbow Procedures",
+    image: gElbow,
+    procedures: [
+      "Elbow Arthroscopy",
+      "Tennis Elbow Surgery",
+      "Golfer Elbow Surgery",
+      "Elbow Ligament Reconstruction",
+      "Elbow Tendon Repair",
+    ],
+  },
+];
 
 
 export const Route = createFileRoute("/specialties/")({
@@ -138,6 +213,49 @@ function SpecialtiesPage() {
           </div>
         </div>
       </section>
+
+      {/* Individual procedure lists per body-part category */}
+      <section className="bg-soft-blue/40">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionHeader
+            eyebrow="Procedures Performed"
+            title="Individual procedures by body area"
+            description="A full spectrum of surgical and minimally invasive orthopaedic procedures, organised by the joint or region they treat."
+          />
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {PROCEDURE_CATEGORIES.map((c) => (
+              <article
+                key={c.title}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
+              >
+                <img
+                  src={c.image}
+                  alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
+                  loading="lazy"
+                  className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-display text-lg font-semibold text-primary">
+                    {c.title}
+                  </h3>
+                  <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                    {c.procedures.map((p) => (
+                      <li
+                        key={p}
+                        className="flex items-start gap-2 text-sm text-foreground/80"
+                      >
+                        <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <SectionHeader
