@@ -214,6 +214,49 @@ function SpecialtiesPage() {
         </div>
       </section>
 
+      {/* Individual procedure lists per body-part category */}
+      <section className="bg-soft-blue/40">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionHeader
+            eyebrow="Procedures Performed"
+            title="Individual procedures by body area"
+            description="A full spectrum of surgical and minimally invasive orthopaedic procedures, organised by the joint or region they treat."
+          />
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {PROCEDURE_CATEGORIES.map((c) => (
+              <article
+                key={c.title}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
+              >
+                <img
+                  src={c.image}
+                  alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
+                  loading="lazy"
+                  className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-display text-lg font-semibold text-primary">
+                    {c.title}
+                  </h3>
+                  <ul className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                    {c.procedures.map((p) => (
+                      <li
+                        key={p}
+                        className="flex items-start gap-2 text-sm text-foreground/80"
+                      >
+                        <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Treatments & Procedures"
