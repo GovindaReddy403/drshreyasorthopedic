@@ -56,6 +56,7 @@ import {
   FaqSection,
   FAQS,
   HomeBlogSection,
+  MeetDrShreyas,
   PatientVideoStories,
   SpecialtyImageCards,
   StatsBand,
@@ -213,6 +214,13 @@ function LandingPage() {
         name={primaryDoctor?.name ?? clinic.doctor_name}
         qualifications={primaryDoctor?.qualifications ?? clinic.qualifications}
         about={primaryDoctor?.about ?? clinic.about_doctor}
+      />
+
+      <MeetDrShreyas
+        name={primaryDoctor?.name ?? clinic.doctor_name}
+        clinicName={clinic.clinic_name}
+        address={clinic.address}
+        mapsUrl={clinic.google_maps_url}
       />
 
       {doctors.length > 1 && (

@@ -3,6 +3,7 @@ import {
   Activity,
   ArrowRight,
   Bone,
+  Building2,
   CalendarDays,
   CheckCircle2,
   ClipboardList,
@@ -916,6 +917,158 @@ export function DoctorProfileFeature({
   );
 }
 
+
+/* ------------------------------------------------------------------ */
+/* Meet Dr. Shreyas — expanded bio + where to consult                    */
+/* ------------------------------------------------------------------ */
+
+const MEET_DESIGNATION =
+  "Consultant — Arthroscopy, Knee & Shoulder Surgery, Joint Replacement, and Sports Medicine Specialist";
+
+const MEET_BIO = `Dr. Shreyas M. J. is an Assistant Professor in the Department of Orthopaedics at JSS Hospital, Mysore, where he combines academic teaching with a busy surgical practice. He completed his MBBS and MS in Orthopaedics at JSS Medical College, before pursuing fellowships in Arthroscopy and Sports Medicine across India, Australia and Thailand — training that shaped his philosophy of minimally invasive, patient-first orthopaedic care.
+
+His practice spans key-hole (arthroscopic) surgery of the knee and shoulder, primary and complex joint replacement, upper-limb trauma and regenerative (PRP) therapy for early joint preservation. Patients are guided through a clear plan of care — from diagnosis and conservative management to surgery and structured rehabilitation — with honest advice on when an operation is truly needed.`;
+
+const SURGICAL_PHILOSOPHY_QUOTE =
+  "I combine advanced international surgical precision with localized, empathetic patient care — the right operation at the right time, and never an operation that can be avoided.";
+
+const JSS_ADDRESS =
+  "JSS Medical College & Hospital, MG Road, Saraswathipuram, Mysuru, Karnataka 570004";
+const JSS_MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysore";
+
+export function MeetDrShreyas({
+  name,
+  clinicName,
+  address,
+  mapsUrl,
+}: {
+  name: string;
+  clinicName: string;
+  address?: string | null;
+  mapsUrl?: string | null;
+}) {
+  return (
+    <section id="meet-dr-shreyas" className="border-b border-border/60 bg-soft-blue">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            About the Doctor
+          </p>
+          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
+            Meet {name}
+          </h2>
+          <p className="mt-2 font-medium text-foreground/80">{MEET_DESIGNATION}</p>
+        </div>
+
+        {/* Surgical philosophy blockquote */}
+        <blockquote className="mx-auto mt-10 max-w-3xl border-l-4 border-accent bg-card/70 p-6 text-center italic text-lg leading-relaxed text-foreground/85 shadow-[var(--shadow-soft)] sm:p-8">
+          <Quote className="mx-auto mb-3 h-8 w-8 text-accent" />
+          "{SURGICAL_PHILOSOPHY_QUOTE}"
+        </blockquote>
+
+        {/* Extended bio */}
+        <div className="mx-auto mt-10 max-w-3xl">
+          <p className="whitespace-pre-line leading-relaxed text-muted-foreground">
+            {MEET_BIO}
+          </p>
+        </div>
+
+        {/* Where to Consult */}
+        <div className="mt-14">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+              Where to Consult
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
+              Consult Dr. Shreyas in Mysuru
+            </h3>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {/* Primary practice */}
+            <Card className="h-full border-primary/15 py-0">
+              <CardContent className="flex h-full flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Stethoscope className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+                      Primary Practice
+                    </p>
+                    <h4 className="font-display text-lg font-semibold text-primary">
+                      {clinicName}
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <span>{address}</span>
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground">Best for:</span>{" "}
+                  OPD consultations, second opinions, sports injury assessment and
+                  non-surgical joint preservation.
+                </p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:mt-auto">
+                  {mapsUrl && (
+                    <a href={mapsUrl} target="_blank" rel="noreferrer" className="sm:flex-1">
+                      <Button variant="outline" className="w-full gap-2 rounded-full">
+                        <MapPin className="h-4 w-4" /> Open in Google Maps
+                      </Button>
+                    </a>
+                  )}
+                  <Link to="/book" className="sm:flex-1">
+                    <Button className="w-full gap-2 rounded-full">
+                      <CalendarDays className="h-4 w-4" /> Book Appointment
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Hospital affiliation */}
+            <Card className="h-full border-primary/15 py-0">
+              <CardContent className="flex h-full flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Building2 className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+                      Hospital Affiliation
+                    </p>
+                    <h4 className="font-display text-lg font-semibold text-primary">
+                      JSS Hospital, Mysore
+                    </h4>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-start gap-2 text-sm text-muted-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  <span>{JSS_ADDRESS}</span>
+                </div>
+                <p className="mt-4 text-sm text-muted-foreground">
+                  <span className="font-semibold text-foreground">Best for:</span>{" "}
+                  In-patient orthopaedic surgery, complex trauma, joint replacement
+                  and arthroscopic procedures with full multidisciplinary support.
+                </p>
+                <div className="mt-6 flex sm:mt-auto">
+                  <a href={JSS_MAPS_URL} target="_blank" rel="noreferrer" className="w-full sm:w-auto sm:px-8">
+                    <Button variant="outline" className="w-full gap-2 rounded-full">
+                      <MapPin className="h-4 w-4" /> Open in Maps
+                    </Button>
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* Blog teaser                                                          */
