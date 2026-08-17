@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   ClipboardList,
   Dumbbell,
+  GraduationCap,
   HeartPulse,
   MapPin,
   Microscope,
@@ -45,6 +46,46 @@ import gJoint from "@/assets/treat-xray.jpg";
 import gSports from "@/assets/treat-physio.jpg";
 import gBiologics from "@/assets/treat-biologics.jpg";
 import clinic1 from "@/assets/clinic-1.jpg";
+
+/* ------------------------------------------------------------------ */
+/* 4 — Compact hero stats row (4 icons)                                 */
+/* ------------------------------------------------------------------ */
+
+const HERO_STATS = [
+  { icon: Trophy, value: "15+", label: "Years of Experience" },
+  { icon: Scissors, value: "5,000+", label: "Orthopaedic Surgeries" },
+  { icon: Users, value: "20,000+", label: "Happy Patients" },
+  { icon: GraduationCap, value: "3", label: "Fellowships · India, Australia & Thailand" },
+];
+
+export function HeroStatsRow() {
+  return (
+    <section className="border-b border-border/60 bg-background">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-28">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:divide-x lg:divide-border/60">
+          {HERO_STATS.map((s) => (
+            <div
+              key={s.label}
+              className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card p-4 lg:border-0 lg:bg-transparent lg:p-4"
+            >
+              <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <s.icon className="h-5 w-5" />
+              </span>
+              <div className="min-w-0">
+                <p className="font-display text-2xl font-bold leading-none text-primary">
+                  {s.value}
+                </p>
+                <p className="mt-1 text-xs font-medium leading-tight text-muted-foreground">
+                  {s.label}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /* 5 — Surgical track record & stats                                    */

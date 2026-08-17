@@ -56,6 +56,7 @@ import {
   DoctorProfileFeature,
   FaqSection,
   FAQS,
+  HeroStatsRow,
   HomeBlogSection,
   MeetDrShreyas,
   PatientVideoStories,
@@ -170,6 +171,8 @@ function LandingPage() {
       />
 
       <HeroSlider phone={clinic.phone} whatsapp={clinic.whatsapp} />
+
+      <HeroStatsRow />
 
       {/* Headline + CTA */}
       <section className="border-b border-border/60 bg-background">
