@@ -145,6 +145,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <TrustBarSpacer />
+      <StickyTrustBar />
       <Toaster position="top-center" richColors closeButton />
     </QueryClientProvider>
   );
