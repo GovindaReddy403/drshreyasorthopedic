@@ -1127,3 +1127,68 @@ export function HomeBlogSection() {
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Pre-footer doctor card                                                */
+/* ------------------------------------------------------------------ */
+
+const PREFOOTER_STATS = [
+  { value: "15+", label: "Years" },
+  { value: "5,000+", label: "Surgeries" },
+  { value: "20,000+", label: "Patients" },
+];
+
+export function PreFooterDoctorCard({ image }: { image: string }) {
+  return (
+    <section className="bg-soft-blue">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-28">
+        <div className="grid items-center gap-10 rounded-3xl border border-primary/10 bg-card p-6 shadow-[var(--shadow-soft)] md:grid-cols-2 md:p-10">
+          <div className="order-1 mx-auto max-w-sm md:order-1">
+            <img
+              src={image}
+              alt="Dr. Shreyas M. J. — Orthopaedic Surgeon & Sports Medicine Specialist"
+              width={900}
+              height={1100}
+              loading="lazy"
+              className="w-full rounded-2xl object-cover object-top shadow-md"
+            />
+          </div>
+          <div className="order-2 md:order-2">
+            <h2 className="font-display text-3xl font-bold text-primary sm:text-4xl">
+              Dr. Shreyas M. J.
+            </h2>
+            <p className="mt-1.5 font-display text-base font-semibold text-accent">
+              Orthopaedic Surgeon & Sports Medicine Specialist
+            </p>
+
+            <div className="mt-6 grid grid-cols-3 divide-x divide-border rounded-2xl border border-border bg-background/60">
+              {PREFOOTER_STATS.map((s) => (
+                <div key={s.label} className="px-3 py-4 text-center">
+                  <p className="font-display text-2xl font-bold text-primary sm:text-3xl">
+                    {s.value}
+                  </p>
+                  <p className="mt-1 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/about-doctor">
+                <Button variant="outline" className="rounded-full px-6">
+                  Full profile
+                </Button>
+              </Link>
+              <Link to="/book">
+                <Button className="rounded-full bg-accent px-6 text-accent-foreground hover:bg-accent/90">
+                  <CalendarDays className="mr-2 h-4 w-4" /> Book an appointment
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
