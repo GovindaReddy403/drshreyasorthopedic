@@ -827,52 +827,65 @@ export function DoctorProfileFeature({
   return (
     <section id="about" className="border-b border-border/60 bg-background">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <div className="relative mx-auto w-full max-w-md">
+        {/* Left: larger doctor image */}
+        <div className="relative mx-auto w-full max-w-xl">
           <div className="rounded-[28px] bg-[linear-gradient(140deg,var(--primary),var(--accent))] p-[6px] shadow-[var(--shadow-soft)]">
             <div className="overflow-hidden rounded-[22px] bg-card">
               <img
                 src={image}
                 alt={name}
-                width={900}
-                height={1100}
+                width={1000}
+                height={1250}
                 loading="lazy"
-                className="aspect-4/5 w-full object-cover"
+                className="aspect-4/5 w-full object-cover object-top"
               />
             </div>
           </div>
-          <div className="mx-4 -mt-10 rounded-2xl border border-border bg-card p-4 text-center shadow-[var(--shadow-soft)]">
-            <p className="font-display text-base font-bold text-primary">{name}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Orthopaedic Surgeon &amp; Sports Medicine Specialist
-            </p>
-          </div>
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {PROFILE_STATS.map((s) => (
-              <div key={s.label} className="rounded-2xl border border-border/60 bg-card p-3 text-center">
-                <p className="font-display text-xl font-bold text-primary">{s.value}</p>
-                <p className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
 
+        {/* Right: details */}
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
             Doctor Profile
           </p>
           <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
-            Meet {name}
+            {name}
           </h2>
-          {qualifications && (
-            <p className="mt-2 font-medium text-foreground/80">{qualifications}</p>
-          )}
+          <p className="mt-1 font-medium text-accent">{PROFILE_SUBTITLE}</p>
+
           {about && (
             <p className="mt-5 whitespace-pre-line leading-relaxed text-muted-foreground">
               {about}
             </p>
           )}
+
+          {qualifications && (
+            <div className="mt-5 flex items-start gap-2 rounded-2xl border border-border/60 bg-card p-4">
+              <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+              <p className="text-sm font-medium leading-relaxed text-foreground/80">
+                {qualifications}
+              </p>
+            </div>
+          )}
+
+          {/* Stats row */}
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            {PROFILE_STATS.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-2xl border border-primary/20 bg-primary/5 p-4 text-center"
+              >
+                <p className="font-display text-2xl font-bold text-primary sm:text-3xl">
+                  {s.value}
+                </p>
+                <p className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Tag pills */}
           <div className="mt-6 flex flex-wrap gap-2">
             {PROFILE_TAGS.map((t) => (
               <span
@@ -883,15 +896,17 @@ export function DoctorProfileFeature({
               </span>
             ))}
           </div>
+
+          {/* CTAs */}
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/about-doctor">
-              <Button variant="outline" className="rounded-full">
-                Full profile
-              </Button>
-            </Link>
             <Link to="/book">
               <Button className="gap-2 rounded-full">
-                <CalendarDays className="h-4 w-4" /> Book an appointment
+                <CalendarDays className="h-4 w-4" /> Book Appointment
+              </Button>
+            </Link>
+            <Link to="/about-doctor">
+              <Button variant="outline" className="rounded-full">
+                View Full Profile
               </Button>
             </Link>
           </div>
@@ -900,6 +915,7 @@ export function DoctorProfileFeature({
     </section>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* Blog teaser                                                          */
