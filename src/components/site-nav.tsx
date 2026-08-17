@@ -99,13 +99,13 @@ export function SiteNav({
           {phone && (
             <a
               href={telHref}
-              className="hidden items-center gap-2 font-sans text-[20px] font-medium text-black sm:inline-flex"
+              className="hidden items-center gap-2 font-['Poppins'] text-[20px] font-medium text-black sm:inline-flex"
             >
               <Phone className="h-5 w-5" /> {phone}
             </a>
           )}
           <Link to="/book" className="hidden sm:block">
-            <span className="inline-flex items-center gap-2 rounded-[36px] bg-[#000B43] px-[30px] py-[15px] font-sans text-sm font-semibold text-white transition-opacity hover:opacity-90">
+            <span className="inline-flex items-center gap-2 rounded-[36px] bg-[#000B43] px-[30px] py-[15px] font-['Poppins'] text-[14px] font-semibold text-white transition-opacity hover:opacity-90">
               <CalendarDays className="h-4 w-4" /> Book An Appointment
             </span>
           </Link>
