@@ -75,9 +75,8 @@ export function SiteNav({
   const telHref = phone ? `tel:${phone.replace(/\s/g, "")}` : undefined;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-hero-gradient/95 backdrop-blur">
-      {/* Brand row */}
-
+    <header className="sticky top-0 z-40 w-full bg-[#dfeef4]">
+      {/* Row 1 — Top bar: logo left, phone + Book button right */}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" hash="top" className="flex items-center gap-3">
           <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground">
@@ -88,7 +87,7 @@ export function SiteNav({
               {clinicName}
             </span>
             <span className="block text-[11px] font-semibold uppercase tracking-[0.3em] text-accent sm:text-xs">
-              Bone &amp; Joint Care
+              Bone & Joint Care
             </span>
           </span>
         </Link>
@@ -97,15 +96,15 @@ export function SiteNav({
           {phone && (
             <a
               href={telHref}
-              className="hidden items-center gap-2 font-display text-lg font-bold text-primary sm:inline-flex"
+              className="hidden items-center gap-2 font-sans text-[20px] font-medium text-black sm:inline-flex"
             >
-              <Phone className="h-4 w-4" /> {phone}
+              <Phone className="h-5 w-5" /> {phone}
             </a>
           )}
           <Link to="/book" className="hidden sm:block">
-            <Button size="lg" className="gap-2 rounded-full">
+            <span className="inline-flex items-center gap-2 rounded-[36px] bg-[#000B43] px-[30px] py-[15px] font-sans text-sm font-semibold text-white transition-opacity hover:opacity-90">
               <CalendarDays className="h-4 w-4" /> Book An Appointment
-            </Button>
+            </span>
           </Link>
 
           <Sheet open={open} onOpenChange={setOpen}>
@@ -146,8 +145,8 @@ export function SiteNav({
         </div>
       </div>
 
-      {/* Nav row */}
-      <nav className="hidden border-t border-primary/10 lg:block">
+      {/* Row 2 — Navigation bar: horizontal menu only */}
+      <nav className="hidden lg:block">
         <div className="group/mega mx-auto flex max-w-7xl items-center justify-center gap-0 px-4 sm:px-6 lg:px-8">
           {links.map((l, i) =>
             l.to === "/specialties" ? (
