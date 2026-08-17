@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, ChevronDown, Menu, Phone, Stethoscope } from "lucide-react";
+import { CalendarDays, ChevronDown, List, Menu, Phone, Stethoscope } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -17,22 +17,13 @@ const links = [
 
 const MEGA_COLUMNS = [
   {
-    heading: "Injuries & Conditions",
-    conditions: true,
-    items: [
-      { slug: "knee-pain-and-lower-leg", label: "Knee Pain & Lower Leg" },
-      { slug: "shoulder-pain", label: "Shoulder Pain" },
-      { slug: "neck-and-back-pain", label: "Neck & Back Pain" },
-      { slug: "foot-and-ankle-pain", label: "Foot & Ankle Pain" },
-      { slug: "elbow-and-wrist-pain", label: "Elbow & Wrist Pain" },
-    ],
-  },
-  {
     heading: "Treatments & Procedures",
     items: [
+      { slug: "arthroscopic-surgery", label: "Arthroscopic Surgery" },
       { slug: "joint-replacement", label: "Joint Replacement Surgery" },
-      { slug: "ortho-biologics", label: "Ortho Biologics (PRP)" },
+      { slug: "sports-medicine-solutions", label: "Sports Medicine Solutions" },
       { slug: "trauma-and-fractures", label: "Fracture & Trauma Care" },
+      { slug: "ortho-biologics", label: "Ortho Biologics (PRP)" },
     ],
   },
   {
@@ -41,6 +32,7 @@ const MEGA_COLUMNS = [
       { slug: "knee-arthroscopy", label: "Knee Arthroscopy" },
       { slug: "knee-arthroscopy", label: "ACL / PCL Reconstruction" },
       { slug: "knee-arthroscopy", label: "Meniscus Repair" },
+      { slug: "knee-arthroscopy", label: "Cartilage Repair" },
     ],
   },
   {
@@ -49,14 +41,23 @@ const MEGA_COLUMNS = [
       { slug: "shoulder-arthroscopy", label: "Shoulder Arthroscopy" },
       { slug: "shoulder-arthroscopy", label: "Rotator Cuff Repair" },
       { slug: "shoulder-arthroscopy", label: "Recurrent Dislocation" },
+      { slug: "shoulder-arthroscopy", label: "SLAP / Bankart Repair" },
     ],
   },
   {
-    heading: "Foot, Ankle & Sports",
+    heading: "Foot & Ankle",
     items: [
       { slug: "foot-and-ankle", label: "Foot & Ankle Surgery" },
+      { slug: "foot-and-ankle", label: "Ankle Ligament Reconstruction" },
+      { slug: "foot-and-ankle", label: "Achilles Tendon Repair" },
+    ],
+  },
+  {
+    heading: "Sports Medicine & Rehab",
+    items: [
       { slug: "sports-medicine-rehab", label: "Sports Medicine & Rehab" },
       { slug: "sports-medicine-rehab", label: "Return-to-Play Program" },
+      { slug: "ortho-biologics", label: "PRP & Biologics" },
     ],
   },
 ];
@@ -156,46 +157,32 @@ export function SiteNav({
                   {l.label} <ChevronDown className="h-3.5 w-3.5" />
                 </Link>
                 <div className="invisible absolute left-1/2 top-full z-50 w-[min(1100px,92vw)] -translate-x-1/2 opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover/item:visible group-hover/item:opacity-100">
-                  <div className="grid grid-cols-5 gap-6 rounded-b-2xl border border-border/60 bg-card p-7">
+                  <div className="grid grid-cols-5 gap-6 rounded-b-2xl border border-border/60 bg-[#EAF8FF] p-7">
                     {MEGA_COLUMNS.map((col) => (
-                      <div key={col.heading}>
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
+                      <div key={col.heading} className="flex flex-col">
+                        <p className="text-[15px] font-bold uppercase tracking-wider text-primary">
                           {col.heading}
                         </p>
                         <ul className="mt-3 space-y-2">
-                          {col.items.map((it) =>
-                            "conditions" in col && col.conditions ? (
-                              <li key={it.label}>
-                                <Link
-                                  to="/conditions/$slug"
-                                  params={{ slug: it.slug }}
-                                  className="text-sm text-muted-foreground hover:text-primary"
-                                >
-                                  {it.label}
-                                </Link>
-                              </li>
-                            ) : (
-                              <li key={it.label}>
-                                <Link
-                                  to="/specialties/$slug"
-                                  params={{ slug: it.slug }}
-                                  className="text-sm text-muted-foreground hover:text-primary"
-                                >
-                                  {it.label}
-                                </Link>
-                              </li>
-                            ),
-                          )}
+                          {col.items.map((it) => (
+                            <li key={it.label}>
+                              <Link
+                                to="/specialties/$slug"
+                                params={{ slug: it.slug }}
+                                className="text-[15px] text-black transition-colors hover:text-[#eb6a56]"
+                              >
+                                {it.label}
+                              </Link>
+                            </li>
+                          ))}
                         </ul>
+                        <Link to="/specialties" className="mt-4 self-start">
+                          <span className="inline-flex items-center gap-1.5 bg-[#eb6a56] px-3 py-1.5 text-xs font-semibold text-white">
+                            <List className="h-3.5 w-3.5" /> More Procedures
+                          </span>
+                        </Link>
                       </div>
                     ))}
-                    <div className="col-span-full border-t border-border/60 pt-4">
-                      <Link to="/specialties">
-                        <Button size="sm" variant="outline" className="rounded-full">
-                          More Procedures
-                        </Button>
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>
