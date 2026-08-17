@@ -1,7 +1,7 @@
 import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { CalendarDays, GraduationCap, Languages, Stethoscope } from "lucide-react";
+import { CalendarDays, CheckCircle2, GraduationCap, Languages, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, TickList, TrustBand, CtaBand } from "@/components/site-sections";
