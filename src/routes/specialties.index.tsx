@@ -114,6 +114,7 @@ function SpecialtiesPage() {
               surgery and Upper & Lower Limb Trauma. With fellowships in
               India, Australia and Thailand, he combines international
               techniques with a patient-first approach to deliver faster,
+              safer recoveries and lasting joint function.
             </p>
           </div>
           <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-[var(--shadow-soft)]">
