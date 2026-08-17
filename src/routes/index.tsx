@@ -172,6 +172,8 @@ function LandingPage() {
 
       <HeroSlider phone={clinic.phone} whatsapp={clinic.whatsapp} />
 
+      <HeroStatsRow />
+
       {/* Headline + CTA */}
       <section className="border-b border-border/60 bg-background">
         <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
