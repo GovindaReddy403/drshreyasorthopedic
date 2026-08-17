@@ -137,7 +137,6 @@ function LandingPage() {
   const primaryDoctor: Doctor | undefined = doctors[0];
 
   const galleryAutoplay = useRef(Autoplay({ delay: 3500, stopOnInteraction: false }));
-  const reviewsAutoplay = useRef(Autoplay({ delay: 6000, stopOnInteraction: false }));
   const specialtiesAutoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false }));
 
   const waHref = clinic.whatsapp
