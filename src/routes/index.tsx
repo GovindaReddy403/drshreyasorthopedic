@@ -56,6 +56,7 @@ import {
   FaqSection,
   FAQS,
   HomeBlogSection,
+  MeetDrShreyas,
   PatientVideoStories,
   SpecialtyImageCards,
   StatsBand,
