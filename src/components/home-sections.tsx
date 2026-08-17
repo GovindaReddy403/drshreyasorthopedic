@@ -371,7 +371,7 @@ export function WhyChooseClinic() {
         />
         <div>
           <h2 className="font-display text-2xl font-bold text-primary sm:text-3xl">
-            Why choose our Mysuru clinic
+            Why Choose Dr. Shreyas Orthopedic Clinic?
           </h2>
           <ul className="mt-6 space-y-4">
             {points.map((p) => (
@@ -473,17 +473,18 @@ export function CareRoadmap() {
 
 export function AppointmentCtaBand() {
   return (
-    <section className="bg-accent text-accent-foreground">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-4 py-10 text-center sm:px-6 md:flex-row md:text-left lg:px-8">
+    <section className="bg-primary text-primary-foreground">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6 lg:px-8">
         <p className="font-display text-xl font-semibold sm:text-2xl">
-          Request an appointment with Dr. Shreyas Orthopedic Clinic online
+          You can request an appointment with Dr. Shreyas Orthopedic Clinic online by submitting the
+          appointment request form here
         </p>
         <Link to="/book">
           <Button
             size="lg"
-            className="gap-2 rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+            className="gap-2 rounded-full bg-accent px-10 text-lg font-semibold text-white hover:bg-accent/90"
           >
-            <CalendarDays className="h-4 w-4" /> BOOK AN APPOINTMENT
+            <CalendarDays className="h-5 w-5" /> BOOK AN APPOINTMENT
           </Button>
         </Link>
       </div>
