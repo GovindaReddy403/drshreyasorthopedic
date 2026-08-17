@@ -1,10 +1,16 @@
-import { OG_IMAGE, absUrl, breadcrumbLd, CLINIC_PHONE } from "@/lib/seo";
+import { faqLd, OG_IMAGE, absUrl, breadcrumbLd, CLINIC_PHONE } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArrowRight, CalendarCheck, CheckCircle2, Phone } from "lucide-react";
+import { ArrowRight, Bone, CalendarCheck, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { SectionHeader, TrustBand, CtaBand } from "@/components/site-sections";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
 import gKnee from "@/assets/treat-knee.jpg";
@@ -158,6 +164,7 @@ export const Route = createFileRoute("/specialties/")({
         { name: "Home", path: "/" },
         { name: "Area of Specialties", path: "/specialties" },
       ]),
+      faqLd(SPECIALTY_FAQS),
     ],
   }),
   loader: async ({ context }) => {
@@ -275,12 +282,18 @@ function SpecialtiesPage() {
                 key={c.title}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-[var(--shadow-soft)]"
               >
-                <img
-                  src={c.image}
-                  alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
-                  loading="lazy"
-                  className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {c.image ? (
+                  <img
+                    src={c.image}
+                    alt={`${c.title} at Dr. Shreyas Orthopedic Clinic`}
+                    loading="lazy"
+                    className="h-40 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-40 w-full items-center justify-center bg-gradient-to-br from-primary/10 to-accent/15">
+                    <Bone className="h-12 w-12 text-accent" />
+                  </div>
+                )}
                 <div className="flex flex-1 flex-col p-6">
                   <h3 className="font-display text-lg font-semibold text-primary">
                     {c.title}
