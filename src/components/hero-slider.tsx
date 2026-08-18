@@ -91,7 +91,7 @@ function SlideCTAs({
   showBullets: boolean;
 }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-3">
+    <div className="mt-4 flex flex-wrap gap-2.5 sm:mt-6 sm:gap-3">
       {showBullets && waHref && (
         <a href={waHref} target="_blank" rel="noreferrer">
           <Button
@@ -169,9 +169,9 @@ export function HeroSlider({
             <CarouselItem key={s.title} className="pl-0">
               {s.portrait ? (
                 /* ---- Doctor split slide: photo left/top, text right/bottom ---- */
-                <div className="flex h-[840px] w-full flex-col sm:h-[640px] md:h-[560px] md:flex-row">
+                <div className="flex h-[600px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
                   {/* Doctor photo — full width on top (mobile), left half (desktop) */}
-                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-1/2">
+                  <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-60 md:h-full md:w-1/2">
                     <img
                       src={s.image}
                       alt={s.title}
@@ -181,21 +181,21 @@ export function HeroSlider({
 
                   {/* Text panel — below photo (mobile), right half (desktop) */}
                   <div className="relative flex w-full flex-1 items-center bg-primary md:h-full md:w-1/2">
-                    <div className="mx-auto w-full max-w-xl px-5 py-6 text-primary-foreground sm:px-8 sm:py-8">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
+                    <div className="mx-auto w-full max-w-xl px-4 py-4 text-primary-foreground sm:px-8 sm:py-8">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
-                      <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
+                      <h2 className="mt-1.5 font-display text-xl font-bold leading-tight sm:mt-2 sm:text-3xl lg:text-4xl">
                         {s.title}
                       </h2>
-                      <p className="mt-3 max-w-lg text-sm opacity-90 sm:text-base">
+                      <p className="mt-2 hidden max-w-lg text-sm opacity-90 sm:mt-3 sm:block sm:text-base">
                         {s.body}
                       </p>
                       {s.bullets && (
-                        <ul className="mt-4 space-y-1.5 text-sm sm:text-base">
+                        <ul className="mt-3 space-y-1 text-xs sm:mt-4 sm:text-base">
                           {s.bullets.map((b) => (
                             <li key={b} className="flex items-start gap-2">
-                              <Check className="mt-1 h-4 w-4 shrink-0 opacity-90" />
+                              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-90 sm:h-4 sm:w-4" />
                               <span className="opacity-95">{b}</span>
                             </li>
                           ))}
@@ -212,7 +212,7 @@ export function HeroSlider({
                 </div>
               ) : (
                 /* ---- Standard full-bleed background slide ---- */
-                <div className="relative h-[520px] w-full sm:h-[560px] md:h-[560px]">
+                <div className="relative h-[440px] w-full sm:h-[480px] md:h-[500px]">
                   <img
                     src={s.image}
                     alt={s.title}
