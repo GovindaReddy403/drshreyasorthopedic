@@ -91,7 +91,7 @@ function SlideCTAs({
   showBullets: boolean;
 }) {
   return (
-    <div className="mt-6 flex flex-wrap gap-3">
+    <div className="mt-4 flex flex-wrap gap-2.5 sm:mt-6 sm:gap-3">
       {showBullets && waHref && (
         <a href={waHref} target="_blank" rel="noreferrer">
           <Button
