@@ -169,9 +169,9 @@ export function HeroSlider({
             <CarouselItem key={s.title} className="pl-0">
               {s.portrait ? (
                 /* ---- Doctor split slide: photo left/top, text right/bottom ---- */
-                <div className="flex h-[840px] w-full flex-col sm:h-[640px] md:h-[560px] md:flex-row">
+                <div className="flex h-[600px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
                   {/* Doctor photo — full width on top (mobile), left half (desktop) */}
-                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-1/2">
+                  <div className="relative h-52 w-full shrink-0 overflow-hidden sm:h-60 md:h-full md:w-1/2">
                     <img
                       src={s.image}
                       alt={s.title}
@@ -212,7 +212,7 @@ export function HeroSlider({
                 </div>
               ) : (
                 /* ---- Standard full-bleed background slide ---- */
-                <div className="relative h-[520px] w-full sm:h-[560px] md:h-[560px]">
+                <div className="relative h-[440px] w-full sm:h-[480px] md:h-[500px]">
                   <img
                     src={s.image}
                     alt={s.title}
