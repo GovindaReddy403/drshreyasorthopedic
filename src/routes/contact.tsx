@@ -2,6 +2,7 @@ import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import clinicFrontage from "@/assets/clinic-frontage.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
@@ -131,7 +132,20 @@ function ContactPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
+          <div className="space-y-6">
+            <figure className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
+              <img
+                src={clinicFrontage.url}
+                alt="Dr. Shreyas Orthopedic Clinic entrance and reception, Vivekananda Nagar, Mysuru"
+                className="h-64 w-full object-cover sm:h-80"
+                loading="lazy"
+              />
+              <figcaption className="bg-card px-4 py-3 text-sm text-muted-foreground">
+                Look for the clinic signboard on Vivekananda Circle Road, beside Karnataka Bank.
+              </figcaption>
+            </figure>
+
+            <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
             <iframe
               title="Clinic location map"
               src={
@@ -141,11 +155,13 @@ function ContactPage() {
                     "Dr Shreyas Orthopedic Clinic, Vivekananda Cir Rd, Vivekananda Nagar, Mysuru, Karnataka 570023",
                 )}&output=embed`
               }
-              className="h-full min-h-[420px] w-full border-0"
+              className="h-full min-h-[360px] w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
+            </div>
           </div>
+
 
         </div>
       </section>

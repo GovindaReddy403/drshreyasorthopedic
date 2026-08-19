@@ -46,6 +46,7 @@ import gJoint from "@/assets/treat-xray.jpg";
 import gSports from "@/assets/treat-physio.jpg";
 import gBiologics from "@/assets/treat-biologics.jpg";
 import clinic1 from "@/assets/clinic-1.jpg";
+import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 
 /* ------------------------------------------------------------------ */
 /* 4 — Compact hero stats row (4 icons)                                 */
@@ -1029,7 +1030,13 @@ export function MeetDrShreyas({
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {/* Primary practice */}
-            <Card className="h-full border-primary/15 py-0">
+            <Card className="h-full overflow-hidden border-primary/15 py-0">
+              <img
+                src={clinicFrontageAsset.url}
+                alt={`${clinicName} entrance and reception in Vivekananda Nagar, Mysuru`}
+                className="h-48 w-full object-cover sm:h-56"
+                loading="lazy"
+              />
               <CardContent className="flex h-full flex-col p-6">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
