@@ -46,6 +46,7 @@ import gJoint from "@/assets/treat-xray.jpg";
 import gSports from "@/assets/treat-physio.jpg";
 import gBiologics from "@/assets/treat-biologics.jpg";
 import clinic1 from "@/assets/clinic-1.jpg";
+import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 
 /* ------------------------------------------------------------------ */
 /* 4 — Compact hero stats row (4 icons)                                 */
