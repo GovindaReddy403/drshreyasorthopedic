@@ -131,7 +131,20 @@ function ContactPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
+          <div className="space-y-6">
+            <figure className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
+              <img
+                src={clinicFrontage.url}
+                alt="Dr. Shreyas Orthopedic Clinic entrance and reception, Vivekananda Nagar, Mysuru"
+                className="h-64 w-full object-cover sm:h-80"
+                loading="lazy"
+              />
+              <figcaption className="bg-card px-4 py-3 text-sm text-muted-foreground">
+                Look for the clinic signboard on Vivekananda Circle Road, beside Karnataka Bank.
+              </figcaption>
+            </figure>
+
+            <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
             <iframe
               title="Clinic location map"
               src={

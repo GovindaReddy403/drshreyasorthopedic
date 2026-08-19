@@ -12,6 +12,7 @@ import gArthro from "@/assets/treat-arthroscopy.jpg";
 import gPhysio from "@/assets/treat-physio.jpg";
 import gXray from "@/assets/treat-xray.jpg";
 import clinicBoard from "@/assets/clinic-board.png.asset.json";
+import clinicFrontage from "@/assets/clinic-frontage.png.asset.json";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -51,6 +52,10 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const staticItems = [
+  {
+    image_url: clinicFrontage.url,
+    caption: "Clinic entrance & reception — Vivekananda Cir Rd, Vivekananda Nagar, Mysuru",
+  },
   { image_url: clinicBoard.url, caption: "Dr. Shreyas Orthopedic Clinic — Vivekananda Nagar, Mysuru" },
   { image_url: gKnee, caption: "Knee assessment & ligament care" },
   { image_url: gShoulder, caption: "Shoulder examination" },
