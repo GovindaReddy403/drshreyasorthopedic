@@ -170,17 +170,19 @@ export function HeroSlider({
               {s.portrait ? (
                 /* ---- Doctor split slide: photo left/top, text right/bottom ---- */
                 <div className="flex h-[600px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
-                  {/* Doctor photo — full width on top (mobile), left half (desktop) */}
-                  <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-60 md:h-full md:w-1/2">
+                  {/* Doctor photo — full width on top (mobile), left half (desktop).
+                       Capped width on large screens so the portrait never over-scales
+                       and crops the doctor's face. */}
+                  <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-60 md:h-full md:w-1/2 md:max-w-[760px]">
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_30%] md:object-[right_top]"
+                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_30%] md:object-top"
                     />
                   </div>
 
-                  {/* Text panel — below photo (mobile), right half (desktop) */}
-                  <div className="relative flex w-full flex-1 items-center bg-primary md:h-full md:w-1/2">
+                  {/* Text panel — below photo (mobile), fills remaining width (desktop) */}
+                  <div className="relative flex w-full flex-1 items-center bg-primary md:h-full">
                     <div className="mx-auto w-full max-w-xl px-4 py-4 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
