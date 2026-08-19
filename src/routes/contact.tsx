@@ -2,6 +2,7 @@ import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import clinicFrontage from "@/assets/clinic-frontage.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
@@ -154,11 +155,13 @@ function ContactPage() {
                     "Dr Shreyas Orthopedic Clinic, Vivekananda Cir Rd, Vivekananda Nagar, Mysuru, Karnataka 570023",
                 )}&output=embed`
               }
-              className="h-full min-h-[420px] w-full border-0"
+              className="h-full min-h-[360px] w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
+            </div>
           </div>
+
 
         </div>
       </section>
