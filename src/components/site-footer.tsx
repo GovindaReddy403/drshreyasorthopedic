@@ -1,13 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
 import {
   CalendarDays,
-  ChevronDown,
   Clock,
   Facebook,
   Instagram,
   Linkedin,
-  MapPin,
   Phone,
   Stethoscope,
   Twitter,
@@ -23,17 +20,8 @@ type SocialClinic = ClinicSettings & {
   linkedin_url?: string | null;
 };
 
-const HOSPITALS = [
-  {
-    name: "JSS Hospital, Department of Orthopaedics",
-    address: "Mahatma Gandhi Road, Agrahara, Mysuru, Karnataka 570004",
-    maps: "https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysuru",
-  },
-];
-
 export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
   const c = clinic as SocialClinic;
-  const [openHospital, setOpenHospital] = useState<string | null>(HOSPITALS[0].name);
   const socials = [
     { url: c.facebook_url, Icon: Facebook, label: "Facebook" },
     { url: c.instagram_url, Icon: Instagram, label: "Instagram" },
@@ -42,11 +30,19 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
     { url: c.youtube_url, Icon: Youtube, label: "YouTube" },
   ];
   const telHref = clinic.phone ? `tel:${clinic.phone.replace(/\s/g, "")}` : undefined;
+  const quickLinks = [
+    { to: "/about-doctor", label: "About the Doctor" },
+    { to: "/specialties", label: "Specialties" },
+    { to: "/conditions", label: "Conditions" },
+    { to: "/blog", label: "Blog" },
+    { to: "/manage", label: "Manage Appointment" },
+    { to: "/auth", label: "Staff Login" },
+  ];
 
   return (
     <footer className="border-t border-border/60 bg-muted/40">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
-        {/* Column 1 — logo, doctor, socials */}
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">
+        {/* Column 1 — brand, doctor, socials */}
         <div>
           <div className="flex items-center gap-2">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
@@ -56,7 +52,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
           </div>
           <p className="mt-3 font-display text-base font-semibold text-foreground">Dr. Shreyas M.J</p>
           <p className="text-sm text-muted-foreground">
-            MBBS, MS (Ortho) — Arthroscopy, Sports Medicine &amp; Joint Replacement Surgeon
+            MBBS, MS (Ortho) — Arthroscopy, Sports Medicine & Joint Replacement Surgeon
           </p>
           <p className="mt-3 max-w-xs text-sm text-muted-foreground">{clinic.tagline}</p>
           <div className="mt-4 flex gap-2">
@@ -86,7 +82,7 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
           </div>
         </div>
 
-        {/* Column 2 — working hours + phone + CTA */}
+        {/* Column 2 — working hours + contact + CTA */}
         <div>
           <h4 className="flex items-center gap-2 text-sm font-semibold">
             <Clock className="h-4 w-4 text-accent" /> Working Hours
@@ -117,67 +113,18 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
           </Link>
         </div>
 
-        {/* Column 3 — clinic address */}
+        {/* Column 3 — quick links */}
         <div>
-          <h4 className="text-sm font-semibold">Visit Our Clinic</h4>
-          <p className="mt-3 flex gap-2 text-sm text-muted-foreground">
-            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-            <span>{clinic.address}</span>
-          </p>
-          <a
-            href={clinic.google_maps_url ?? "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7"}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-block text-sm font-semibold text-accent hover:underline"
-          >
-            Open in Maps →
-          </a>
-          <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about-doctor" className="hover:text-foreground">About the Doctor</Link></li>
-            <li><Link to="/specialties" className="hover:text-foreground">Specialties</Link></li>
-            <li><Link to="/conditions" className="hover:text-foreground">Conditions</Link></li>
-            <li><Link to="/blog" className="hover:text-foreground">Blog</Link></li>
-            <li><Link to="/manage" className="hover:text-foreground">Manage appointment</Link></li>
-            <li><Link to="/auth" className="hover:text-foreground">Staff login</Link></li>
+          <h4 className="text-sm font-semibold">Quick Links</h4>
+          <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            {quickLinks.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className="transition-colors hover:text-foreground">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
-        </div>
-
-        {/* Column 4 — visiting consultant, expandable */}
-        <div>
-          <h4 className="text-sm font-semibold">Visiting Consultant at</h4>
-          <div className="mt-3 divide-y divide-border/60 rounded-xl border border-border/60 bg-card/60">
-            {HOSPITALS.map((h) => {
-              const open = openHospital === h.name;
-              return (
-                <div key={h.name}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenHospital(open ? null : h.name)}
-                    aria-expanded={open}
-                    className="flex w-full items-center justify-between gap-3 px-3 py-3 text-left text-sm font-medium text-foreground"
-                  >
-                    {h.name}
-                    <ChevronDown
-                      className={`h-4 w-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {open && (
-                    <div className="px-3 pb-3 text-sm text-muted-foreground">
-                      <p>{h.address}</p>
-                      <a
-                        href={h.maps}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-2 inline-block text-sm font-semibold text-accent hover:underline"
-                      >
-                        Open in Maps →
-                      </a>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
         </div>
       </div>
 
