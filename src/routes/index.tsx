@@ -79,7 +79,6 @@ import {
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
 const doctorsQO = queryOptions({ queryKey: ["doctors"], queryFn: fetchDoctors });
 const treatmentsQO = queryOptions({ queryKey: ["treatments"], queryFn: fetchTreatments });
-const hoursQO = queryOptions({ queryKey: ["hours"], queryFn: fetchWorkingHours });
 const testimonialsQO = queryOptions({ queryKey: ["testimonials"], queryFn: fetchTestimonials });
 
 const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7";
@@ -118,7 +117,6 @@ export const Route = createFileRoute("/")({
       context.queryClient.ensureQueryData(clinicQO),
       context.queryClient.ensureQueryData(doctorsQO),
       context.queryClient.ensureQueryData(treatmentsQO),
-      context.queryClient.ensureQueryData(hoursQO),
       context.queryClient.ensureQueryData(testimonialsQO),
     ]);
   },
@@ -129,7 +127,6 @@ function LandingPage() {
   const { data: clinic } = useSuspenseQuery(clinicQO);
   const { data: doctors } = useSuspenseQuery(doctorsQO);
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
-  const { data: hours } = useSuspenseQuery(hoursQO);
   const { data: testimonials } = useSuspenseQuery(testimonialsQO);
 
   const primaryDoctor: Doctor | undefined = doctors[0];
