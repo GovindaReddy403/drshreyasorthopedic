@@ -11,7 +11,6 @@ import {
   Clock,
   GraduationCap,
   Languages,
-  MapPin,
   MessageCircle,
   Phone,
   Stethoscope,
@@ -42,7 +41,7 @@ import {
 } from "@/components/ui/carousel";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { ContactQR } from "@/components/contact-qr";
+
 import { FloatingActions } from "@/components/floating-actions";
 import { HeroSlider } from "@/components/hero-slider";
 import { GoogleGlyph, ReviewsCarousel } from "@/components/reviews-carousel";
@@ -74,16 +73,12 @@ import {
   fetchDoctors,
   fetchTestimonials,
   fetchTreatments,
-  fetchWorkingHours,
-  formatTime,
-  WEEKDAY_LABELS,
   type Doctor,
 } from "@/lib/clinic";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
 const doctorsQO = queryOptions({ queryKey: ["doctors"], queryFn: fetchDoctors });
 const treatmentsQO = queryOptions({ queryKey: ["treatments"], queryFn: fetchTreatments });
-const hoursQO = queryOptions({ queryKey: ["hours"], queryFn: fetchWorkingHours });
 const testimonialsQO = queryOptions({ queryKey: ["testimonials"], queryFn: fetchTestimonials });
 
 const GOOGLE_REVIEWS_URL = "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7";
@@ -122,7 +117,6 @@ export const Route = createFileRoute("/")({
       context.queryClient.ensureQueryData(clinicQO),
       context.queryClient.ensureQueryData(doctorsQO),
       context.queryClient.ensureQueryData(treatmentsQO),
-      context.queryClient.ensureQueryData(hoursQO),
       context.queryClient.ensureQueryData(testimonialsQO),
     ]);
   },
@@ -133,7 +127,6 @@ function LandingPage() {
   const { data: clinic } = useSuspenseQuery(clinicQO);
   const { data: doctors } = useSuspenseQuery(doctorsQO);
   const { data: treatments } = useSuspenseQuery(treatmentsQO);
-  const { data: hours } = useSuspenseQuery(hoursQO);
   const { data: testimonials } = useSuspenseQuery(testimonialsQO);
 
   const primaryDoctor: Doctor | undefined = doctors[0];
@@ -388,68 +381,6 @@ function LandingPage() {
       />
 
       <SurgicalPhilosophy image={doctorImg} name={primaryDoctor?.name ?? clinic.doctor_name} />
-
-      {/* Where to consult */}
-
-      <section id="hours" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <SectionHeader eyebrow="Where to consult" title="Visit the clinic" />
-        <div className="mt-10 grid gap-10 md:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-card p-6">
-            <h3 className="font-display text-xl font-semibold text-primary">
-              Primary Private Practice
-            </h3>
-            <div className="mt-4 flex items-start gap-3">
-              <MapPin className="mt-1 h-5 w-5 text-accent" />
-              <div>
-                <p className="font-medium">{clinic.clinic_name}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{clinic.address}</p>
-              </div>
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">Best for:</span> OPD consultations,
-              second opinions, sports injury assessment and non-surgical joint preservation.
-            </p>
-            {clinic.google_maps_url && (
-              <a href={clinic.google_maps_url} target="_blank" rel="noreferrer">
-                <Button variant="outline" className="mt-6 w-full rounded-full">
-                  Open in Google Maps
-                </Button>
-              </a>
-            )}
-            <Link to="/book">
-              <Button className="mt-3 w-full gap-2 rounded-full">
-                <CalendarDays className="h-4 w-4" /> Book appointment
-              </Button>
-            </Link>
-            <div className="mt-6">
-              <ContactQR clinic={clinic} />
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-display text-xl font-semibold text-primary">Consulting hours</h3>
-            <div className="mt-4 divide-y divide-border/60 rounded-2xl border border-border bg-card">
-              {hours.map((h) => (
-                <div key={h.weekday} className="flex items-center justify-between px-5 py-3">
-                  <span className="font-medium">{WEEKDAY_LABELS[h.weekday]}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {!h.is_open
-                      ? "Closed"
-                      : [
-                          h.morning_start &&
-                            `${formatTime(h.morning_start)} – ${formatTime(h.morning_end)}`,
-                          h.evening_start &&
-                            `${formatTime(h.evening_start)} – ${formatTime(h.evening_end)}`,
-                        ]
-                          .filter(Boolean)
-                          .join(" · ")}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       <WhyChooseClinic />
       <CareRoadmap />
