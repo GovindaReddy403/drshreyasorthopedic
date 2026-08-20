@@ -178,14 +178,6 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
               );
             })}
           </div>
-          <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about-doctor" className="hover:text-foreground">About the Doctor</Link></li>
-            <li><Link to="/specialties" className="hover:text-foreground">Specialties</Link></li>
-            <li><Link to="/conditions" className="hover:text-foreground">Conditions</Link></li>
-            <li><Link to="/blog" className="hover:text-foreground">Blog</Link></li>
-            <li><Link to="/manage" className="hover:text-foreground">Manage appointment</Link></li>
-            <li><Link to="/auth" className="hover:text-foreground">Staff login</Link></li>
-          </ul>
         </div>
       </div>
 
