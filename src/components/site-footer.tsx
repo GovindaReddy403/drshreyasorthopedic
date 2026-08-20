@@ -29,12 +29,6 @@ const HOSPITALS = [
     address: "Mahatma Gandhi Road, Agrahara, Mysuru, Karnataka 570004",
     maps: "https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysuru",
   },
-  {
-    name: "Dr. Shreyas Orthopedic Clinic",
-    address:
-      "Shop no 1, 5, Vivekananda Cir Rd, beside Karnataka Bank, Vivekanandanagar, Mysuru, Karnataka 570023",
-    maps: "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7",
-  },
 ];
 
 export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
