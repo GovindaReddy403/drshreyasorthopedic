@@ -390,8 +390,6 @@ function LandingPage() {
       <ClinicMap address={clinic.address} />
       <TrustedExpertiseBand />
 
-      <PreFooterDoctorCard image={doctorImg} />
-
       <SiteFooter clinic={clinic} />
     </div>
   );
