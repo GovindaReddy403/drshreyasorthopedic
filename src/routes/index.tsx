@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Award,
   BadgeCheck,
-  CalendarDays,
   CheckCircle2,
   Clock,
   GraduationCap,
@@ -59,7 +58,7 @@ import {
   HomeBlogSection,
   MeetDrShreyas,
   PatientVideoStories,
-  PreFooterDoctorCard,
+
   SpecialtyImageCards,
   StatsBand,
   SurgicalPhilosophy,
@@ -389,8 +388,6 @@ function LandingPage() {
       <AppointmentCtaBand />
       <ClinicMap address={clinic.address} />
       <TrustedExpertiseBand />
-
-      <PreFooterDoctorCard image={doctorImg} />
 
       <SiteFooter clinic={clinic} />
     </div>
