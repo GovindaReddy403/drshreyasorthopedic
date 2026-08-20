@@ -11,7 +11,6 @@ import {
   Clock,
   GraduationCap,
   Languages,
-  MapPin,
   MessageCircle,
   Phone,
   Stethoscope,
@@ -74,9 +73,6 @@ import {
   fetchDoctors,
   fetchTestimonials,
   fetchTreatments,
-  fetchWorkingHours,
-  formatTime,
-  WEEKDAY_LABELS,
   type Doctor,
 } from "@/lib/clinic";
 
