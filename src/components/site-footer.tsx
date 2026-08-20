@@ -119,22 +119,27 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
 
         {/* Column 3 — clinic address */}
         <div>
-          <h4 className="text-sm font-semibold">{clinic.clinic_name}</h4>
+          <h4 className="text-sm font-semibold">Visit Our Clinic</h4>
           <p className="mt-3 flex gap-2 text-sm text-muted-foreground">
             <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
             <span>{clinic.address}</span>
           </p>
-          {clinic.whatsapp && (
-            <p className="mt-3 text-sm text-muted-foreground">WhatsApp: {clinic.whatsapp}</p>
-          )}
           <a
-            href={clinic.google_maps_url ?? HOSPITALS[1].maps}
+            href={clinic.google_maps_url ?? "https://maps.app.goo.gl/6WGqUa5tk2gTi1JD7"}
             target="_blank"
             rel="noreferrer"
             className="mt-3 inline-block text-sm font-semibold text-accent hover:underline"
           >
             Open in Maps →
           </a>
+          <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            <li><Link to="/about-doctor" className="hover:text-foreground">About the Doctor</Link></li>
+            <li><Link to="/specialties" className="hover:text-foreground">Specialties</Link></li>
+            <li><Link to="/conditions" className="hover:text-foreground">Conditions</Link></li>
+            <li><Link to="/blog" className="hover:text-foreground">Blog</Link></li>
+            <li><Link to="/manage" className="hover:text-foreground">Manage appointment</Link></li>
+            <li><Link to="/auth" className="hover:text-foreground">Staff login</Link></li>
+          </ul>
         </div>
 
         {/* Column 4 — visiting consultant, expandable */}
