@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Award,
   BadgeCheck,
-  CalendarDays,
   CheckCircle2,
   Clock,
   GraduationCap,
