@@ -1039,7 +1039,7 @@ export function MeetDrShreyas({
               <img
                 src={clinicFrontageAsset.url}
                 alt={`${clinicName} entrance and reception in Vivekananda Nagar, Mysuru`}
-                className="h-48 w-full object-cover sm:h-56"
+                className="h-48 w-full object-cover object-top sm:h-56"
                 loading="lazy"
               />
               <CardContent className="flex h-full flex-col p-6">

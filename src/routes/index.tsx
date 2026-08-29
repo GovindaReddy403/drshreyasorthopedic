@@ -22,6 +22,8 @@ import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
 const doctorImg = doctorAsset.url;
 
+import aboutShreyas from "@/assets/about-shreyas.png";
+
 import gKnee from "@/assets/treat-knee.jpg";
 import gShoulder from "@/assets/treat-shoulder.jpg";
 import gAnkle from "@/assets/treat-ankle.jpg";
@@ -207,7 +209,7 @@ function LandingPage() {
 
       {/* About / Doctors */}
       <DoctorProfileFeature
-        image={doctorImg}
+        image={aboutShreyas}
         name={primaryDoctor?.name ?? clinic.doctor_name}
         qualifications={primaryDoctor?.qualifications ?? clinic.qualifications}
         about={primaryDoctor?.about ?? clinic.about_doctor}
