@@ -10,13 +10,14 @@ import {
   Clock,
   GraduationCap,
   Languages,
-  MessageCircle,
   Phone,
   Stethoscope,
   Star,
   Trophy,
   Users,
 } from "lucide-react";
+
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 
 import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
 const doctorImg = doctorAsset.url;
@@ -190,9 +191,9 @@ function LandingPage() {
               <a href={waHref} target="_blank" rel="noreferrer">
                 <Button
                   size="lg"
-                  className="rounded-full bg-accent px-7 text-accent-foreground hover:bg-accent/90"
+                  className="rounded-full bg-[#25d366] px-7 text-white hover:bg-[#1ebe57]"
                 >
-                  <MessageCircle className="mr-2 h-4 w-4" /> Consult Online via WhatsApp
+                  <WhatsAppIcon className="mr-2 h-4 w-4" /> Consult Online via WhatsApp
                 </Button>
               </a>
             )}

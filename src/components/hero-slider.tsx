@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import Autoplay from "embla-carousel-autoplay";
 import Fade from "embla-carousel-fade";
-import { ArrowRight, Check, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Check, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import {
   Carousel,
   type CarouselApi,
@@ -96,10 +97,9 @@ function SlideCTAs({
         <a href={waHref} target="_blank" rel="noreferrer">
           <Button
             size="lg"
-            variant="outline"
-            className="gap-2 rounded-full border-primary-foreground/60 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+            className="gap-2 rounded-full bg-[#25d366] text-white hover:bg-[#1ebe57]"
           >
-            <MessageCircle className="h-4 w-4" /> Consult Online via WhatsApp
+            <WhatsAppIcon className="h-4 w-4" /> Consult Online via WhatsApp
           </Button>
         </a>
       )}
@@ -177,7 +177,7 @@ export function HeroSlider({
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_30%] md:object-top"
+                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_30%] md:object-[center_20%]"
                     />
                   </div>
 
