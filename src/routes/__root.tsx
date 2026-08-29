@@ -13,7 +13,6 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
-import { StickyTrustBar, TrustBarSpacer } from "@/components/sticky-trust-bar";
 
 function NotFoundComponent() {
   return (
@@ -145,8 +144,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <TrustBarSpacer />
-      <StickyTrustBar />
       <Toaster position="top-center" richColors closeButton />
     </QueryClientProvider>
   );
