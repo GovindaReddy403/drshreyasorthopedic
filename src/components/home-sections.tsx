@@ -1072,7 +1072,7 @@ export function MeetDrShreyas({
                   OPD consultations, second opinions, sports injury assessment and
                   non-surgical joint preservation.
                 </p>
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:mt-auto">
+                <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:mt-auto">
                   {mapsUrl && (
                     <a href={mapsUrl} target="_blank" rel="noreferrer" className="sm:flex-1">
                       <Button variant="outline" className="w-full gap-2 rounded-full">
