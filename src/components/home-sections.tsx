@@ -50,6 +50,7 @@ import gSports from "@/assets/treat-physio.jpg";
 import gBiologics from "@/assets/treat-biologics.jpg";
 import clinic1 from "@/assets/clinic-1.jpg";
 import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
+import clinicLogo from "@/assets/clinic-logo.png";
 
 /* ------------------------------------------------------------------ */
 /* 4 — Compact hero stats row (4 icons)                                 */
@@ -1046,8 +1047,12 @@ export function MeetDrShreyas({
               </div>
               <CardContent className="flex flex-col px-6 pb-6 pt-6 sm:pt-8">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Stethoscope className="h-6 w-6" />
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                    <img
+                      src={clinicLogo}
+                      alt={`${clinicName} logo`}
+                      className="h-9 w-9 object-contain"
+                    />
                   </span>
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
