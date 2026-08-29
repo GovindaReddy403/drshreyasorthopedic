@@ -20,7 +20,9 @@ import sKnee from "@/assets/treat-knee.jpg";
 import sShoulder from "@/assets/treat-shoulder.jpg";
 import sArthro from "@/assets/treat-arthroscopy.jpg";
 import sPhysio from "@/assets/treat-physio.jpg";
-import doctorSlide from "@/assets/about-shreyas.png";
+import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
+
+const doctorSlide = doctorSlideAsset.url;
 
 type Slide = {
   image: string;
