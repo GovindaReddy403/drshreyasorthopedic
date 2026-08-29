@@ -173,11 +173,11 @@ export function HeroSlider({
                   {/* Doctor photo — full width on top (mobile), left half (desktop).
                        Capped width on large screens so the portrait never over-scales
                        and crops the doctor's face. */}
-                  <div className="relative h-44 w-full shrink-0 overflow-hidden sm:h-60 md:h-full md:w-1/2 md:max-w-[760px]">
+                  <div className="relative h-52 w-full shrink-0 overflow-hidden sm:h-64 md:h-full md:w-1/2 md:max-w-[760px]">
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_30%] md:object-[center_20%]"
+                      className="absolute inset-0 h-full w-full object-cover object-[center_35%] sm:object-[center_35%] md:object-[center_20%]"
                     />
                   </div>
 
