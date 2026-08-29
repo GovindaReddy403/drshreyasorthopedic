@@ -4,11 +4,13 @@ import {
   ArrowRight,
   Bone,
   Building2,
+  CalendarClock,
   CalendarDays,
   CheckCircle2,
   ClipboardList,
   Dumbbell,
-  GraduationCap,
+  Globe,
+  HeartHandshake,
   HeartPulse,
   MapPin,
   Microscope,
@@ -54,10 +56,10 @@ import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 /* ------------------------------------------------------------------ */
 
 const HERO_STATS = [
-  { icon: Trophy, value: "12+", label: "Years of Experience" },
+  { icon: CalendarClock, value: "12+", label: "Years of Experience" },
   { icon: Scissors, value: "2,000+", label: "Orthopaedic Surgeries" },
-  { icon: Users, value: "20,000+", label: "Happy Patients" },
-  { icon: GraduationCap, value: "3", label: "Fellowships · India, Australia & Thailand" },
+  { icon: HeartHandshake, value: "20,000+", label: "Happy Patients" },
+  { icon: Globe, value: "3", label: "Fellowships · India, Australia & Thailand" },
 ];
 
 export function HeroStatsRow() {
