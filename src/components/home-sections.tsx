@@ -41,6 +41,7 @@ import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 import gKnee from "@/assets/treat-knee.jpg";
 import gShoulder from "@/assets/treat-shoulder.jpg";
 import gAnkle from "@/assets/treat-ankle.jpg";
+import gHip from "@/assets/treat-hip.jpg";
 import gArthroscopy from "@/assets/treat-arthroscopy.jpg";
 import gJoint from "@/assets/treat-xray.jpg";
 import gSports from "@/assets/treat-physio.jpg";
@@ -53,8 +54,8 @@ import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 /* ------------------------------------------------------------------ */
 
 const HERO_STATS = [
-  { icon: Trophy, value: "15+", label: "Years of Experience" },
-  { icon: Scissors, value: "5,000+", label: "Orthopaedic Surgeries" },
+  { icon: Trophy, value: "12+", label: "Years of Experience" },
+  { icon: Scissors, value: "2,000+", label: "Orthopaedic Surgeries" },
   { icon: Users, value: "20,000+", label: "Happy Patients" },
   { icon: GraduationCap, value: "3", label: "Fellowships · India, Australia & Thailand" },
 ];
@@ -93,8 +94,8 @@ export function HeroStatsRow() {
 /* ------------------------------------------------------------------ */
 
 const STATS = [
-  { icon: Trophy, value: "15+", label: "Years of Experience", primary: true },
-  { icon: Scissors, value: "5,000+", label: "Orthopaedic Surgeries Performed" },
+  { icon: Trophy, value: "12+", label: "Years of Experience", primary: true },
+  { icon: Scissors, value: "2,000+", label: "Orthopaedic Surgeries Performed" },
   { icon: Users, value: "20,000+", label: "Happy Patients" },
   { icon: Activity, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
   { icon: Bone, value: "1,500+", label: "Joint Replacement Surgeries" },
@@ -162,6 +163,7 @@ const SPECIALTY_CARDS = [
   { slug: "knee-arthroscopy", title: "Knee", image: gKnee },
   { slug: "shoulder-arthroscopy", title: "Shoulder", image: gShoulder },
   { slug: "foot-and-ankle", title: "Foot & Ankle", image: gAnkle },
+  { slug: "joint-replacement", title: "Robotic Joint Replacement (Hip & Knee)", image: gHip },
 ];
 
 export function SpecialtyImageCards() {
@@ -173,14 +175,15 @@ export function SpecialtyImageCards() {
             Area of Specialties
           </p>
           <h2 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl">
-            Focused expertise in knee, shoulder and foot &amp; ankle care
+            Focused expertise in knee, shoulder, foot &amp; ankle care and robotic hip &amp; knee
+            joint replacement
           </h2>
           <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-            Key-hole arthroscopic surgery, ligament reconstruction and joint preservation, planned
-            individually for every patient.
+            Key-hole arthroscopic surgery, ligament reconstruction, robotic joint replacement and
+            joint preservation, planned individually for every patient.
           </p>
         </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {SPECIALTY_CARDS.map((c) => (
             <div
               key={c.slug}
@@ -240,7 +243,7 @@ const EXCELLENCE = [
   },
   {
     slug: "joint-replacement",
-    title: "Joint Replacement Surgery",
+    title: "Robotic Joint Replacement Surgery",
     image: gJoint,
     body: "Modern knee and hip implants with rapid-recovery protocols, individually planned alignment and structured physiotherapy so patients stand and walk the same or next day.",
   },
@@ -848,8 +851,8 @@ const PROFILE_TAGS = [
 ];
 
 const PROFILE_STATS = [
-  { value: "15+", label: "Years" },
-  { value: "5,000+", label: "Surgeries" },
+  { value: "12+", label: "Years" },
+  { value: "2,000+", label: "Surgeries" },
   { value: "20,000+", label: "Patients" },
 ];
 
@@ -1181,8 +1184,8 @@ export function HomeBlogSection() {
 /* ------------------------------------------------------------------ */
 
 const PREFOOTER_STATS = [
-  { value: "15+", label: "Years" },
-  { value: "5,000+", label: "Surgeries" },
+  { value: "12+", label: "Years" },
+  { value: "2,000+", label: "Surgeries" },
   { value: "20,000+", label: "Patients" },
 ];
 

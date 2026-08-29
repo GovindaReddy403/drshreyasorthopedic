@@ -20,7 +20,7 @@ const MEGA_COLUMNS = [
     heading: "Treatment & Procedures",
     items: [
       { slug: "knee-arthroscopy", label: "Arthroscopic Surgery" },
-      { slug: "joint-replacement", label: "Joint Replacement Surgery" },
+      { slug: "joint-replacement", label: "Robotic Joint Replacement Surgery" },
       { slug: "sports-medicine-rehab", label: "Sports Medicine Solutions" },
       { slug: "trauma-and-fractures", label: "Fracture & Trauma Care" },
       { slug: "ortho-biologics", label: "Ortho Biologics (PRP)" },

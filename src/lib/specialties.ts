@@ -28,7 +28,7 @@ export const SPECIALTIES: Specialty[] = [
       "Knee injuries are the most common reason patients visit the clinic — from sports-related ligament tears to age-related cartilage wear. Arthroscopic (key-hole) surgery allows the joint to be examined and repaired through small incisions, which means less pain, less blood loss and a far quicker return to daily activity.",
     conditions: [
       "ACL and PCL tears",
-      "Meniscus (cartilage) tears",
+      "Meniscus tears",
       "Recurrent knee locking or giving way",
       "Cartilage defects and early arthritis",
       "Patellar (knee cap) instability",
@@ -40,12 +40,12 @@ export const SPECIALTIES: Specialty[] = [
         body: "The torn ligament is replaced with a graft placed arthroscopically, restoring rotational stability for sport and daily life.",
       },
       {
-        name: "Meniscus repair / trimming",
+        name: "Meniscus repair / balancing",
         body: "Repair is preferred wherever the tear pattern allows, preserving the cushion that protects the knee from arthritis.",
       },
       {
         name: "Cartilage procedures",
-        body: "Microfracture and chondroplasty to treat localised cartilage damage in younger, active patients.",
+        body: "Microfracture, chondroplasty and cartilage injection to treat localised cartilage damage in younger, active patients.",
       },
     ],
     recovery: [
@@ -131,7 +131,7 @@ export const SPECIALTIES: Specialty[] = [
   },
   {
     slug: "joint-replacement",
-    title: "Joint Replacement Surgery",
+    title: "Robotic Joint Replacement Surgery",
     short:
       "Total and partial knee replacement and hip replacement with modern implants and rapid recovery.",
     image: gArthro,
