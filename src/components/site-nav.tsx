@@ -92,7 +92,7 @@ export function SiteNav({
           <img
             src={clinicLogo}
             alt={`${clinicName} logo`}
-            className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+            className="h-12 w-12 shrink-0 object-contain sm:h-14 sm:w-16"
           />
           <span className="leading-tight">
             <span className="block font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-primary sm:text-2xl lg:text-3xl">
