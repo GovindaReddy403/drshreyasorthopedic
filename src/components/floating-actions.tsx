@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, MapPinned, MessageCircleMore, PhoneCall } from "lucide-react";
+import { CalendarDays, MapPinned, PhoneCall } from "lucide-react";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 
 export function FloatingActions({
   phone,
@@ -17,7 +18,7 @@ export function FloatingActions({
     { label: "Book Appointment", icon: CalendarDays, to: "/book" as const },
     { label: "Locate us", icon: MapPinned, href: mapsUrl ?? undefined },
     { label: "Call", icon: PhoneCall, href: tel },
-    { label: "WhatsApp", icon: MessageCircleMore, href: wa },
+    { label: "WhatsApp", icon: WhatsAppIcon, href: wa },
   ].filter((i) => i.to || i.href);
 
   const fabBase =
