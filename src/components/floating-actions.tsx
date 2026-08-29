@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, MapPin, MessageCircle, Phone } from "lucide-react";
+import { CalendarDays, MapPinned, MessageCircleMore, PhoneCall } from "lucide-react";
 
 export function FloatingActions({
   phone,
@@ -15,9 +15,9 @@ export function FloatingActions({
 
   const items = [
     { label: "Book Appointment", icon: CalendarDays, to: "/book" as const },
-    { label: "Locate us", icon: MapPin, href: mapsUrl ?? undefined },
-    { label: "Call", icon: Phone, href: tel },
-    { label: "WhatsApp", icon: MessageCircle, href: wa },
+    { label: "Locate us", icon: MapPinned, href: mapsUrl ?? undefined },
+    { label: "Call", icon: PhoneCall, href: tel },
+    { label: "WhatsApp", icon: MessageCircleMore, href: wa },
   ].filter((i) => i.to || i.href);
 
   const fabBase =
@@ -29,8 +29,10 @@ export function FloatingActions({
         return "h-14 w-14 bg-[linear-gradient(135deg,#f59e0b,#ea580c)] text-white shadow-[0_12px_30px_-8px_rgba(234,88,12,0.6)] ring-2 ring-white";
       case "WhatsApp":
         return "h-12 w-12 bg-[#25d366] text-white shadow-[0_8px_24px_-8px_rgba(37,211,102,0.7)] ring-2 ring-white/80 hover:bg-[#1ebe57]";
+      case "Locate us":
+        return "h-12 w-12 bg-[#0ea5e9] text-white shadow-[0_8px_24px_-8px_rgba(14,165,233,0.7)] ring-2 ring-white/80 hover:bg-[#0284c7]";
       default:
-        return "h-12 w-12 bg-white text-[#00154d] shadow-[0_8px_24px_rgba(0,0,0,0.2)] ring-2 ring-[#00154d]/10 hover:bg-[#dfeef4]";
+        return "h-12 w-12 bg-[#6366f1] text-white shadow-[0_8px_24px_-8px_rgba(99,102,241,0.7)] ring-2 ring-white/80 hover:bg-[#4f46e5]";
     }
   };
 
@@ -85,7 +87,15 @@ export function FloatingActions({
             const content = (
               <>
                 <Icon
-                  className={label === "WhatsApp" ? "h-5 w-5 text-[#25d366]" : "h-5 w-5"}
+                  className={
+                    label === "Book Appointment"
+                      ? "h-6 w-6"
+                      : label === "WhatsApp"
+                        ? "h-5 w-5 text-[#25d366]"
+                        : label === "Locate us"
+                          ? "h-5 w-5 text-[#38bdf8]"
+                          : "h-5 w-5 text-[#a5b4fc]"
+                  }
                 />
                 {index === 0 ? "Book" : label}
               </>

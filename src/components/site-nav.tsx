@@ -86,10 +86,10 @@ export function SiteNav({
   return (
     <header className="sticky top-0 z-40 w-full bg-[#dfeef4]">
       {/* Row 1 — Top bar: logo left, phone + Book button right */}
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8">
         <Link to="/" hash="top" className="flex items-center gap-3">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <Stethoscope className="h-6 w-6" />
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <Stethoscope className="h-5 w-5" />
           </span>
           <span className="leading-tight">
             <span className="block font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-primary sm:text-2xl lg:text-3xl">
@@ -111,7 +111,7 @@ export function SiteNav({
             </a>
           )}
           <Link to="/book" className="hidden sm:block">
-            <span className="inline-flex items-center gap-2 rounded-[36px] bg-[#000B43] px-[30px] py-[15px] font-['Poppins'] text-[14px] font-semibold text-white transition-opacity hover:opacity-90">
+            <span className="inline-flex items-center gap-2 rounded-[36px] bg-[#000B43] px-6 py-2.5 font-['Poppins'] text-[14px] font-semibold text-white transition-opacity hover:opacity-90">
               <CalendarDays className="h-4 w-4" /> Book An Appointment
             </span>
           </Link>
@@ -220,7 +220,7 @@ export function SiteNav({
                 <Link
                   to={l.to}
                   activeProps={{ className: navLinkActive }}
-                  className={`flex items-center gap-1 px-6 py-6 ${navLinkBase}`}
+                  className={`flex items-center gap-1 px-6 py-3 ${navLinkBase}`}
                 >
                   {l.label} <ChevronDown className="h-3.5 w-3.5" />
                 </Link>
@@ -259,7 +259,7 @@ export function SiteNav({
                 key={l.to}
                 to={l.to}
                 activeProps={{ className: navLinkActive }}
-                className={`block px-6 py-6 ${navLinkBase} ${i > 0 ? "border-l border-black/10" : ""}`}
+                className={`block px-6 py-3 ${navLinkBase} ${i > 0 ? "border-l border-black/10" : ""}`}
               >
                 {l.label}
               </Link>
