@@ -1035,14 +1035,16 @@ export function MeetDrShreyas({
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {/* Primary practice */}
-            <Card className="h-full overflow-hidden border-primary/15 py-0">
-              <img
-                src={clinicFrontageAsset.url}
-                alt={`${clinicName} entrance and reception in Vivekananda Nagar, Mysuru`}
-                className="h-52 w-full object-cover object-[center_5%] sm:h-64"
-                loading="lazy"
-              />
-              <CardContent className="flex h-full flex-col px-6 pb-6 pt-6 sm:pt-8">
+            <Card className="flex h-full flex-col overflow-hidden border-primary/15 py-0">
+              <div className="relative min-h-52 w-full flex-1 sm:min-h-64">
+                <img
+                  src={clinicFrontageAsset.url}
+                  alt={`${clinicName} entrance and reception in Vivekananda Nagar, Mysuru`}
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  loading="lazy"
+                />
+              </div>
+              <CardContent className="flex flex-col px-6 pb-6 pt-6 sm:pt-8">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Stethoscope className="h-6 w-6" />
