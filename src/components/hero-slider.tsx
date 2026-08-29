@@ -104,7 +104,7 @@ function SlideCTAs({
         </a>
       )}
 
-      <Link to="/book">
+      <Link to="/book" className="hidden sm:block">
         <Button size="lg" variant="secondary" className="gap-2 rounded-full">
           Book An Appointment <ArrowRight className="h-4 w-4" />
         </Button>
