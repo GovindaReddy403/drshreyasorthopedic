@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, TickList, TrustBand, CtaBand } from "@/components/site-sections";
 import { clinicQO, doctorsQO } from "@/lib/queries";
-import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
-
-const doctorImg = doctorAsset.url;
+import doctorImg from "@/assets/about-shreyas.png";
 
 export const Route = createFileRoute("/about-doctor")({
   head: () => ({
