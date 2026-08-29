@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, Settings, Stethoscope } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
+import clinicLogo from "@/assets/clinic-logo.png";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
@@ -30,9 +31,11 @@ export function DashboardShell({
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Stethoscope className="h-5 w-5" />
-            </span>
+            <img
+              src={clinicLogo}
+              alt="Clinic logo"
+              className="h-9 w-9 shrink-0 object-contain"
+            />
             <span className="font-display text-lg font-semibold">Clinic Console</span>
           </Link>
           <div className="flex items-center gap-2">

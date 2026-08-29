@@ -6,10 +6,10 @@ import {
   Instagram,
   Linkedin,
   Phone,
-  Stethoscope,
   Twitter,
   Youtube,
 } from "lucide-react";
+import clinicLogo from "@/assets/clinic-logo.png";
 import type { ClinicSettings } from "@/lib/clinic";
 
 type SocialClinic = ClinicSettings & {
@@ -45,9 +45,11 @@ export function SiteFooter({ clinic }: { clinic: ClinicSettings }) {
         {/* Column 1 — brand, doctor, socials */}
         <div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Stethoscope className="h-5 w-5" />
-            </span>
+            <img
+              src={clinicLogo}
+              alt={`${clinic.clinic_name} logo`}
+              className="h-10 w-10 shrink-0 object-contain"
+            />
             <span className="font-display text-lg font-semibold">{clinic.clinic_name}</span>
           </div>
           <p className="mt-3 font-display text-base font-semibold text-foreground">Dr. Shreyas M.J</p>

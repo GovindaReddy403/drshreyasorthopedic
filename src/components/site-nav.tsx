@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, ChevronDown, List, Menu, Phone, Stethoscope } from "lucide-react";
+import { CalendarDays, ChevronDown, List, Menu, Phone } from "lucide-react";
 import { useState } from "react";
+import clinicLogo from "@/assets/clinic-logo.png";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -88,9 +89,11 @@ export function SiteNav({
       {/* Row 1 — Top bar: logo left, phone + Book button right */}
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8">
         <Link to="/" hash="top" className="flex items-center gap-3">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            <Stethoscope className="h-5 w-5" />
-          </span>
+          <img
+            src={clinicLogo}
+            alt={`${clinicName} logo`}
+            className="h-10 w-10 shrink-0 object-contain sm:h-12 sm:w-12"
+          />
           <span className="leading-tight">
             <span className="block font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-primary sm:text-2xl lg:text-3xl">
               {clinicName}

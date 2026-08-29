@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, LogIn, ShieldCheck, Stethoscope } from "lucide-react";
+import { Loader2, LogIn, ShieldCheck } from "lucide-react";
+import clinicLogo from "@/assets/clinic-logo.png";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -153,9 +154,11 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-hero-gradient px-4 py-10">
       <div className="w-full max-w-md rounded-3xl border border-border bg-card p-8 shadow-[var(--shadow-soft)]">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            <Stethoscope className="h-5 w-5" />
-          </span>
+          <img
+            src={clinicLogo}
+            alt="Clinic logo"
+            className="h-10 w-10 shrink-0 object-contain"
+          />
           <div>
             <h1 className="font-display text-2xl font-semibold">Staff portal</h1>
             <p className="text-sm text-muted-foreground">Doctor & Receptionist access</p>
