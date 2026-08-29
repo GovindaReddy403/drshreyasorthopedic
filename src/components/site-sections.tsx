@@ -15,15 +15,15 @@ export function PageHero({
 }) {
   return (
     <section className="border-b border-border/60 bg-hero-gradient">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {eyebrow && (
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">{eyebrow}</p>
         )}
-        <h1 className="mt-3 font-display text-3xl font-bold text-primary sm:text-4xl lg:text-5xl">
+        <h1 className="mt-2 font-display text-2xl font-bold text-primary sm:text-3xl lg:text-4xl">
           {title}
         </h1>
-        {subtitle && <p className="mt-4 max-w-3xl text-base text-muted-foreground">{subtitle}</p>}
-        <nav className="mt-6 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        {subtitle && <p className="mt-2 max-w-3xl text-sm text-muted-foreground sm:text-base">{subtitle}</p>}
+        <nav className="mt-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
           <Link to="/" className="hover:text-primary">
             Home
           </Link>
