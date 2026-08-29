@@ -1042,7 +1042,7 @@ export function MeetDrShreyas({
                 className="h-52 w-full object-cover object-[center_15%] sm:h-64"
                 loading="lazy"
               />
-              <CardContent className="flex h-full flex-col px-6 pb-6 pt-8">
+              <CardContent className="flex h-full flex-col px-6 pb-6 pt-[15%]">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Stethoscope className="h-6 w-6" />
