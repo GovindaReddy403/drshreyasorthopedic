@@ -169,20 +169,23 @@ export function HeroSlider({
             <CarouselItem key={s.title} className="pl-0">
               {s.portrait ? (
                 /* ---- Doctor split slide: photo left/top, text right/bottom ---- */
-                <div className="flex h-[480px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
+                <div className="flex h-[600px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
                    {/* Doctor photo — full width on top (mobile), left half (desktop).
                         Capped width on large screens so the portrait never over-scales
-                        and crops the doctor's face. */}
-                   <div className="relative h-52 w-full shrink-0 overflow-hidden sm:h-64 md:h-full md:w-1/2 md:max-w-[760px]">
+                        and crops the doctor's face. Taller on mobile so the blue
+                        text panel stays compact with no empty gap at its top. */}
+                   <div className="relative h-60 w-full shrink-0 overflow-hidden sm:h-64 md:h-full md:w-1/2 md:max-w-[760px]">
                      <img
                        src={s.image}
                        alt={s.title}
-                       className="absolute inset-0 h-full w-full object-cover object-[center_35%] sm:object-[center_35%] md:object-[center_20%]"
+                       className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_35%] md:object-[center_20%]"
                      />
                    </div>
-
-                   {/* Text panel — below photo (mobile), fills remaining width (desktop) */}
-                   <div className="relative flex w-full flex-1 items-start bg-primary pt-5 md:h-full md:items-center">
+ 
+                   {/* Text panel — below photo (mobile), fills remaining width (desktop).
+                       Top-aligned on mobile with tight padding so no blue gap sits
+                       between the photo and the text. */}
+                   <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
                      <div className="mx-auto w-full max-w-xl px-4 pb-4 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
