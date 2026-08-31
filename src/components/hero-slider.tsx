@@ -55,7 +55,7 @@ const SLIDES: Slide[] = [
     title: "Arthroscopy Knee & Shoulder — Key Hole Surgery",
     body: "Fellowship-trained arthroscopy and sports medicine care with faster recovery and smaller incisions.",
     href: "/specialties/knee-arthroscopy",
-    imageClass: "object-[92%_center] md:object-[90%_center]",
+    imageClass: "object-[100%_center] md:object-[100%_center]",
   },
   {
     image: sKnee,
@@ -63,7 +63,7 @@ const SLIDES: Slide[] = [
     title: "Pain-Free Movement, Restored",
     body: "Modern knee and hip implants with rapid-recovery protocols, planned individually for every patient.",
     href: "/specialties/joint-replacement",
-    imageClass: "object-[88%_center] md:object-[85%_center]",
+    imageClass: "object-[98%_center] md:object-[95%_center]",
   },
   {
     image: sShoulder,
@@ -71,7 +71,7 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
-    imageClass: "object-[90%_center] md:object-[88%_center]",
+    imageClass: "object-[100%_center] md:object-[98%_center]",
   },
   {
     image: sPhysio,
@@ -79,7 +79,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
-    imageClass: "object-[92%_center] md:object-[90%_center]",
+    imageClass: "object-[100%_center] md:object-[100%_center]",
   },
 ];
 
