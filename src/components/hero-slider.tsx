@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/carousel";
 
 
-import sKnee from "@/assets/treat-knee.jpg";
-import sShoulder from "@/assets/treat-shoulder.jpg";
-import sArthro from "@/assets/treat-arthroscopy.jpg";
-import sPhysio from "@/assets/treat-physio.jpg";
+import sKnee from "@/assets/hero-joint.jpg";
+import sShoulder from "@/assets/hero-sports.jpg";
+import sArthro from "@/assets/hero-arthroscopy.jpg";
+import sPhysio from "@/assets/hero-trauma.jpg";
 import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
 
 const doctorSlide = doctorSlideAsset.url;
