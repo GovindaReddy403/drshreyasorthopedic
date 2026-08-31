@@ -221,7 +221,7 @@ export function HeroSlider({
                   <img
                     src={s.image}
                     alt={s.title}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-cover object-[75%_center] sm:object-center"
                   />
                   <div
                     className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/30"
