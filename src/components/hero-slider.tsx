@@ -32,7 +32,7 @@ type Slide = {
   href: string;
   portrait?: boolean;
   bullets?: string[];
-  objectPosition?: string;
+  imageClass?: string;
 };
 
 const SLIDES: Slide[] = [
@@ -63,6 +63,7 @@ const SLIDES: Slide[] = [
     title: "Pain-Free Movement, Restored",
     body: "Modern knee and hip implants with rapid-recovery protocols, planned individually for every patient.",
     href: "/specialties/joint-replacement",
+    imageClass: "object-[62%_center] md:object-center",
   },
   {
     image: sShoulder,
@@ -70,6 +71,7 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
+    imageClass: "object-center md:object-center",
   },
   {
     image: sPhysio,
@@ -77,7 +79,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
-    objectPosition: "70% center",
+    imageClass: "object-center md:object-[70%_center]",
   },
 ];
 
@@ -87,11 +89,13 @@ function SlideCTAs({
   waHref,
   phone,
   showBullets,
+  mobileBook,
 }: {
   href: string;
   waHref?: string;
   phone?: string | null;
   showBullets: boolean;
+  mobileBook?: boolean;
 }) {
   return (
     <div className="mt-4 flex flex-wrap gap-2.5 sm:mt-6 sm:gap-3">
@@ -106,7 +110,7 @@ function SlideCTAs({
         </a>
       )}
 
-      <Link to="/book" className="hidden sm:block">
+      <Link to="/book" className={mobileBook ? "" : "hidden sm:block"}>
         <Button size="lg" variant="secondary" className="gap-2 rounded-full">
           Book An Appointment <ArrowRight className="h-4 w-4" />
         </Button>
@@ -218,17 +222,15 @@ export function HeroSlider({
                   </div>
                 </div>
               ) : (
-                /* ---- Standard split slide: text left, photo right (desktop) / photo top, text bottom (mobile) ---- */
-                <div className="flex h-[620px] w-full flex-col sm:h-[560px] md:h-[520px] md:flex-row-reverse">
-                  {/* Photo — full width on top (mobile), right half (desktop).
-                      Uses object-cover in its own box so it never crops into the
-                      text, and shows fully without the tall full-width crop. */}
-                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-3/5">
+                /* ---- Standard split slide: text left, photo right (desktop) / photo top, text bottom (mobile).
+                     Mobile height is content-driven (no fixed empty space); desktop keeps a fixed height. */
+                <div className="flex w-full flex-col md:h-[520px] md:flex-row-reverse">
+                  {/* Photo — full width on top (mobile) with 16:10-ish proportion, right half (desktop). */}
+                  <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden sm:aspect-[16/9] md:h-full md:w-3/5 md:aspect-auto">
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      style={{ objectPosition: s.objectPosition ?? "center" }}
+                      className={`absolute inset-0 h-full w-full object-cover ${s.imageClass ?? ""}`}
                     />
                     <div
                       className="absolute inset-0 bg-primary/30 md:bg-transparent"
@@ -237,15 +239,15 @@ export function HeroSlider({
                   </div>
 
                   {/* Text panel — below photo (mobile), fills remaining width (desktop). */}
-                  <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
-                    <div className="mx-auto w-full max-w-xl px-4 pb-5 text-primary-foreground sm:px-8 sm:py-8">
+                  <div className="relative flex w-full flex-1 items-start bg-primary pt-4 md:h-full md:items-center">
+                    <div className="mx-auto w-full max-w-xl px-5 pb-6 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
-                      <h2 className="mt-1.5 font-display text-xl font-bold leading-tight sm:mt-2 sm:text-3xl lg:text-4xl">
+                      <h2 className="mt-2 font-display text-xl font-bold leading-tight sm:mt-2 sm:text-3xl lg:text-4xl">
                         {s.title}
                       </h2>
-                      <p className="mt-2 hidden max-w-lg text-sm opacity-90 sm:mt-3 sm:block sm:text-base">
+                      <p className="mt-2 max-w-lg text-sm opacity-90 sm:mt-3 sm:text-base">
                         {s.body}
                       </p>
                       <SlideCTAs
@@ -253,6 +255,7 @@ export function HeroSlider({
                         waHref={waHref}
                         phone={phone}
                         showBullets={false}
+                        mobileBook
                       />
                     </div>
                   </div>
@@ -261,8 +264,8 @@ export function HeroSlider({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2 border-none bg-background/70 sm:left-4" />
-        <CarouselNext className="right-2 border-none bg-background/70 sm:right-4" />
+        <CarouselPrevious className="left-2 top-[104px] border-none bg-background/70 sm:left-4 md:top-1/2" />
+        <CarouselNext className="right-2 top-[104px] border-none bg-background/70 sm:right-4 md:top-1/2" />
 
         {/* Dots */}
         <div className="absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-2">
