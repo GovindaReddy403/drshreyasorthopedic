@@ -24,12 +24,12 @@ const doctorImg = doctorAsset.url;
 
 import aboutShreyas from "@/assets/about-shreyas.png";
 
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gArthro from "@/assets/treat-arthroscopy.jpg";
-import gPhysio from "@/assets/treat-physio.jpg";
-import gXray from "@/assets/treat-xray.jpg";
+import gKnee from "@/assets/gallery-knee-assessment-v2.png";
+import gShoulder from "@/assets/gallery-shoulder-examination-v2.png";
+import gAnkle from "@/assets/gallery-ankle-care-v2.png";
+import gArthro from "@/assets/gallery-knee-arthroscopy-v2.png";
+import gPhysio from "@/assets/gallery-sports-rehabilitation-v2.png";
+import gXray from "@/assets/gallery-imaging-review-v2.png";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +61,6 @@ import {
   HomeBlogSection,
   MeetDrShreyas,
   PatientVideoStories,
-
   SpecialtyImageCards,
   StatsBand,
   SurgicalPhilosophy,
@@ -262,7 +261,7 @@ function LandingPage() {
                         src={s.image}
                         alt={s.title}
                         loading="lazy"
-                        className="aspect-4/3 w-full object-cover"
+                        className="aspect-4/3 w-full bg-[#031b35] p-2 object-contain object-center"
                       />
                       <CardContent className="flex h-full flex-col p-6">
                         <h3 className="font-display text-xl font-semibold text-primary">
@@ -323,7 +322,7 @@ function LandingPage() {
                       width={1200}
                       height={900}
                       loading="lazy"
-                      className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="aspect-4/3 w-full bg-muted object-contain object-center"
                     />
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-sm font-medium text-white">
                       {g.caption}
@@ -361,7 +360,6 @@ function LandingPage() {
 
           <div className="mt-10">
             <ReviewsCarousel reviews={testimonials} />
-
           </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -377,10 +375,7 @@ function LandingPage() {
         </div>
       </section>
 
-      <PatientVideoStories
-        youtubeUrl={clinic.youtube_url}
-        reviewsUrl={GOOGLE_REVIEWS_URL}
-      />
+      <PatientVideoStories youtubeUrl={clinic.youtube_url} reviewsUrl={GOOGLE_REVIEWS_URL} />
 
       <SurgicalPhilosophy image={doctorImg} name={primaryDoctor?.name ?? clinic.doctor_name} />
 
@@ -478,4 +473,3 @@ function InfoCard({
     </div>
   );
 }
-

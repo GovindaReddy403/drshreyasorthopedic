@@ -43,11 +43,11 @@ import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 import gKnee from "@/assets/specialty-knee-imaging.png";
 import gShoulder from "@/assets/specialty-shoulder-imaging.png";
 import gAnkle from "@/assets/specialty-ankle-imaging.png";
-import gJoint from "@/assets/specialty-joint-replacement-imaging.png";
+import gJoint from "@/assets/specialty-robotic-joint-replacement-v2.png";
 import gArthroscopy from "@/assets/specialty-arthroscopy-imaging.png";
 
 import gSports from "@/assets/specialty-sports-medicine-imaging.png";
-import gTrauma from "@/assets/specialty-trauma-imaging.png";
+import gTrauma from "@/assets/specialty-fractures-biologics-v2.png";
 import clinic1 from "@/assets/clinic-1.jpg";
 import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 import clinicLogo from "@/assets/clinic-logo.png";
@@ -190,13 +190,13 @@ export function SpecialtyImageCards() {
           {SPECIALTY_CARDS.map((c) => (
             <div
               key={c.slug}
-              className="relative flex h-[380px] items-end overflow-hidden rounded-[15px]"
+              className="relative flex h-[380px] items-end overflow-hidden rounded-[15px] bg-[#031b35]"
             >
               <img
                 src={c.image}
                 alt={`${c.title} treatment`}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full p-3 object-contain object-center"
               />
               <div className="absolute inset-0 bg-primary/60" aria-hidden />
               <div className="relative w-full p-6 text-center text-primary-foreground">
@@ -277,22 +277,17 @@ export function CentreOfExcellence() {
           {EXCELLENCE.map((e, i) => {
             const imageLeft = i % 2 === 0;
             return (
-              <div
-                key={e.slug}
-                className="grid items-center gap-8 md:grid-cols-2 md:gap-12"
-              >
+              <div key={e.slug} className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
                 <div className={imageLeft ? "md:order-1" : "md:order-2"}>
                   <img
                     src={e.image}
                     alt={e.title}
                     loading="lazy"
-                    className="aspect-[4/3] w-full rounded-2xl border border-border/60 object-cover shadow-[var(--shadow-soft)]"
+                    className="aspect-[4/3] w-full rounded-2xl border border-border/60 bg-[#031b35] p-2 object-contain object-center shadow-[var(--shadow-soft)]"
                   />
                 </div>
                 <div className={imageLeft ? "md:order-2" : "md:order-1"}>
-                  <h3 className="font-display text-2xl font-bold text-primary">
-                    {e.title}
-                  </h3>
+                  <h3 className="font-display text-2xl font-bold text-primary">{e.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
                     {e.body}
                   </p>
@@ -722,7 +717,10 @@ export function PatientVideoStories({
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {cards.map((v) => (
-            <div key={v.title} className="card-lift overflow-hidden rounded-2xl border border-border bg-card">
+            <div
+              key={v.title}
+              className="card-lift overflow-hidden rounded-2xl border border-border bg-card"
+            >
               <div className="flex aspect-16/10 items-center justify-center bg-soft-blue">
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-card text-primary shadow-[var(--shadow-soft)]">
                   <PlayCircle className="h-7 w-7" />
@@ -732,7 +730,9 @@ export function PatientVideoStories({
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
                   {v.category}
                 </p>
-                <h3 className="mt-2 font-display text-base font-semibold text-primary">{v.title}</h3>
+                <h3 className="mt-2 font-display text-base font-semibold text-primary">
+                  {v.title}
+                </h3>
                 <p className="mt-1 text-sm text-muted-foreground">{v.description}</p>
                 <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Video coming soon
@@ -756,7 +756,6 @@ export function PatientVideoStories({
     </section>
   );
 }
-
 
 /* ------------------------------------------------------------------ */
 /* FAQs                                                                 */
@@ -841,7 +840,6 @@ export function FaqSection() {
   );
 }
 
-
 /* ------------------------------------------------------------------ */
 /* Doctor profile — featured two-column layout                          */
 /* ------------------------------------------------------------------ */
@@ -859,8 +857,7 @@ const PROFILE_STATS = [
   { value: "20,000+", label: "Patients" },
 ];
 
-const PROFILE_SUBTITLE =
-  "Orthopaedic Surgeon & Sports Medicine Specialist";
+const PROFILE_SUBTITLE = "Orthopaedic Surgeon & Sports Medicine Specialist";
 
 export function DoctorProfileFeature({
   image,
@@ -897,9 +894,7 @@ export function DoctorProfileFeature({
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
             Doctor Profile
           </p>
-          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">
-            {name}
-          </h2>
+          <h2 className="mt-2 font-display text-3xl font-bold text-primary sm:text-4xl">{name}</h2>
           <p className="mt-1 font-medium text-accent">{PROFILE_SUBTITLE}</p>
 
           {about && (
@@ -965,7 +960,6 @@ export function DoctorProfileFeature({
   );
 }
 
-
 /* ------------------------------------------------------------------ */
 /* Meet Dr. Shreyas — expanded bio + where to consult                    */
 /* ------------------------------------------------------------------ */
@@ -982,8 +976,7 @@ const SURGICAL_PHILOSOPHY_QUOTE =
 
 const JSS_ADDRESS =
   "JSS Medical College & Hospital, MG Road, Saraswathipuram, Mysuru, Karnataka 570004";
-const JSS_MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysore";
+const JSS_MAPS_URL = "https://www.google.com/maps/search/?api=1&query=JSS+Hospital+Mysore";
 
 export function MeetDrShreyas({
   name,
@@ -1012,15 +1005,12 @@ export function MeetDrShreyas({
 
         {/* Surgical philosophy blockquote */}
         <blockquote className="mx-auto mt-10 max-w-3xl border-l-4 border-accent bg-card/70 p-6 text-center italic text-lg leading-relaxed text-foreground/85 shadow-[var(--shadow-soft)] sm:p-8">
-          <Quote className="mx-auto mb-3 h-8 w-8 text-accent" />
-          "{SURGICAL_PHILOSOPHY_QUOTE}"
+          <Quote className="mx-auto mb-3 h-8 w-8 text-accent" />"{SURGICAL_PHILOSOPHY_QUOTE}"
         </blockquote>
 
         {/* Extended bio */}
         <div className="mx-auto mt-10 max-w-3xl">
-          <p className="whitespace-pre-line leading-relaxed text-muted-foreground">
-            {MEET_BIO}
-          </p>
+          <p className="whitespace-pre-line leading-relaxed text-muted-foreground">{MEET_BIO}</p>
         </div>
 
         {/* Where to Consult */}
@@ -1068,9 +1058,9 @@ export function MeetDrShreyas({
                   <span>{address}</span>
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">Best for:</span>{" "}
-                  OPD consultations, second opinions, sports injury assessment and
-                  non-surgical joint preservation.
+                  <span className="font-semibold text-foreground">Best for:</span> OPD
+                  consultations, second opinions, sports injury assessment and non-surgical joint
+                  preservation.
                 </p>
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:mt-auto">
                   {mapsUrl && (
@@ -1110,12 +1100,17 @@ export function MeetDrShreyas({
                   <span>{JSS_ADDRESS}</span>
                 </div>
                 <p className="mt-4 text-sm text-muted-foreground">
-                  <span className="font-semibold text-foreground">Best for:</span>{" "}
-                  In-patient orthopaedic surgery, complex trauma, joint replacement
-                  and arthroscopic procedures with full multidisciplinary support.
+                  <span className="font-semibold text-foreground">Best for:</span> In-patient
+                  orthopaedic surgery, complex trauma, joint replacement and arthroscopic procedures
+                  with full multidisciplinary support.
                 </p>
                 <div className="mt-6 flex sm:mt-auto">
-                  <a href={JSS_MAPS_URL} target="_blank" rel="noreferrer" className="w-full sm:w-auto sm:px-8">
+                  <a
+                    href={JSS_MAPS_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full sm:w-auto sm:px-8"
+                  >
                     <Button variant="outline" className="w-full gap-2 rounded-full">
                       <MapPin className="h-4 w-4" /> Open in Maps
                     </Button>
