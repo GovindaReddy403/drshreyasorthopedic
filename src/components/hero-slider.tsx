@@ -70,7 +70,6 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
-    objectPosition: "40% center",
   },
   {
     image: sPhysio,
@@ -78,7 +77,6 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
-    objectPosition: "20% center",
   },
 ];
 
@@ -220,11 +218,11 @@ export function HeroSlider({
                 </div>
               ) : (
                 /* ---- Standard split slide: text left, photo right (desktop) / photo top, text bottom (mobile) ---- */
-                <div className="flex h-[620px] w-full flex-col sm:h-[560px] md:h-[500px] md:flex-row-reverse">
+                <div className="flex h-[620px] w-full flex-col sm:h-[560px] md:h-[520px] md:flex-row-reverse">
                   {/* Photo — full width on top (mobile), right half (desktop).
                       Uses object-cover in its own box so it never crops into the
                       text, and shows fully without the tall full-width crop. */}
-                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-1/2">
+                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-3/5">
                     <img
                       src={s.image}
                       alt={s.title}
