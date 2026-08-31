@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/carousel";
 
 
-import sKnee from "@/assets/hero-joint.jpg";
+import sKnee from "@/assets/hero-joint.png";
 import sShoulder from "@/assets/hero-sports.png";
 import sArthro from "@/assets/hero-arthroscopy.jpg";
 import sPhysio from "@/assets/hero-trauma.png";
