@@ -77,6 +77,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
+    objectPosition: "62% center",
   },
 ];
 
