@@ -32,6 +32,7 @@ type Slide = {
   href: string;
   portrait?: boolean;
   bullets?: string[];
+  objectPosition?: string;
 };
 
 const SLIDES: Slide[] = [
@@ -69,6 +70,7 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
+    objectPosition: "40% center",
   },
   {
     image: sPhysio,
@@ -76,6 +78,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
+    objectPosition: "20% center",
   },
 ];
 
@@ -225,7 +228,8 @@ export function HeroSlider({
                     <img
                       src={s.image}
                       alt={s.title}
-                      className="absolute inset-0 h-full w-full object-cover object-center"
+                      className="absolute inset-0 h-full w-full object-cover"
+                      style={{ objectPosition: s.objectPosition ?? "center" }}
                     />
                     <div
                       className="absolute inset-0 bg-primary/30 md:bg-transparent"
