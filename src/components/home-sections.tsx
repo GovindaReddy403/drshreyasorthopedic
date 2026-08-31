@@ -40,14 +40,14 @@ import { SPECIALTIES } from "@/lib/specialties";
 import { CLINIC_VIDEOS, youtubeEmbedSrc, youtubeVideoId } from "@/lib/videos";
 import { BLOG_POSTS, HOME_BLOG_SLUGS } from "@/lib/blog";
 
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gHip from "@/assets/treat-hip.jpg";
-import gArthroscopy from "@/assets/treat-arthroscopy.jpg";
-import gJoint from "@/assets/treat-xray.jpg";
-import gSports from "@/assets/treat-physio.jpg";
-import gBiologics from "@/assets/treat-biologics.jpg";
+import gKnee from "@/assets/specialty-knee-imaging.png";
+import gShoulder from "@/assets/specialty-shoulder-imaging.png";
+import gAnkle from "@/assets/specialty-ankle-imaging.png";
+import gJoint from "@/assets/specialty-joint-replacement-imaging.png";
+import gArthroscopy from "@/assets/specialty-arthroscopy-imaging.png";
+
+import gSports from "@/assets/specialty-sports-medicine-imaging.png";
+import gTrauma from "@/assets/specialty-trauma-imaging.png";
 import clinic1 from "@/assets/clinic-1.jpg";
 import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
 import clinicLogo from "@/assets/clinic-logo.png";
@@ -166,7 +166,7 @@ const SPECIALTY_CARDS = [
   { slug: "knee-arthroscopy", title: "Knee", image: gKnee },
   { slug: "shoulder-arthroscopy", title: "Shoulder", image: gShoulder },
   { slug: "foot-and-ankle", title: "Foot & Ankle", image: gAnkle },
-  { slug: "joint-replacement", title: "Robotic Joint Replacement (Hip & Knee)", image: gHip },
+  { slug: "joint-replacement", title: "Robotic Joint Replacement (Hip & Knee)", image: gJoint },
 ];
 
 export function SpecialtyImageCards() {
@@ -260,7 +260,7 @@ const EXCELLENCE = [
   {
     slug: "trauma-and-fractures",
     title: "Fractures & Biologic Treatments",
-    image: gBiologics,
+    image: gTrauma,
     body: "High-volume trauma experience from the Sanjay Gandhi Institute of Trauma & Orthopaedics, plus regenerative options such as PRP and viscosupplementation for early arthritis and tendon problems.",
   },
 ];

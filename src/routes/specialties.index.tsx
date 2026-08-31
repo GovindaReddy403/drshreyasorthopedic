@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/accordion";
 import { clinicQO, treatmentsQO } from "@/lib/queries";
 import { SPECIALTIES } from "@/lib/specialties";
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gHip from "@/assets/treat-hip.jpg";
-import gElbow from "@/assets/treat-elbow.jpg";
+import gKnee from "@/assets/specialty-knee-imaging.png";
+import gShoulder from "@/assets/specialty-shoulder-imaging.png";
+import gAnkle from "@/assets/specialty-ankle-imaging.png";
+import gHip from "@/assets/specialty-hip-imaging.png";
+import gElbow from "@/assets/specialty-elbow-imaging.png";
 
 const PROCEDURE_CATEGORIES: {
   title: string;

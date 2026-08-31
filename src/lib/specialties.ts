@@ -1,10 +1,10 @@
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gArthro from "@/assets/treat-arthroscopy.jpg";
-import gPhysio from "@/assets/treat-physio.jpg";
-import gXray from "@/assets/treat-xray.jpg";
-import gBio from "@/assets/treat-biologics.jpg";
+import gKnee from "@/assets/specialty-knee-imaging.png";
+import gShoulder from "@/assets/specialty-shoulder-imaging.png";
+import gAnkle from "@/assets/specialty-ankle-imaging.png";
+import gJointReplacement from "@/assets/specialty-joint-replacement-imaging.png";
+import gSportsMedicine from "@/assets/specialty-sports-medicine-imaging.png";
+import gTrauma from "@/assets/specialty-trauma-imaging.png";
+import gBiologics from "@/assets/specialty-biologics-imaging.png";
 
 export type Specialty = {
   slug: string;
@@ -134,7 +134,7 @@ export const SPECIALTIES: Specialty[] = [
     title: "Robotic Joint Replacement Surgery",
     short:
       "Total and partial knee replacement and hip replacement with modern implants and rapid recovery.",
-    image: gArthro,
+    image: gJointReplacement,
     intro:
       "When arthritis has worn away the joint surface and medication, injections and physiotherapy no longer help, joint replacement reliably relieves pain and restores movement. Implant choice, alignment and rehabilitation are planned individually for each patient.",
     conditions: [
@@ -171,7 +171,7 @@ export const SPECIALTIES: Specialty[] = [
     title: "Trauma & Fracture Care",
     short:
       "Complex fracture fixation, poly-trauma management, non-union treatment and second opinions.",
-    image: gXray,
+    image: gTrauma,
     intro:
       "Fractures heal best when they are reduced accurately and stabilised appropriately. Training as Senior Resident at the Sanjay Gandhi Institute of Trauma & Orthopaedics brings high-volume trauma experience to every case — from simple wrist fractures to complex multi-limb injuries.",
     conditions: [
@@ -208,7 +208,7 @@ export const SPECIALTIES: Specialty[] = [
     title: "Sports Medicine & Rehabilitation",
     short:
       "Return-to-sport planning, injury prevention, PRP injections and structured post-operative rehab.",
-    image: gPhysio,
+    image: gSportsMedicine,
     intro:
       "Surgery is only half of the recovery. A clear, measurable rehabilitation plan — with defined milestones for strength, balance and sport-specific movement — is what gets athletes and active patients safely back to what they love.",
     conditions: [
@@ -245,7 +245,7 @@ export const SPECIALTIES: Specialty[] = [
     title: "Ortho Biologics — PRP & Hylast",
     short:
       "PRP (Platelet-Rich Plasma) therapy and Hylast (hyaluronic acid) injections for selected joint and tendon conditions.",
-    image: gBio,
+    image: gBiologics,
     intro:
       "Not every orthopaedic problem needs surgery. Ortho biologics use the body's own healing capacity, or joint lubricating agents, to reduce pain and improve function in carefully selected patients. Treatment is recommended only after a detailed clinical assessment and appropriate imaging, with an individualised approach based on the patient's condition and requirements.",
     conditions: [
