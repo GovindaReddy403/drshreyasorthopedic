@@ -17,9 +17,9 @@ import {
 
 
 import sKnee from "@/assets/hero-joint.jpg";
-import sShoulder from "@/assets/hero-sports.jpg";
+import sShoulder from "@/assets/hero-sports.png";
 import sArthro from "@/assets/hero-arthroscopy.jpg";
-import sPhysio from "@/assets/hero-trauma.jpg";
+import sPhysio from "@/assets/hero-trauma.png";
 import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
 
 const doctorSlide = doctorSlideAsset.url;
