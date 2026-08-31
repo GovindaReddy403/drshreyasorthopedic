@@ -216,26 +216,33 @@ export function HeroSlider({
                   </div>
                 </div>
               ) : (
-                /* ---- Standard full-bleed background slide ---- */
-                <div className="relative h-[440px] w-full sm:h-[480px] md:h-[500px]">
-                  <img
-                    src={s.image}
-                    alt={s.title}
-                    className="absolute inset-0 h-full w-full object-cover object-[75%_center] sm:object-center"
-                  />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/75 to-primary/30"
-                    aria-hidden
-                  />
-                  <div className="relative mx-auto flex h-full max-w-7xl items-center px-5 py-6 sm:px-8 sm:py-8 lg:px-8">
-                    <div className="max-w-xl text-primary-foreground sm:max-w-2xl">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
+                /* ---- Standard split slide: text left, photo right (desktop) / photo top, text bottom (mobile) ---- */
+                <div className="flex h-[620px] w-full flex-col sm:h-[560px] md:h-[500px] md:flex-row-reverse">
+                  {/* Photo — full width on top (mobile), right half (desktop).
+                      Uses object-cover in its own box so it never crops into the
+                      text, and shows fully without the tall full-width crop. */}
+                  <div className="relative h-64 w-full shrink-0 overflow-hidden sm:h-72 md:h-full md:w-1/2">
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="absolute inset-0 h-full w-full object-cover object-center"
+                    />
+                    <div
+                      className="absolute inset-0 bg-primary/30 md:bg-transparent"
+                      aria-hidden
+                    />
+                  </div>
+
+                  {/* Text panel — below photo (mobile), fills remaining width (desktop). */}
+                  <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
+                    <div className="mx-auto w-full max-w-xl px-4 pb-5 text-primary-foreground sm:px-8 sm:py-8">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
-                      <h2 className="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
+                      <h2 className="mt-1.5 font-display text-xl font-bold leading-tight sm:mt-2 sm:text-3xl lg:text-4xl">
                         {s.title}
                       </h2>
-                      <p className="mt-3 max-w-lg text-sm opacity-90 sm:text-base">
+                      <p className="mt-2 hidden max-w-lg text-sm opacity-90 sm:mt-3 sm:block sm:text-base">
                         {s.body}
                       </p>
                       <SlideCTAs
