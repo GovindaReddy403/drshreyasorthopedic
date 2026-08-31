@@ -63,7 +63,7 @@ const SLIDES: Slide[] = [
     title: "Pain-Free Movement, Restored",
     body: "Modern knee and hip implants with rapid-recovery protocols, planned individually for every patient.",
     href: "/specialties/joint-replacement",
-    imageClass: "object-[62%_center] md:object-center",
+    imageClass: "object-[60%_center] md:object-center",
   },
   {
     image: sShoulder,
@@ -71,7 +71,7 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
-    imageClass: "object-center md:object-center",
+    imageClass: "object-[65%_center] md:object-center",
   },
   {
     image: sPhysio,
@@ -79,7 +79,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
-    imageClass: "object-center md:object-[70%_center]",
+    imageClass: "object-[70%_center] md:object-[70%_center]",
   },
 ];
 
@@ -174,8 +174,9 @@ export function HeroSlider({
           {SLIDES.map((s) => (
             <CarouselItem key={s.title} className="pl-0">
               {s.portrait ? (
-                /* ---- Doctor split slide: photo left/top, text right/bottom ---- */
-                <div className="flex h-[600px] w-full flex-col sm:h-[520px] md:h-[500px] md:flex-row">
+                /* ---- Doctor split slide: photo left/top, text right/bottom ----
+                     Mobile is content-driven (no fixed empty space); desktop keeps its fixed height. */
+                <div className="flex w-full flex-col md:h-[500px] md:flex-row">
                    {/* Doctor photo — full width on top (mobile), left half (desktop).
                         Capped width on large screens so the portrait never over-scales
                         and crops the doctor's face. Taller on mobile so the blue
@@ -192,14 +193,14 @@ export function HeroSlider({
                        Top-aligned on mobile with tight padding so no blue gap sits
                        between the photo and the text. */}
                    <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
-                     <div className="mx-auto w-full max-w-xl px-4 pb-4 text-primary-foreground sm:px-8 sm:py-8">
+                     <div className="mx-auto w-full max-w-xl px-6 pb-4 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
                       <h2 className="mt-1.5 font-display text-xl font-bold leading-tight sm:mt-2 sm:text-3xl lg:text-4xl">
                         {s.title}
                       </h2>
-                      <p className="mt-2 hidden max-w-lg text-sm opacity-90 sm:mt-3 sm:block sm:text-base">
+                      <p className="mt-2 max-w-lg text-sm opacity-90 sm:mt-3 sm:text-base">
                         {s.body}
                       </p>
                       {s.bullets && (
@@ -240,7 +241,7 @@ export function HeroSlider({
 
                   {/* Text panel — below photo (mobile), fills remaining width (desktop). */}
                   <div className="relative flex w-full flex-1 items-start bg-primary pt-4 md:h-full md:items-center">
-                    <div className="mx-auto w-full max-w-xl px-5 pb-6 text-primary-foreground sm:px-8 sm:py-8">
+                    <div className="mx-auto w-full max-w-xl px-6 pb-6 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
@@ -264,8 +265,8 @@ export function HeroSlider({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2 top-[104px] border-none bg-background/70 sm:left-4 md:top-1/2" />
-        <CarouselNext className="right-2 top-[104px] border-none bg-background/70 sm:right-4 md:top-1/2" />
+        <CarouselPrevious className="left-4 top-[104px] border-none bg-background/70 sm:left-4 md:top-1/2" />
+        <CarouselNext className="right-4 top-[104px] border-none bg-background/70 sm:right-4 md:top-1/2" />
 
         {/* Dots */}
         <div className="absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-2">
