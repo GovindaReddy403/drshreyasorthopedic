@@ -1,9 +1,12 @@
-import gKnee from "@/assets/treat-knee.jpg";
-import gShoulder from "@/assets/treat-shoulder.jpg";
-import gAnkle from "@/assets/treat-ankle.jpg";
-import gArthro from "@/assets/treat-arthroscopy.jpg";
-import gPhysio from "@/assets/treat-physio.jpg";
-import gXray from "@/assets/treat-xray.jpg";
+import blogBoneHealth from "@/assets/blog-bone-health-after-40-v2.png";
+import blogKneeDiabetes from "@/assets/blog-knee-replacement-diabetes-v2.png";
+import blogSportsPrevention from "@/assets/blog-sports-injury-prevention-v2.png";
+import blogAclRecovery from "@/assets/blog-acl-recovery-timeline-v2.png";
+import blogShoulderPain from "@/assets/blog-shoulder-rotator-cuff-v2.png";
+import blogKneeMyths from "@/assets/blog-knee-replacement-myths-v2.png";
+import blogPrpBiologics from "@/assets/blog-prp-biologics-v2.png";
+import blogAnkleSprain from "@/assets/blog-ankle-sprain-v2.png";
+import blogArthroscopy from "@/assets/blog-arthroscopy-guide-v2.png";
 
 export type BlogPost = {
   slug: string;
@@ -25,7 +28,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-07-20",
     readingTime: "5 min read",
     category: "Bone Health",
-    image: gXray,
+    image: blogBoneHealth,
     body: [
       "Bone is living tissue that is constantly remodelled. After the age of 40, breakdown gradually outpaces formation, and in women this accelerates sharply after menopause. The result is osteopenia and, if unchecked, osteoporosis — bone that fractures from a fall no higher than standing height.",
       "Most people have no symptoms until the first fracture. Wrist, hip and spine fractures are the classic presentations, and a spine fracture may show up only as gradual height loss or a stooped posture.",
@@ -42,7 +45,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-07-06",
     readingTime: "5 min read",
     category: "Joint Replacement",
-    image: gKnee,
+    image: blogKneeDiabetes,
     body: [
       "Diabetes does not rule out knee replacement. It simply means the preparation has to be more thorough, because uncontrolled blood sugar raises the risk of wound infection, delayed healing and stiffness after surgery.",
       "Before surgery we aim for an HbA1c below 7.5%, ideally under 7%. If it is higher, elective surgery is postponed while your physician adjusts treatment — a delay of a few weeks is far better than a deep implant infection.",
@@ -59,7 +62,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-06-24",
     readingTime: "5 min read",
     category: "Sports Medicine",
-    image: gPhysio,
+    image: blogSportsPrevention,
     body: [
       "The injuries we see most often — ACL tears, ankle sprains, hamstring strains, rotator cuff pain and runner's knee — share the same underlying causes: sudden increases in training load, weak hip and core muscles, poor landing technique and inadequate recovery.",
       "Warm up properly. Five to ten minutes of light cardio followed by dynamic movements prepares muscles and tendons far better than static stretching alone, which is best kept for after the session.",
@@ -77,7 +80,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-06-12",
     readingTime: "6 min read",
     category: "Knee & Sports Injury",
-    image: gKnee,
+    image: blogAclRecovery,
     body: [
       "An ACL tear is one of the most common sports injuries seen in the clinic, especially among footballers, cricketers and recreational runners. The ligament rarely heals on its own once completely torn, which is why arthroscopic reconstruction is advised for active patients or anyone whose knee keeps giving way.",
       "Weeks 0–2 focus entirely on calming the knee down: swelling control, full passive extension, quadriceps activation and safe walking with support. Getting the knee fully straight in this phase matters more than bending it far.",
@@ -95,7 +98,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-05-28",
     readingTime: "5 min read",
     category: "Shoulder",
-    image: gShoulder,
+    image: blogShoulderPain,
     body: [
       "Most shoulder pain settles with rest, activity modification and physiotherapy. The pattern that should not be ignored is pain that wakes you at night, difficulty lifting the arm overhead, and weakness when the arm is tested against resistance.",
       "Frozen shoulder causes stiffness in every direction — even when someone else moves your arm. A rotator cuff tear typically leaves passive movement possible but active lifting weak. That distinction guides the entire treatment plan.",
@@ -112,7 +115,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-05-04",
     readingTime: "5 min read",
     category: "Joint Replacement",
-    image: gXray,
+    image: blogKneeMyths,
     body: [
       "Myth 1: You must wait until the pain is unbearable. Waiting too long causes muscle wasting and deformity, which makes both surgery and recovery harder. The right time is when pain limits daily walking despite medication and physiotherapy.",
       "Myth 2: You will be bedridden for months. Most patients stand and walk with support on the same or next day, and manage stairs before discharge.",
@@ -129,7 +132,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-04-19",
     readingTime: "4 min read",
     category: "Ortho Biologics",
-    image: gPhysio,
+    image: blogPrpBiologics,
     body: [
       "Platelet-rich plasma concentrates your own growth factors and is injected into the joint or tendon to support healing and reduce inflammation. It is not a cure for advanced arthritis.",
       "The best responders are patients with early to moderate knee osteoarthritis, chronic tennis elbow, plantar fasciitis and some partial tendon tears that have not settled with physiotherapy.",
@@ -146,7 +149,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-03-30",
     readingTime: "4 min read",
     category: "Foot & Ankle",
-    image: gAnkle,
+    image: blogAnkleSprain,
     body: [
       "Ankle sprains are dismissed too easily. Around one in five leaves behind ligament laxity, cartilage damage or a missed small fracture that keeps causing trouble months later.",
       "Warning signs: swelling that does not settle in six weeks, a feeling of the ankle giving way on uneven ground, and tenderness over bone rather than soft tissue.",
@@ -162,7 +165,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2026-03-08",
     readingTime: "5 min read",
     category: "Arthroscopy",
-    image: gArthro,
+    image: blogArthroscopy,
     body: [
       "Arthroscopy uses a pencil-thin camera inserted through incisions the size of a buttonhole, letting the surgeon see inside the joint magnified and treat the problem through a second small portal.",
       "It is used for meniscus tears, ligament reconstruction, rotator cuff repair, shoulder stabilisation, cartilage procedures and removal of loose bodies.",

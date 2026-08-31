@@ -69,7 +69,7 @@ function BlogIndexPage() {
                 src={post.image}
                 alt={post.title}
                 loading="lazy"
-                className="aspect-16/10 w-full object-cover"
+                className="aspect-16/10 w-full bg-muted object-contain object-center"
               />
               <CardContent className="flex flex-1 flex-col p-6">
                 <span className="inline-flex w-fit rounded-full bg-accent/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-accent">

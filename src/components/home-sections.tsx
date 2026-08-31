@@ -1152,7 +1152,7 @@ export function HomeBlogSection() {
                 src={p.image}
                 alt={p.title}
                 loading="lazy"
-                className="aspect-16/10 w-full object-cover"
+                className="aspect-16/10 w-full bg-muted object-contain object-center"
               />
               <CardContent className="p-6">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">

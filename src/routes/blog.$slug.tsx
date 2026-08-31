@@ -18,7 +18,10 @@ export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Article not found | Dr. Shreyas Orthopedic Clinic" }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: "Article not found | Dr. Shreyas Orthopedic Clinic" },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const { post } = loaderData;
@@ -55,7 +58,11 @@ export const Route = createFileRoute("/blog/$slug")({
 function PostNotFound() {
   return (
     <PageShell>
-      <PageHero title="Article not found" subtitle="This article may have been moved." crumb="Blog" />
+      <PageHero
+        title="Article not found"
+        subtitle="This article may have been moved."
+        crumb="Blog"
+      />
       <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
         <Link to="/blog">
           <Button className="rounded-full">Back to all articles</Button>
@@ -75,7 +82,10 @@ function BlogPostPage() {
       <PageHero eyebrow={post.category} title={post.title} subtitle={post.excerpt} crumb="Blog" />
 
       <article className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground"
+        >
           <Link to="/" className="hover:text-primary">
             Home
           </Link>
@@ -98,14 +108,16 @@ function BlogPostPage() {
         <img
           src={post.image}
           alt={post.title}
-          className="mt-6 aspect-16/9 w-full rounded-3xl object-cover"
+          className="mt-6 aspect-16/9 w-full rounded-3xl bg-muted object-contain object-center"
         />
 
         {sections ? (
           <div className="mt-8 space-y-8">
             {sections.map((s) => (
               <section key={s.heading}>
-                <h2 className="font-display text-xl font-bold text-primary sm:text-2xl">{s.heading}</h2>
+                <h2 className="font-display text-xl font-bold text-primary sm:text-2xl">
+                  {s.heading}
+                </h2>
                 <div className="mt-3 space-y-4 text-base leading-relaxed text-foreground/85">
                   {s.paragraphs.map((p, i) => (
                     <p key={i}>{p}</p>
@@ -127,15 +139,22 @@ function BlogPostPage() {
             <Stethoscope className="h-6 w-6" />
           </span>
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">About the author</p>
-            <h3 className="mt-1 font-display text-lg font-semibold text-primary">Dr. Shreyas M.J</h3>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+              About the author
+            </p>
+            <h3 className="mt-1 font-display text-lg font-semibold text-primary">
+              Dr. Shreyas M.J
+            </h3>
             <p className="mt-2 text-sm text-muted-foreground">
               Consultant Orthopaedic Surgeon in Mysuru specialising in arthroscopy of the knee and
-              shoulder, joint replacement, foot &amp; ankle surgery and trauma care. Fellowship-trained
-              in arthroscopy and sports medicine (India, Australia and Thailand) and Assistant
-              Professor at JSS Hospital.
+              shoulder, joint replacement, foot &amp; ankle surgery and trauma care.
+              Fellowship-trained in arthroscopy and sports medicine (India, Australia and Thailand)
+              and Assistant Professor at JSS Hospital.
             </p>
-            <Link to="/about-doctor" className="mt-3 inline-block text-sm font-semibold text-accent">
+            <Link
+              to="/about-doctor"
+              className="mt-3 inline-block text-sm font-semibold text-accent"
+            >
               Read full profile →
             </Link>
           </div>
@@ -172,7 +191,7 @@ function BlogPostPage() {
                   src={p.image}
                   alt={p.title}
                   loading="lazy"
-                  className="aspect-16/10 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="aspect-16/10 w-full bg-muted object-contain object-center"
                 />
                 <div className="p-5">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
