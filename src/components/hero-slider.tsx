@@ -15,11 +15,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-
-import sKnee from "@/assets/hero-joint.png";
-import sShoulder from "@/assets/hero-sports.png";
-import sArthro from "@/assets/hero-arthroscopy.jpg";
-import sPhysio from "@/assets/hero-trauma.png";
+import sKnee from "@/assets/hero-knee-hip-replacement-v2.png";
+import sShoulder from "@/assets/hero-sports-shoulder-rehab-v2.png";
+import sArthro from "@/assets/hero-arthroscopy-knee-shoulder-v2.png";
+import sPhysio from "@/assets/hero-fracture-trauma-v2.png";
 import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
 
 const doctorSlide = doctorSlideAsset.url;
@@ -56,6 +55,7 @@ const SLIDES: Slide[] = [
     title: "Arthroscopy Knee & Shoulder — Key Hole Surgery",
     body: "Fellowship-trained arthroscopy and sports medicine care with faster recovery and smaller incisions.",
     href: "/specialties/knee-arthroscopy",
+    imageClass: "object-[72%_center] md:object-[70%_center]",
   },
   {
     image: sKnee,
@@ -63,7 +63,7 @@ const SLIDES: Slide[] = [
     title: "Pain-Free Movement, Restored",
     body: "Modern knee and hip implants with rapid-recovery protocols, planned individually for every patient.",
     href: "/specialties/joint-replacement",
-    imageClass: "object-[60%_center] md:object-center",
+    imageClass: "object-[68%_center] md:object-[65%_center]",
   },
   {
     image: sShoulder,
@@ -71,7 +71,7 @@ const SLIDES: Slide[] = [
     title: "Back to Sport, Safely",
     body: "Rotator cuff repair, recurrent dislocation surgery and milestone-based return-to-play rehabilitation.",
     href: "/specialties/shoulder-arthroscopy",
-    imageClass: "object-[65%_center] md:object-center",
+    imageClass: "object-[70%_center] md:object-[68%_center]",
   },
   {
     image: sPhysio,
@@ -79,7 +79,7 @@ const SLIDES: Slide[] = [
     title: "Expert Fracture & Trauma Care",
     body: "High-volume trauma training from the Sanjay Gandhi Institute of Trauma & Orthopaedics.",
     href: "/specialties/trauma-and-fractures",
-    imageClass: "object-[70%_center] md:object-[70%_center]",
+    imageClass: "object-[72%_center] md:object-[70%_center]",
   },
 ];
 
@@ -169,7 +169,6 @@ export function HeroSlider({
         plugins={[autoplay.current, Fade()]}
         className="w-full"
       >
-
         <CarouselContent className="ml-0">
           {SLIDES.map((s) => (
             <CarouselItem key={s.title} className="pl-0">
@@ -177,23 +176,23 @@ export function HeroSlider({
                 /* ---- Doctor split slide: photo left/top, text right/bottom ----
                      Mobile is content-driven (no fixed empty space); desktop keeps its fixed height. */
                 <div className="flex w-full flex-col md:h-[500px] md:flex-row">
-                   {/* Doctor photo — full width on top (mobile), left half (desktop).
+                  {/* Doctor photo — full width on top (mobile), left half (desktop).
                         Capped width on large screens so the portrait never over-scales
                         and crops the doctor's face. Taller on mobile so the blue
                         text panel stays compact with no empty gap at its top. */}
-                   <div className="relative h-60 w-full shrink-0 overflow-hidden sm:h-64 md:h-full md:w-1/2 md:max-w-[760px]">
-                     <img
-                       src={s.image}
-                       alt={s.title}
-                       className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_35%] md:object-[center_20%]"
-                     />
-                   </div>
- 
-                   {/* Text panel — below photo (mobile), fills remaining width (desktop).
+                  <div className="relative h-60 w-full shrink-0 overflow-hidden sm:h-64 md:h-full md:w-1/2 md:max-w-[760px]">
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_35%] md:object-[center_20%]"
+                    />
+                  </div>
+
+                  {/* Text panel — below photo (mobile), fills remaining width (desktop).
                        Top-aligned on mobile with tight padding so no blue gap sits
                        between the photo and the text. */}
-                   <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
-                     <div className="mx-auto w-full max-w-xl px-6 pb-4 text-primary-foreground sm:px-8 sm:py-8">
+                  <div className="relative flex w-full flex-1 items-start bg-primary pt-3 md:h-full md:items-center">
+                    <div className="mx-auto w-full max-w-xl px-6 pb-4 text-primary-foreground sm:px-8 sm:py-8">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/80 sm:text-xs">
                         {s.eyebrow}
                       </p>
@@ -233,10 +232,7 @@ export function HeroSlider({
                       alt={s.title}
                       className={`absolute inset-0 h-full w-full object-cover ${s.imageClass ?? ""}`}
                     />
-                    <div
-                      className="absolute inset-0 bg-primary/30 md:bg-transparent"
-                      aria-hidden
-                    />
+                    <div className="absolute inset-0 bg-primary/30 md:bg-transparent" aria-hidden />
                   </div>
 
                   {/* Text panel — below photo (mobile), fills remaining width (desktop). */}
@@ -288,4 +284,3 @@ export function HeroSlider({
     </section>
   );
 }
-

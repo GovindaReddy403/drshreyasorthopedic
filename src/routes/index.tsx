@@ -377,7 +377,7 @@ function LandingPage() {
 
       <PatientVideoStories youtubeUrl={clinic.youtube_url} reviewsUrl={GOOGLE_REVIEWS_URL} />
 
-      <SurgicalPhilosophy image={doctorImg} name={primaryDoctor?.name ?? clinic.doctor_name} />
+      <SurgicalPhilosophy image={aboutShreyas} name={primaryDoctor?.name ?? clinic.doctor_name} />
 
       <WhyChooseClinic />
       <CareRoadmap />
