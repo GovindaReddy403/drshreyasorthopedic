@@ -97,14 +97,14 @@ export function HeroStatsRow() {
 /* ------------------------------------------------------------------ */
 
 const STATS = [
-  { icon: Trophy, value: "12+", label: "Years of Experience", primary: true },
+  { icon: Award, value: "12+", label: "Years of Experience", primary: true },
   { icon: Scissors, value: "2,000+", label: "Orthopaedic Surgeries Performed" },
-  { icon: Users, value: "20,000+", label: "Happy Patients" },
-  { icon: Activity, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
+  { icon: HeartHandshake, value: "20,000+", label: "Happy Patients" },
+  { icon: ScanLine, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
   { icon: Bone, value: "1,500+", label: "Joint Replacement Surgeries" },
-  { icon: HeartPulse, value: "1,000+", label: "Shoulder Arthroscopy Surgeries" },
-  { icon: ShieldCheck, value: "500+", label: "Trauma & Fracture Cases" },
-  { icon: Sparkles, value: "100+", label: "Robotic-Assisted Knee Replacements" },
+  { icon: Microscope, value: "1,000+", label: "Shoulder Arthroscopy Surgeries" },
+  { icon: Siren, value: "500+", label: "Trauma & Fracture Cases" },
+  { icon: Cpu, value: "100+", label: "Robotic-Assisted Knee Replacements" },
 ];
 
 export function StatsBand() {
