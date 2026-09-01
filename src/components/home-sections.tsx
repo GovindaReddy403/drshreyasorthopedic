@@ -1,17 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import {
-  Activity,
   ArrowRight,
+  Award,
   Bone,
   Building2,
   CalendarClock,
   CalendarDays,
   CheckCircle2,
   ClipboardList,
+  Cpu,
   Dumbbell,
   Globe,
   HeartHandshake,
-  HeartPulse,
   MapPin,
   Microscope,
   PlayCircle,
@@ -20,7 +20,7 @@ import {
   ScanLine,
   Scissors,
   ShieldCheck,
-  Sparkles,
+  Siren,
   Stethoscope,
   Syringe,
   Timer,
@@ -97,14 +97,14 @@ export function HeroStatsRow() {
 /* ------------------------------------------------------------------ */
 
 const STATS = [
-  { icon: Trophy, value: "12+", label: "Years of Experience", primary: true },
+  { icon: Award, value: "12+", label: "Years of Experience", primary: true },
   { icon: Scissors, value: "2,000+", label: "Orthopaedic Surgeries Performed" },
-  { icon: Users, value: "20,000+", label: "Happy Patients" },
-  { icon: Activity, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
+  { icon: HeartHandshake, value: "20,000+", label: "Happy Patients" },
+  { icon: ScanLine, value: "2,000+", label: "Knee Arthroscopy Surgeries" },
   { icon: Bone, value: "1,500+", label: "Joint Replacement Surgeries" },
-  { icon: HeartPulse, value: "1,000+", label: "Shoulder Arthroscopy Surgeries" },
-  { icon: ShieldCheck, value: "500+", label: "Trauma & Fracture Cases" },
-  { icon: Sparkles, value: "100+", label: "Robotic-Assisted Knee Replacements" },
+  { icon: Microscope, value: "1,000+", label: "Shoulder Arthroscopy Surgeries" },
+  { icon: Siren, value: "500+", label: "Trauma & Fracture Cases" },
+  { icon: Cpu, value: "100+", label: "Robotic-Assisted Knee Replacements" },
 ];
 
 export function StatsBand() {
@@ -127,15 +127,17 @@ export function StatsBand() {
           {STATS.map((s) => (
             <div
               key={s.label}
-              className={`rounded-2xl border p-6 text-center ${
+              className={`group rounded-2xl border p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-glow)] ${
                 s.primary
                   ? "border-primary/30 bg-primary text-primary-foreground shadow-[var(--shadow-glow)]"
                   : "border-border/60 bg-card"
               }`}
             >
               <span
-                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${
-                  s.primary ? "bg-primary-foreground/15" : "bg-primary/10 text-primary"
+                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 transition-transform duration-300 group-hover:scale-110 ${
+                  s.primary
+                    ? "bg-primary-foreground/15 ring-white/10"
+                    : "bg-gradient-to-br from-primary/15 to-primary/5 text-primary ring-primary/15"
                 }`}
               >
                 <s.icon className="h-6 w-6" />
