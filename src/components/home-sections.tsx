@@ -127,7 +127,7 @@ export function StatsBand() {
           {STATS.map((s) => (
             <div
               key={s.label}
-              className={`rounded-2xl border p-6 text-center ${
+              className={`group rounded-2xl border p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-glow)] ${
                 s.primary
                   ? "border-primary/30 bg-primary text-primary-foreground shadow-[var(--shadow-glow)]"
                   : "border-border/60 bg-card"
