@@ -134,8 +134,10 @@ export function StatsBand() {
               }`}
             >
               <span
-                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${
-                  s.primary ? "bg-primary-foreground/15" : "bg-primary/10 text-primary"
+                className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 transition-transform duration-300 group-hover:scale-110 ${
+                  s.primary
+                    ? "bg-primary-foreground/15 ring-white/10"
+                    : "bg-gradient-to-br from-primary/15 to-primary/5 text-primary ring-primary/15"
                 }`}
               >
                 <s.icon className="h-6 w-6" />
