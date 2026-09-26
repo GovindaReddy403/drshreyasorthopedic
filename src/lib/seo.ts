@@ -1,4 +1,4 @@
-export const SITE_URL = "https://drshreyasorthopedic.lovable.app";
+export const SITE_URL = "https://drshreyas.com";
 
 /** Absolute, meaningful share image for the clinic. */
 export const OG_IMAGE =
