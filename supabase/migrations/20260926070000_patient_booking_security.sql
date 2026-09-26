@@ -1,5 +1,5 @@
--- Patient sessions are issued only after an SMS verification succeeds.
-DROP TABLE IF EXISTS public.otp_codes;
+-- Keep the legacy OTP table during rollout so the current site is unaffected.
+-- Retire it only after the SMS-backed application is deployed and verified.
 -- Anonymous browser clients must not bypass the validated booking function.
 DROP POLICY IF EXISTS "anon insert appointment" ON public.appointments;
 DROP POLICY IF EXISTS "anyone upsert patient by mobile" ON public.patients;
