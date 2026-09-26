@@ -413,6 +413,27 @@ export type Database = {
         }
         Relationships: []
       }
+      patient_manage_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          mobile: string
+          token_hash: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          mobile: string
+          token_hash: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          mobile?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
       patients: {
         Row: {
           age: number | null
@@ -565,6 +586,24 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      book_clinic_appointment: {
+        Args: {
+          p_age: number
+          p_date: string
+          p_email: string
+          p_full_name: string
+          p_gender: string
+          p_mobile: string
+          p_reason: string
+          p_time: string
+          p_treatment_id: string
+        }
+        Returns: string
+      }
+      cancel_patient_appointment: {
+        Args: { p_id: string; p_mobile: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
