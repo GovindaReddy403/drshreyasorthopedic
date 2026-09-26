@@ -13,8 +13,15 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): { next?: string } => {
-    const next = typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined;
-    return next ? { next } : {};
+    if (typeof s.next !== "string" || !s.next.startsWith("/") || s.next.includes("\\")) return {};
+    try {
+      const base = "https://internal.invalid";
+      const target = new URL(s.next, base);
+      if (target.origin !== base) return {};
+      return { next: `${target.pathname}${target.search}${target.hash}` };
+    } catch {
+      return {};
+    }
   },
 
   head: () => ({
