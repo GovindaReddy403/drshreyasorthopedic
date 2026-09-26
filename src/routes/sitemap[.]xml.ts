@@ -4,7 +4,7 @@ import { SPECIALTIES } from "@/lib/specialties";
 import { CONDITIONS } from "@/lib/conditions";
 import { BLOG_POSTS } from "@/lib/blog";
 
-const BASE_URL = "https://drshreyasorthopedic.lovable.app";
+const BASE_URL = "https://drshreyas.com";
 
 type Entry = { path: string; changefreq: string; priority: string };
 
