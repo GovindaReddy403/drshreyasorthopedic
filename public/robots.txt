@@ -6,3 +6,5 @@ Disallow: /manage
 Disallow: /booking/
 Disallow: /doctor
 Disallow: /reception
+
+Sitemap: https://drshreyas.com/sitemap.xml
