@@ -26,7 +26,7 @@ export const Route = createFileRoute("/booking/$code")({
   }),
   errorComponent: ({ error }) => (
     <div className="p-10 text-center">
-      <p>Couldn't load your booking. {error.message}</p>
+      <p>Couldn't load your booking. {error instanceof Error ? error.message : ""}</p>
     </div>
   ),
   notFoundComponent: () => (
