@@ -27,7 +27,7 @@ const bookingCodeSchema = z.object({
 });
 
 export const getAvailableSlots = createServerFn({ method: "GET" })
-  .validator((input) => availableSlotsSchema.parse(input))
+  .inputValidator((input) => availableSlotsSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -109,7 +109,7 @@ export const getAvailableSlots = createServerFn({ method: "GET" })
   });
 
 export const bookAppointment = createServerFn({ method: "POST" })
-  .validator((input) => bookAppointmentSchema.parse(input))
+  .inputValidator((input) => bookAppointmentSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -131,7 +131,7 @@ export const bookAppointment = createServerFn({ method: "POST" })
   });
 
 export const getBookingByCode = createServerFn({ method: "GET" })
-  .validator((input) => bookingCodeSchema.parse(input))
+  .inputValidator((input) => bookingCodeSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: appointment, error } = await supabaseAdmin

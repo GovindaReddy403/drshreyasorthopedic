@@ -15,7 +15,7 @@ export const listPatientAppointments = createServerFn({ method: "GET" }).handler
 });
 
 export const cancelPatientAppointment = createServerFn({ method: "POST" })
-  .validator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data }) => {
     const { requirePatientMobile } = await import("./patient-auth.server");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
