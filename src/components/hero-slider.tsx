@@ -19,9 +19,7 @@ import sKnee from "@/assets/hero-knee-hip-replacement-v2.png";
 import sShoulder from "@/assets/hero-sports-shoulder-rehab-v2.png";
 import sArthro from "@/assets/hero-arthroscopy-knee-shoulder-v2.png";
 import sPhysio from "@/assets/hero-fracture-trauma-v2.png";
-import doctorSlideAsset from "@/assets/doctor-hero-slide.jpg.asset.json";
-
-const doctorSlide = doctorSlideAsset.url;
+import doctorSlide from "@/assets/doctor-hero-slide.jpg";
 
 type Slide = {
   image: string;

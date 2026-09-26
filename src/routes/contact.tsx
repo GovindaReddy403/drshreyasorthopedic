@@ -2,7 +2,7 @@ import { OG_IMAGE, absUrl, breadcrumbLd } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import clinicFrontage from "@/assets/clinic-frontage.png.asset.json";
+import clinicFrontage from "@/assets/clinic-frontage.jpg";
 import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
@@ -135,7 +135,7 @@ function ContactPage() {
           <div className="space-y-6">
             <figure className="overflow-hidden rounded-2xl border border-border/60 shadow-[var(--shadow-soft)]">
               <img
-                src={clinicFrontage.url}
+                src={clinicFrontage}
                 alt="Dr. Shreyas Orthopedic Clinic entrance and reception, Vivekananda Nagar, Mysuru"
                 className="h-64 w-full object-cover sm:h-80"
                 loading="lazy"

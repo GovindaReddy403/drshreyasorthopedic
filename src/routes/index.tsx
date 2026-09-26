@@ -19,8 +19,7 @@ import {
 
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 
-import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
-const doctorImg = doctorAsset.url;
+import doctorImg from "@/assets/doctor-hero-slide.jpg";
 
 import aboutShreyas from "@/assets/about-shreyas.png";
 

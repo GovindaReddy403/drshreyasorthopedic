@@ -49,7 +49,7 @@ import gArthroscopy from "@/assets/specialty-arthroscopy-imaging.png";
 import gSports from "@/assets/specialty-sports-medicine-imaging.png";
 import gTrauma from "@/assets/specialty-fractures-biologics-v2.png";
 import clinic1 from "@/assets/clinic-1.jpg";
-import clinicFrontageAsset from "@/assets/clinic-frontage.png.asset.json";
+import clinicFrontage from "@/assets/clinic-frontage.jpg";
 import clinicLogo from "@/assets/clinic-logo.png";
 
 /* ------------------------------------------------------------------ */
@@ -1031,7 +1031,7 @@ export function MeetDrShreyas({
             <Card className="flex h-full flex-col overflow-hidden border-primary/15 py-0">
               <div className="relative min-h-52 w-full flex-1 sm:min-h-64">
                 <img
-                  src={clinicFrontageAsset.url}
+                  src={clinicFrontage}
                   alt={`${clinicName} entrance and reception in Vivekananda Nagar, Mysuru`}
                   className="absolute inset-0 h-full w-full object-cover object-[center_40%]"
                   loading="lazy"

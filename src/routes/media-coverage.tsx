@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageShell } from "@/components/page-shell";
 import { PageHero, SectionHeader, CtaBand } from "@/components/site-sections";
 import { clinicQO } from "@/lib/queries";
-import doctorAsset from "@/assets/doctor-portrait.png.asset.json";
+import doctorImg from "@/assets/doctor-hero-slide.jpg";
 
 export const Route = createFileRoute("/media-coverage")({
   head: () => ({
@@ -82,7 +82,7 @@ function MediaPage() {
         <div className="grid gap-10 lg:grid-cols-[300px_1fr]">
           <div>
             <img
-              src={doctorAsset.url}
+              src={doctorImg}
               alt="Dr. Shreyas M.J"
               className="w-full rounded-3xl object-cover shadow-[var(--shadow-soft)]"
               loading="lazy"
