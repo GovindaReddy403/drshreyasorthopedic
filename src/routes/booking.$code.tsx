@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CheckCircle2, CalendarDays, Clock, MapPin, Phone, Printer, Stethoscope, QrCode } from "lucide-react";
+import { CheckCircle2, CalendarDays, Clock, MapPin, Printer, Stethoscope, QrCode } from "lucide-react";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 
@@ -94,9 +94,8 @@ function Confirmation() {
             <Row
               icon={<CalendarDays className="h-4 w-4" />}
               label="Payment"
-              value={`${appt.payment_method === "online" ? "Paid online" : "Pay at clinic"} · ${formatMoney(appt.payment_amount)}`}
+              value={`${appt.payment_status === "paid_online" ? "Paid online" : "Pay at clinic"} · ${formatMoney(appt.payment_amount)}`}
             />
-            <Row icon={<Phone className="h-4 w-4" />} label="Patient" value={`${appt.patient_name} · ${appt.patient_mobile}`} />
           </dl>
 
           {clinic.address && (

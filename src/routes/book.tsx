@@ -6,7 +6,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { ArrowLeft, ArrowRight, Building2, CalendarDays, CheckCircle2, CreditCard, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Building2, CalendarDays, CheckCircle2, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,12 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SiteNav } from "@/components/site-nav";
 import { cn } from "@/lib/utils";
 
 import { fetchClinic, fetchTreatments, formatMoney } from "@/lib/clinic";
 import { labelSlot } from "@/lib/slots";
+import { clinicToday } from "@/lib/clinic-time";
 import { bookAppointment, getAvailableSlots } from "@/lib/booking.functions";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
@@ -74,7 +74,7 @@ type Values = {
   date: Date | undefined;
   time: string;
   reason: string;
-  payment_method: "clinic" | "online";
+  payment_method: "clinic";
 };
 
 function BookPage() {
@@ -146,7 +146,7 @@ function BookPage() {
       const parsed = z
         .object({
           full_name: z.string().trim().min(2),
-          mobile: z.string().trim().regex(/^\d{10}$/, "Mobile must be exactly 10 digits"),
+          mobile: z.string().trim().regex(/^[6-9]\d{9}$/, "Enter a valid Indian mobile number"),
           email: z.string().trim().email().optional().or(z.literal("")),
           age: z.string().optional(),
           gender: z.string().optional(),
@@ -169,7 +169,7 @@ function BookPage() {
         <h1 className="font-display text-3xl font-semibold sm:text-4xl">Book your appointment</h1>
         <p className="mt-2 text-muted-foreground">Takes about a minute. No account needed.</p>
 
-        <Stepper step={step} steps={["Your details", "Treatment", "Date & time", "Payment"]} />
+        <Stepper step={step} steps={["Your details", "Treatment", "Date & time", "Confirm"]} />
 
         <div className="mt-8 rounded-3xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8">
           {step === 0 && (
@@ -252,7 +252,7 @@ function BookPage() {
                     set("date", d);
                     set("time", "");
                   }}
-                  disabled={(d) => d < new Date(new Date().toDateString())}
+                  disabled={(d) => format(d, "yyyy-MM-dd") < clinicToday()}
                   className={cn("pointer-events-auto rounded-2xl border border-border p-3")}
                 />
               </div>
@@ -300,18 +300,13 @@ function BookPage() {
                 doctorName={clinic.doctor_name}
                 treatment={treatment?.name ?? ""}
                 fee={treatment?.fee ?? 0}
-                showFee={v.payment_method === "online"}
+                showFee={false}
                 date={v.date ? format(v.date, "EEE, dd MMM yyyy") : ""}
                 time={v.time ? labelSlot(v.time) : ""}
               />
-              <RadioGroup
-                value={v.payment_method}
-                onValueChange={(val) => set("payment_method", val as "clinic" | "online")}
-                className="grid gap-3 sm:grid-cols-2"
-              >
-                <PayOption value="clinic" title="Pay at clinic" desc="Cash, card or UPI at reception." icon={<Building2 className="h-5 w-5" />} />
-                <PayOption value="online" title="Pay online (demo)" desc="Simulated — Razorpay wiring pending." icon={<CreditCard className="h-5 w-5" />} />
-              </RadioGroup>
+              <p className="flex items-center gap-2 rounded-2xl border border-border p-4 text-sm">
+                <Building2 className="h-5 w-5" /> Pay at clinic by cash, card or UPI.
+              </p>
               <p className="text-xs text-muted-foreground">
                 By continuing you agree to receive appointment updates on your mobile.
               </p>
@@ -386,28 +381,6 @@ function Stepper({ step, steps }: { step: number; steps: string[] }) {
   );
 }
 
-function PayOption({
-  value,
-  title,
-  desc,
-  icon,
-}: {
-  value: string;
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-border p-4 hover:border-primary/40 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:bg-primary-soft/60 has-[[data-state=checked]]:ring-2 has-[[data-state=checked]]:ring-primary/30">
-      <RadioGroupItem value={value} className="mt-1" />
-      <div className="flex-1">
-        <div className="flex items-center gap-2 font-medium">{icon} {title}</div>
-        <p className="mt-1 text-sm text-muted-foreground">{desc}</p>
-      </div>
-    </label>
-  );
-}
-
 function Summary({
   clinicName,
   doctorName,
@@ -447,4 +420,3 @@ function Summary({
     </div>
   );
 }
-
