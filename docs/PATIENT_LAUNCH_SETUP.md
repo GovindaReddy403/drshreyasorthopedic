@@ -1,0 +1,10 @@
+# Patient booking launch setup
+
+1. Apply `supabase/migrations/20260926070000_patient_booking_security.sql` to the same Supabase project used by the website. Confirm the new RPCs exist and anonymous inserts into `patients` and `appointments` are denied.
+2. Configure the server-only `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_URL`, and `SUPABASE_PUBLISHABLE_KEY`. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in the build environment. Copy names from `.env.example`; do not put secret values in Git or use a `VITE_` prefix for secrets.
+3. Create a Twilio Verify service with SMS enabled for India. Configure `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID` as server-only secrets. Set the Verify service's rate limits and India delivery/template requirements in Twilio before setting `VITE_PATIENT_MANAGE_ENABLED=true` and republishing. The endpoint fails closed until configured.
+4. Test with a real phone: request an OTP, verify an incorrect code, verify the correct code, view only that number's appointments, cancel a future booking, and confirm that another phone number cannot view or cancel it. Verify expired sessions and the one-hour cutoff.
+5. Book the last available slot simultaneously from two browsers. Exactly one booking must succeed when `max_per_slot = 1`. Confirm past slots are hidden and rejected by the database in India time, even when the server uses UTC.
+6. Confirm the booking UI only offers pay-at-clinic, all new payments start as `pending`, and old demo `paid_online` bookings are reconciled by clinic staff before accounting or patient communication.
+
+The old demo `otp_codes` table is retained during rollout. Existing staff dashboard permissions remain in place. New booking codes use full UUIDs (122 random bits); old short booking codes are unchanged. The Manage page displays a clinic contact message while `VITE_PATIENT_MANAGE_ENABLED` is unset. Enable the new patient management flow only after SMS credentials and live tests succeed. Retire the legacy OTP table only after the replacement is verified.

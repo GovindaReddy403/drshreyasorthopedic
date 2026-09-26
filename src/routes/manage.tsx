@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { format, differenceInMinutes } from "date-fns";
+import { format } from "date-fns";
 import { ArrowLeft, CheckCircle2, Clock, Loader2, Phone, ShieldCheck, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -9,13 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { SiteNav } from "@/components/site-nav";
-import { supabase } from "@/integrations/supabase/client";
 import { fetchClinic } from "@/lib/clinic";
 import { labelSlot } from "@/lib/slots";
 import { sendOtp, verifyOtp } from "@/lib/otp.functions";
+import { listPatientAppointments, cancelPatientAppointment } from "@/lib/patient-appointments.functions";
 import { useQuery, queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 const clinicQO = queryOptions({ queryKey: ["clinic"], queryFn: fetchClinic });
+const patientManagementEnabled = import.meta.env.VITE_PATIENT_MANAGE_ENABLED === "true";
 
 export const Route = createFileRoute("/manage")({
   loader: ({ context }) => context.queryClient.ensureQueryData(clinicQO),
@@ -48,19 +49,32 @@ function ManagePage() {
   const [phase, setPhase] = useState<"mobile" | "otp" | "list">("mobile");
   const [sending, setSending] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [devCode, setDevCode] = useState<string | null>(null);
+
+  if (!patientManagementEnabled) {
+    return (
+      <div className="min-h-screen bg-background">
+        <SiteNav clinicName={clinic.clinic_name} />
+        <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+          <h1 className="font-display text-3xl font-semibold sm:text-4xl">Manage your appointments</h1>
+          <p className="mt-4 text-muted-foreground">
+            Online appointment management is temporarily unavailable. Please call the clinic to change or cancel a booking.
+          </p>
+          <Link to="/book" className="mt-6 inline-block text-primary hover:underline">Book an appointment</Link>
+        </div>
+      </div>
+    );
+  }
 
   async function sendOtpFn() {
-    if (!/^\d{10}$/.test(mobile)) {
-      toast.error("Enter a valid 10-digit mobile number");
+    if (!/^[6-9]\d{9}$/.test(mobile)) {
+      toast.error("Enter a valid Indian mobile number");
       return;
     }
     setSending(true);
     try {
-      const res = await sendOtp({ data: { mobile: mobile.trim() } });
-      setDevCode(res.demoCode ?? null);
+      await sendOtp({ data: { mobile: mobile.trim() } });
       setPhase("otp");
-      toast.success("OTP sent (shown below for demo)");
+      toast.success("Verification code sent by SMS");
     } catch (e) {
       toast.error((e as Error).message);
     } finally {
@@ -73,13 +87,7 @@ function ManagePage() {
     try {
       const res = await verifyOtp({ data: { mobile: mobile.trim(), code: otp } });
       if (!res.ok) {
-        const msg =
-          res.reason === "expired"
-            ? "Code expired"
-            : res.reason === "used"
-              ? "Code already used"
-              : "Invalid code";
-        toast.error(msg);
+        toast.error("Invalid or expired code. Please request a new one.");
         return;
       }
       setPhase("list");
@@ -139,11 +147,6 @@ function ManagePage() {
                   </InputOTPGroup>
                 </InputOTP>
               </div>
-              {devCode && (
-                <p className="rounded-lg bg-warning/15 px-3 py-2 text-center text-sm text-warning-foreground">
-                  Demo mode — your OTP is <span className="font-mono font-semibold">{devCode}</span>
-                </p>
-              )}
               <Button onClick={verifyOtpFn} disabled={otp.length !== 6 || verifying} className="w-full gap-2">
                 {verifying ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}
                 Verify
@@ -154,47 +157,33 @@ function ManagePage() {
             </div>
           )}
 
-          {phase === "list" && <AppointmentList mobile={mobile.trim()} />}
+          {phase === "list" && <AppointmentList mobile={mobile.trim()} onSessionExpired={() => setPhase("mobile")} />}
         </div>
       </div>
     </div>
   );
 }
 
-function AppointmentList({ mobile }: { mobile: string }) {
+function AppointmentList({ mobile, onSessionExpired }: { mobile: string; onSessionExpired: () => void }) {
   const q = useQuery({
-    queryKey: ["mine", mobile],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("appointments")
-        .select(
-          "id, booking_code, patient_name, treatment_name, appointment_date, appointment_time, payment_method, payment_status, payment_amount, status",
-        )
-        .eq("patient_mobile", mobile)
-        .order("appointment_date", { ascending: false })
-        .order("appointment_time", { ascending: false });
-      if (error) throw error;
-      return (data ?? []) as Appointment[];
-    },
+    queryKey: ["patient-appointments", mobile],
+    queryFn: () => listPatientAppointments() as Promise<Appointment[]>,
+    retry: false,
   });
 
   const [cancelling, setCancelling] = useState<string | null>(null);
 
   async function cancel(appt: Appointment) {
-    const when = new Date(`${appt.appointment_date}T${appt.appointment_time}`);
-    if (differenceInMinutes(when, new Date()) < 60) {
-      toast.error("This appointment cannot be cancelled within one hour of the scheduled time. Please contact the clinic.");
-      return;
-    }
     setCancelling(appt.id);
-    const { error } = await supabase.from("appointments").update({ status: "cancelled" }).eq("id", appt.id);
-    setCancelling(null);
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      await cancelPatientAppointment({ data: { id: appt.id } });
+      toast.success("Appointment cancelled");
+      await q.refetch();
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setCancelling(null);
     }
-    toast.success("Appointment cancelled");
-    q.refetch();
   }
 
   if (q.isLoading) {
@@ -203,6 +192,13 @@ function AppointmentList({ mobile }: { mobile: string }) {
         <Loader2 className="h-4 w-4 animate-spin" /> Loading your appointments…
       </div>
     );
+  }
+
+  if (q.isError) {
+    return <div className="grid gap-3 text-sm">
+      <p role="alert">{(q.error as Error).message}</p>
+      <Button variant="outline" onClick={onSessionExpired}>Verify mobile again</Button>
+    </div>;
   }
 
   if (!q.data || q.data.length === 0) {
