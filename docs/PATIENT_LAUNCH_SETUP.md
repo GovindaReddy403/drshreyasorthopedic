@@ -7,4 +7,4 @@
 5. Book the last available slot simultaneously from two browsers. Exactly one booking must succeed when `max_per_slot = 1`. Confirm past slots are hidden and rejected by the database in India time, even when the server uses UTC.
 6. Confirm the booking UI only offers pay-at-clinic, all new payments start as `pending`, and old demo `paid_online` bookings are reconciled by clinic staff before accounting or patient communication.
 
-The old demo `otp_codes` table is dropped by the migration. Existing staff dashboard permissions remain in place. New booking codes use full UUIDs (122 random bits); old short booking codes are unchanged. Do not publish to patients until the migration, SMS credentials, and live tests above succeed.
+The old demo `otp_codes` table is retained during rollout. Existing staff dashboard permissions remain in place. New booking codes use full UUIDs (122 random bits); old short booking codes are unchanged. Do not publish the new patient management flow until SMS credentials and live tests succeed. Retire the legacy OTP table only after the replacement is verified.
