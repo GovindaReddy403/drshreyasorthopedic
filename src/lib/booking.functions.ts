@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { clinicNow } from "./clinic-time";
 
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const timeSchema = z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/);
@@ -10,7 +11,7 @@ const availableSlotsSchema = z.object({
 
 const bookAppointmentSchema = z.object({
   full_name: z.string().trim().min(2).max(120),
-  mobile: z.string().trim().regex(/^\d{10}$/, "Mobile must be exactly 10 digits"),
+  mobile: z.string().trim().regex(/^[6-9]\d{9}$/, "Enter a valid Indian mobile number"),
   email: z.string().trim().email().nullable().optional(),
   age: z.number().int().min(0).max(120).nullable().optional(),
   gender: z.string().trim().max(40).nullable().optional(),
@@ -18,7 +19,7 @@ const bookAppointmentSchema = z.object({
   appointment_date: dateSchema,
   appointment_time: timeSchema,
   reason: z.string().trim().max(1000).nullable().optional(),
-  payment_method: z.enum(["clinic", "online"]),
+  payment_method: z.literal("clinic"),
 });
 
 const bookingCodeSchema = z.object({
@@ -95,11 +96,10 @@ export const getAvailableSlots = createServerFn({ method: "GET" })
       counts.set(row.appointment_time, (counts.get(row.appointment_time) ?? 0) + 1);
     });
 
-    const now = new Date();
-    const selected = new Date(`${data.date}T00:00:00Z`);
-    const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-    const isToday = selected.getTime() === today.getTime();
-    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const now = clinicNow();
+    if (data.date < now.date) return [];
+    const isToday = data.date === now.date;
+    const nowMin = now.minutes;
 
     return all.filter((slot) => {
       if ((counts.get(slot) ?? 0) >= clinic.max_per_slot) return false;
@@ -113,116 +113,21 @@ export const bookAppointment = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const timeToMinutes = (t: string): number => {
-      const [h, m] = t.split(":").map(Number);
-      return h * 60 + m;
-    };
-
-    const minutesToTime = (m: number): string => {
-      const h = Math.floor(m / 60);
-      const mm = m % 60;
-      return `${String(h).padStart(2, "0")}:${String(mm).padStart(2, "0")}:00`;
-    };
-
     const normalizeTime = (value: string) => (value.length === 5 ? `${value}:00` : value);
     const appointmentTime = normalizeTime(data.appointment_time);
-    const mobile = data.mobile.trim();
-
-    const [{ data: clinic, error: clinicError }, { data: treatment, error: treatmentError }] = await Promise.all([
-      supabaseAdmin.from("clinic_settings").select("slot_duration_minutes, max_per_slot").eq("id", 1).single(),
-      supabaseAdmin
-        .from("treatments")
-        .select("id, name, fee, duration_minutes, is_active")
-        .eq("id", data.treatment_id)
-        .eq("is_active", true)
-        .single(),
-    ]);
-
-    if (clinicError) throw clinicError;
-    if (treatmentError) throw treatmentError;
-    if (!treatment) throw new Error("Please choose an active treatment.");
-
-    const weekday = new Date(`${data.appointment_date}T00:00:00Z`).getUTCDay();
-    const [{ data: hours, error: hoursError }, { data: blocked, error: blockedError }, { data: booked, error: bookedError }] = await Promise.all([
-      supabaseAdmin.from("working_hours").select("is_open, morning_start, morning_end, evening_start, evening_end").eq("weekday", weekday).maybeSingle(),
-      supabaseAdmin.from("blocked_dates").select("blocked_date").eq("blocked_date", data.appointment_date).maybeSingle(),
-      supabaseAdmin
-        .from("appointments")
-        .select("appointment_time")
-        .eq("appointment_date", data.appointment_date)
-        .in("status", ["confirmed", "checked_in", "completed"]),
-    ]);
-
-    if (hoursError) throw hoursError;
-    if (blockedError) throw blockedError;
-    if (bookedError) throw bookedError;
-    if (blocked || !hours?.is_open) throw new Error("The clinic is closed on this date. Please pick another day.");
-
-    const slots: string[] = [];
-    const pushSlots = (start: string | null, end: string | null) => {
-      if (!start || !end) return;
-      let cur = timeToMinutes(start);
-      const stop = timeToMinutes(end);
-      while (cur + clinic.slot_duration_minutes <= stop) {
-        slots.push(minutesToTime(cur));
-        cur += clinic.slot_duration_minutes;
-      }
-    };
-    pushSlots(hours.morning_start, hours.morning_end);
-    pushSlots(hours.evening_start, hours.evening_end);
-
-    const counts = new Map<string, number>();
-    (booked ?? []).forEach((row) => {
-      counts.set(row.appointment_time, (counts.get(row.appointment_time) ?? 0) + 1);
-    });
-
-    const available = slots.filter((slot) => (counts.get(slot) ?? 0) < clinic.max_per_slot);
-    if (!available.includes(appointmentTime)) {
-      throw new Error("This slot was just taken. Please pick another.");
-    }
-
-    const { data: patient, error: patientError } = await supabaseAdmin
-      .from("patients")
-      .upsert(
-        {
-          mobile,
-          full_name: data.full_name.trim(),
-          email: data.email?.trim() || null,
-          age: data.age ?? null,
-          gender: data.gender?.trim() || null,
-        },
-        { onConflict: "mobile" },
-      )
-      .select("id")
-      .single();
-
-    if (patientError) throw patientError;
-
-    const { data: appointment, error: appointmentError } = await supabaseAdmin
-      .from("appointments")
-      .insert({
-        patient_id: patient.id,
-        patient_mobile: mobile,
-        patient_name: data.full_name.trim(),
-        treatment_id: treatment.id,
-        treatment_name: treatment.name,
-        appointment_date: data.appointment_date,
-        appointment_time: appointmentTime,
-        duration_minutes: treatment.duration_minutes,
-        reason: data.reason?.trim() || null,
-        status: "confirmed",
-        payment_method: data.payment_method,
-        payment_status: data.payment_method === "online" ? "paid_online" : "pending",
-        payment_amount: treatment.fee,
-        payment_paid_at: data.payment_method === "online" ? new Date().toISOString() : null,
-        booked_by: "patient",
-      })
-      .select("booking_code")
-      .single();
-
-    if (appointmentError) throw appointmentError;
-
-    return { booking_code: appointment.booking_code };
+    const { data: code, error } = await supabaseAdmin.rpc("book_clinic_appointment" as never, {
+      p_full_name: data.full_name,
+      p_mobile: data.mobile,
+      p_email: data.email ?? null,
+      p_age: data.age ?? null,
+      p_gender: data.gender ?? null,
+      p_treatment_id: data.treatment_id,
+      p_date: data.appointment_date,
+      p_time: appointmentTime,
+      p_reason: data.reason ?? null,
+    } as never);
+    if (error) throw new Error(error.message);
+    return { booking_code: code as unknown as string };
   });
 
 export const getBookingByCode = createServerFn({ method: "GET" })
@@ -232,7 +137,7 @@ export const getBookingByCode = createServerFn({ method: "GET" })
     const { data: appointment, error } = await supabaseAdmin
       .from("appointments")
       .select(
-        "booking_code, patient_name, patient_mobile, treatment_name, appointment_date, appointment_time, payment_method, payment_status, payment_amount, status",
+        "booking_code, treatment_name, appointment_date, appointment_time, payment_method, payment_status, payment_amount, status",
       )
       .eq("booking_code", data.code.trim())
       .maybeSingle();
