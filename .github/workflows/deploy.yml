@@ -46,6 +46,43 @@ jobs:
           VITE_PATIENT_MANAGE_ENABLED: ${{ vars.VITE_PATIENT_MANAGE_ENABLED || 'false' }}
         run: pnpm run build
 
+      # Worker secrets persist across deployments, so they only need uploading
+      # when a value is actually configured. Uploading an unset GitHub secret
+      # would overwrite a working Worker secret with an empty string, so every
+      # value is filtered out unless it is non-empty.
+      - name: Sync Worker secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_VERIFY_SERVICE_SID: ${{ secrets.TWILIO_VERIFY_SERVICE_SID }}
+        run: |
+          count=$(node -e '
+            const names = [
+              "SUPABASE_URL",
+              "SUPABASE_PUBLISHABLE_KEY",
+              "SUPABASE_SERVICE_ROLE_KEY",
+              "TWILIO_ACCOUNT_SID",
+              "TWILIO_AUTH_TOKEN",
+              "TWILIO_VERIFY_SERVICE_SID",
+            ];
+            const out = {};
+            for (const n of names) if (process.env[n]) out[n] = process.env[n];
+            require("fs").writeFileSync("worker-secrets.json", JSON.stringify(out));
+            console.error("Configured secrets: " + (Object.keys(out).join(", ") || "(none)"));
+            process.stdout.write(String(Object.keys(out).length));
+          ')
+          if [ "$count" != "0" ]; then
+            npx --yes wrangler@4 secret bulk worker-secrets.json --name "$WORKER_NAME"
+          else
+            echo "No Worker secrets configured; leaving existing values untouched."
+          fi
+          rm -f worker-secrets.json
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
@@ -54,19 +91,3 @@ jobs:
           # Nitro writes .wrangler/deploy/config.json pointing at the generated
           # .output/server/wrangler.json, which wrangler picks up automatically.
           command: deploy --name ${{ env.WORKER_NAME }}
-          # Uploaded with `wrangler secret bulk` before the deploy completes.
-          # Server-only: these must never be VITE_-prefixed.
-          secrets: |
-            SUPABASE_URL
-            SUPABASE_PUBLISHABLE_KEY
-            SUPABASE_SERVICE_ROLE_KEY
-            TWILIO_ACCOUNT_SID
-            TWILIO_AUTH_TOKEN
-            TWILIO_VERIFY_SERVICE_SID
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-          TWILIO_VERIFY_SERVICE_SID: ${{ secrets.TWILIO_VERIFY_SERVICE_SID }}
