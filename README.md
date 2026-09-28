@@ -1,990 +1,201 @@
-# WellCare Hub
+# Dr. Shreyas Orthopedic Clinic
 
-You are an expert team of Product Managers, UI/UX Designers, Senior React Developers, Supabase Architects, and Full Stack Engineers.
+Website and appointment booking system for a single-doctor orthopedic clinic in
+Mysuru, India.
 
-Your task is to build a modern, responsive, production-ready Doctor Clinic Management and Appointment Booking Web Application for a single doctor's clinic.
+**Live:** https://drshreyas.com
 
-This is not a demo project.
+Patients browse the clinic site and book appointments without creating an
+account. Staff sign in to a private dashboard to manage the day's schedule,
+patients, payments and all site content.
 
-Build it as a professional application that can be used daily in a real clinic.
+---
 
-The application should be elegant, user-friendly, mobile responsive, and easy for patients of all ages.
+## Contents
 
-==================================================================
+| Document | What it covers |
+| --- | --- |
+| This file | Overview, local setup, project layout |
+| [`docs/APP_GUIDE.md`](docs/APP_GUIDE.md) | **Running the clinic** — editing content, adding treatments, staff |
+| [`docs/DESIGN.md`](docs/DESIGN.md) | **Architecture** — data model, security, booking flow, decisions |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | **Shipping** — build, CI/CD, secrets, domain, rollback |
+| [`docs/PATIENT_LAUNCH_SETUP.md`](docs/PATIENT_LAUNCH_SETUP.md) | Pre-launch checklist for the booking + OTP flow |
+| [`docs/ORIGINAL_BRIEF.md`](docs/ORIGINAL_BRIEF.md) | The original product brief the project was generated from |
 
-PROJECT OVERVIEW
+---
 
-==================================================================
+## Features
 
-The application consists of three modules:
+**Public site** — home, about the doctor, areas of specialty, injuries &
+conditions, gallery, videos, reviews, awards, media coverage, blog, contact.
+Treatments and fees are shown on the home page and in the booking flow, sourced
+from the database.
 
-1. Public Website (Patient Portal)
+**Booking** (`/book`) — pick a treatment, date and slot; only genuinely
+available slots are offered. Confirmation page at `/booking/<code>` with a
+scannable clinic vCard.
 
-2. Doctor Dashboard
+**Patient self-service** (`/manage`) — verify a mobile number by SMS OTP, view
+bookings made with that number, and cancel up to one hour before the
+appointment. No patient account is ever created.
 
-3. Receptionist Dashboard
+**Staff dashboards** — `/doctor` (schedule, patient history, consultation
+notes), `/reception` (bookings, check-in, payments), `/settings` (all site
+content, treatments, working hours, holidays).
 
-Only Doctor and Receptionist require login.
+---
 
-Patients should NEVER create an account.
+## Tech stack
 
-Patients should use their Mobile Number with OTP verification whenever they want to manage their appointments.
+- **TanStack Start** (React 19 + Vite) — file-based routing, SSR, typed server functions
+- **Tailwind CSS v4** + **shadcn/ui** — design tokens in `src/styles.css`
+- **Supabase** (Postgres + Auth + Storage) — Row-Level Security throughout
+- **Twilio Verify** — patient SMS OTP
+- **Cloudflare Workers** — SSR at the edge, deployed from `main` by GitHub Actions
 
-==================================================================
+---
 
-TECHNOLOGY
+## Local development
 
-==================================================================
-
-Frontend
-
-- React
-
-- TypeScript
-
-- Tailwind CSS
-
-Backend
-
-- Supabase
-
-Database
-
-- PostgreSQL (Supabase)
-
-Authentication
-
-- Supabase Authentication
-
-Roles
-
-- Doctor
-
-- Receptionist
-
-Design
-
-- Modern
-
-- Minimal
-
-- Premium Medical Theme
-
-- Responsive
-
-- Mobile First
-
-- Professional Animations
-
-- Fast Loading
-
-==================================================================
-
-PUBLIC WEBSITE
-
-==================================================================
-
-Create a beautiful landing page containing:
-
-• Clinic Logo
-
-• Clinic Name
-
-• Doctor Photograph
-
-• Doctor Name
-
-• Qualifications
-
-• Specialization
-
-• Years of Experience
-
-• About Doctor
-
-• Education
-
-• Professional Experience
-
-• Certifications
-
-• Clinic Gallery
-
-• Available Treatments
-
-• Consultation Fee
-
-• Working Hours
-
-• Emergency Contact
-
-• WhatsApp Button
-
-• Call Button
-
-• Google Maps Location
-
-• Testimonials
-
-• Frequently Asked Questions
-
-• Contact Form
-
-Show a prominent
-
-"Book Appointment"
-
-button.
-
-==================================================================
-
-ABOUT DOCTOR
-
-==================================================================
-
-Display
-
-Doctor Photograph
-
-Biography
-
-Education
-
-Experience Timeline
-
-Qualifications
-
-Specializations
-
-Awards
-
-Memberships
-
-Languages Spoken
-
-==================================================================
-
-TREATMENTS
-
-==================================================================
-
-Create a Treatments page.
-
-Each treatment should display
-
-Treatment Name
-
-Description
-
-Consultation Fee
-
-Estimated Consultation Duration
-
-==================================================================
-
-BOOK APPOINTMENT
-
-==================================================================
-
-Patients should NOT create an account.
-
-Booking Flow
-
-Step 1
-
-Patient enters
-
-• Full Name
-
-• Mobile Number (Required)
-
-• Email (Optional)
-
-• Age
-
-• Gender
-
-• Treatment
-
-• Appointment Date
-
-• Available Slot
-
-• Reason for Visit (Optional)
-
-The application should display ONLY available slots.
-
-Already booked slots should never appear.
-
-==================================================================
-
-SLOT MANAGEMENT
-
-==================================================================
-
-Doctor should configure
-
-Working Days
-
-Morning Session
-
-Evening Session
-
-Slot Duration
-
-Lunch Break
-
-Maximum Patients Per Slot
-
-Blocked Dates
-
-Clinic Holidays
-
-Automatically generate appointment slots.
-
-Booked slots become unavailable.
-
-Cancelled slots become available again.
-
-==================================================================
-
-PAYMENT
-
-==================================================================
-
-After selecting a slot,
-
-display two payment options.
-
-OPTION 1
-
-Pay Online
-
-Integrate Razorpay.
-
-After successful payment
-
-Appointment Status = Confirmed
-
-Payment Status = Paid Online
-
-Generate Booking ID.
-
-OPTION 2
-
-Pay at Clinic
-
-Appointment Status = Confirmed
-
-Payment Status = Pending
-
-Generate Booking ID.
-
-Doctor or Receptionist can later mark payment as Paid.
-
-==================================================================
-
-BOOKING CONFIRMATION
-
-==================================================================
-
-After successful booking
-
-Display
-
-Booking ID
-
-Clinic Name
-
-Doctor Name
-
-Appointment Date
-
-Appointment Time
-
-Treatment
-
-Payment Method
-
-Payment Status
-
-Clinic Address
-
-Google Maps Button
-
-Send booking confirmation through Email.
-
-Design a professional booking confirmation page.
-
-==================================================================
-
-MANAGE APPOINTMENT
-
-==================================================================
-
-There should NOT be a Patient Login page.
-
-Instead provide
-
-"Manage Appointment"
-
-Patient enters
-
-Mobile Number
-
-System sends OTP.
-
-After OTP verification
-
-Display every appointment booked using that mobile number.
-
-Display
-
-Booking ID
-
-Date
-
-Time
-
-Treatment
-
-Payment Method
-
-Payment Status
-
-Appointment Status
-
-Allow
-
-View Details
-
-Cancel Appointment
-
-==================================================================
-
-CANCELLATION POLICY
-
-==================================================================
-
-Patient can cancel ONLY if
-
-appointment time is more than one hour away.
-
-When cancelled
-
-Appointment Status = Cancelled
-
-Release booked slot
-
-Display success message
-
-If appointment starts within one hour
-
-Display
-
-"This appointment cannot be cancelled within one hour of the scheduled appointment. Please contact the clinic."
-
-==================================================================
-
-DOCTOR LOGIN
-
-==================================================================
-
-Only Doctor has secure login.
-
-Use Supabase Authentication.
-
-==================================================================
-
-DOCTOR DASHBOARD
-
-==================================================================
-
-Dashboard Cards
-
-Today's Appointments
-
-Upcoming Appointments
-
-Completed Appointments
-
-Cancelled Appointments
-
-Pending Payments
-
-Today's Revenue
-
-Calendar
-
-Recent Bookings
-
-==================================================================
-
-DOCTOR APPOINTMENT MANAGEMENT
-
-==================================================================
-
-Doctor can
-
-View today's appointments
-
-View upcoming appointments
-
-View completed appointments
-
-View cancelled appointments
-
-View appointment history
-
-Search appointments
-
-Filter appointments
-
-Calendar View
-
-Appointment History should contain
-
-Booking ID
-
-Patient Name
-
-Mobile Number
-
-Age
-
-Gender
-
-Treatment
-
-Reason for Visit
-
-Appointment Date
-
-Appointment Time
-
-Booking Date
-
-Payment Method
-
-Payment Status
-
-Appointment Status
-
-Doctor Notes
-
-Doctor should be able to add consultation notes after appointment.
-
-==================================================================
-
-PATIENT HISTORY
-
-==================================================================
-
-Clicking on a patient should display
-
-Patient Details
-
-Previous Appointments
-
-Previous Treatments
-
-Doctor Notes
-
-Total Visits
-
-Payment History
-
-==================================================================
-
-SEARCH
-
-==================================================================
-
-Doctor can search using
-
-Booking ID
-
-Patient Name
-
-Mobile Number
-
-Date
-
-Treatment
-
-==================================================================
-
-FILTERS
-
-==================================================================
-
-Filter appointments by
-
-Today
-
-Tomorrow
-
-Upcoming
-
-Completed
-
-Cancelled
-
-Date Range
-
-==================================================================
-
-RECEPTIONIST LOGIN
-
-==================================================================
-
-Receptionist should have a separate secure login.
-
-==================================================================
-
-RECEPTIONIST DASHBOARD
-
-==================================================================
-
-Display
-
-Today's Appointments
-
-Upcoming Appointments
-
-Checked-In Patients
-
-Pending Payments
-
-Cancelled Appointments
-
-Quick Search
-
-==================================================================
-
-RECEPTIONIST FEATURES
-
-==================================================================
-
-Receptionist should be able to
-
-Book appointments on behalf of patients
-
-Book walk-in appointments
-
-Book appointments received over phone
-
-Search appointments
-
-View today's schedule
-
-View appointment history
-
-Cancel appointments
-
-Reschedule appointments
-
-Check-In arriving patients
-
-View patient details
-
-View treatments
-
-View payment status
-
-Print booking confirmation
-
-Share booking confirmation
-
-Add internal notes
-
-==================================================================
-
-CHECK-IN
-
-==================================================================
-
-When patient arrives
-
-Receptionist clicks
-
-Check In
-
-Appointment Status changes to
-
-Checked In
-
-Doctor dashboard should instantly reflect patient arrival.
-
-==================================================================
-
-PAYMENT MANAGEMENT
-
-==================================================================
-
-If payment method is
-
-Pay at Clinic
-
-Receptionist should see
-
-Mark as Paid
-
-When clicked
-
-Payment Status changes to
-
-Paid at Clinic
-
-Store payment timestamp.
-
-==================================================================
-
-RESCHEDULE APPOINTMENT
-
-==================================================================
-
-Receptionist can
-
-Select another available slot
-
-Move appointment
-
-Release old slot
-
-Notify patient through Email
-
-==================================================================
-
-ROLE PERMISSIONS
-
-==================================================================
-
-Doctor
-
-Full Access
-
-Can manage
-
-Clinic Profile
-
-Doctor Profile
-
-Treatments
-
-Fees
-
-Working Hours
-
-Appointments
-
-Payments
-
-Reports
-
-Receptionist
-
-Can
-
-Book appointments
-
-Manage appointments
-
-Check In patients
-
-Reschedule appointments
-
-Cancel appointments
-
-Collect clinic payments
-
-Search appointments
-
-View patient details
-
-Cannot
-
-Modify clinic settings
-
-Modify doctor profile
-
-Delete records permanently
-
-Manage users
-
-==================================================================
-
-CLINIC MANAGEMENT
-
-==================================================================
-
-Doctor should edit
-
-Clinic Name
-
-Clinic Logo
-
-Doctor Photo
-
-Doctor Profile
-
-Qualifications
-
-Experience
-
-Treatments
-
-Consultation Fee
-
-Working Hours
-
-Contact Number
-
-WhatsApp Number
-
-Clinic Address
-
-Google Maps URL
-
-Clinic Gallery
-
-==================================================================
-
-CALENDAR
-
-==================================================================
-
-Provide Monthly, Weekly and Daily calendar views.
-
-Clicking an appointment opens complete details.
-
-==================================================================
-
-NOTIFICATIONS
-
-==================================================================
-
-Send Email notification for
-
-Appointment Booking
-
-Appointment Cancellation
-
-Appointment Reschedule
-
-==================================================================
-
-DATABASE
-
-==================================================================
-
-Design a proper database schema for
-
-Doctor
-
-Receptionist
-
-Clinic
-
-Treatments
-
-Patients
-
-Appointments
-
-Slots
-
-Payments
-
-OTP Verification
-
-Gallery
-
-Testimonials
-
-Doctor Notes
-
-==================================================================
-
-UI REQUIREMENTS
-
-==================================================================
-
-Use a premium healthcare design.
-
-Primary Color
-
-Blue
-
-Secondary Color
-
-White
-
-Rounded Cards
-
-Professional Icons
-
-Beautiful Forms
-
-Smooth Animations
-
-Loading Indicators
-
-Toast Notifications
-
-Confirmation Dialogs
-
-Proper Form Validation
-
-Responsive Layout
-
-==================================================================
-
-APPLICATION FLOW
-
-==================================================================
-
-Patient
-
-Visit Website
-
-↓
-
-Book Appointment
-
-↓
-
-Select Slot
-
-↓
-
-Choose Payment Method
-
-↓
-
-Receive Booking Confirmation
-
-↓
-
-Manage Appointment using Mobile Number + OTP
-
-↓
-
-Cancel if appointment is more than one hour away
-
-Doctor
-
-Login
-
-↓
-
-Manage Schedule
-
-↓
-
-View Appointments
-
-↓
-
-View Patient History
-
-↓
-
-Add Consultation Notes
-
-↓
-
-Manage Clinic Information
-
-Receptionist
-
-Login
-
-↓
-
-Book Appointments
-
-↓
-
-Check In Patients
-
-↓
-
-Collect Payments
-
-↓
-
-Reschedule Appointments
-
-↓
-
-Cancel Appointments
-
-==================================================================
-
-DELIVERABLES
-
-==================================================================
-
-Generate the complete application with
-
-• Responsive UI
-
-• Complete Database Schema
-
-• Supabase Integration
-
-• Authentication
-
-• OTP Verification Flow
-
-• Appointment Booking System
-
-• Dynamic Slot Management
-
-• Doctor Dashboard
-
-• Receptionist Dashboard
-
-• Calendar View
-
-• Appointment History
-
-• Patient History
-
-• Payment Management
-
-• Razorpay Integration (configurable)
-
-• Email Notification Integration
-
-• Clean, reusable React components
-
-• Modular architecture
-
-• Production-quality code
-
-The final application should be polished, intuitive, and fully functional for a real single-doctor clinic, with clean code and a professional user experience.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://drshreyasorthopedic.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/8ec5de39-4396-4f70-b465-49bced3ea343).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires **Node.js 22+** and **pnpm 10**.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+git clone https://github.com/GovindaReddy403/drshreyasorthopedic.git
+cd drshreyasorthopedic
+pnpm install --frozen-lockfile
+
+cp .env.example .env    # then fill in the values below
+
+pnpm dev                # Vite prints the local URL
 ```
+
+> **Use pnpm, not bun.** `bun.lock` resolves ~131 packages from a private
+> Lovable registry that is unreachable outside Lovable's sandbox.
+> `pnpm-lock.yaml` uses public npm.
+
+### Environment variables
+
+`VITE_`-prefixed values are **inlined into the browser bundle at build time** and
+are therefore public. Everything else is server-only and must never gain a
+`VITE_` prefix.
+
+| Variable | Scope | Needed for |
+| --- | --- | --- |
+| `VITE_SUPABASE_URL` | public | Browser Supabase client |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | public | Browser Supabase client |
+| `VITE_PATIENT_MANAGE_ENABLED` | public | Feature-flags `/manage`; keep `false` until Twilio is live |
+| `SUPABASE_URL` | server | Server-side Supabase access |
+| `SUPABASE_PUBLISHABLE_KEY` | server | Auth middleware |
+| `SUPABASE_SERVICE_ROLE_KEY` | **secret** | Booking and patient sessions — bypasses RLS |
+| `TWILIO_ACCOUNT_SID` | **secret** | Patient OTP |
+| `TWILIO_AUTH_TOKEN` | **secret** | Patient OTP |
+| `TWILIO_VERIFY_SERVICE_SID` | **secret** | Patient OTP |
+
+Without `SUPABASE_SERVICE_ROLE_KEY` the site runs and every public page works,
+but **booking fails** — the booking RPC is granted to `service_role` only.
+Without the Twilio values the OTP endpoint fails closed by design.
+
+### Scripts
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Dev server with HMR |
+| `pnpm build` | Production build into `.output/` |
+| `pnpm preview` | Serve the production build |
+| `pnpm lint` | ESLint |
+| `pnpm format` | Prettier write |
+
+There is no `test` script yet — see *Known gaps* below.
+
+Typecheck with:
+
+```sh
+pnpm exec tsc --noEmit
+```
+
+---
+
+## Project layout
+
+```
+src/
+├── routes/                    every URL is a file here
+│   ├── __root.tsx             <html>, providers, global head
+│   ├── index.tsx              home page
+│   ├── book.tsx               booking wizard
+│   ├── booking.$code.tsx      confirmation + QR
+│   ├── manage.tsx             patient OTP self-service
+│   ├── auth.tsx               staff sign-in
+│   ├── sitemap[.]xml.ts       generated sitemap
+│   └── _authenticated/        requires login (ssr: false)
+│       ├── doctor.tsx  reception.tsx  settings.tsx
+├── components/                site + dashboard components
+│   └── ui/                    shadcn primitives
+├── lib/
+│   ├── booking.functions.ts   server fns: slots + booking
+│   ├── otp.functions.ts       server fns: send/verify OTP
+│   ├── patient-auth.server.ts Twilio Verify + hashed sessions
+│   ├── clinic-time.ts         Asia/Kolkata time helpers
+│   ├── slots.ts               slot maths
+│   └── seo.ts                 SITE_URL + meta helpers
+├── integrations/supabase/     ⚠️ auto-generated — do not edit
+└── server.ts                  Worker entry (SSR error wrapper)
+
+supabase/migrations/           every schema change, as SQL
+docs/                          documentation
+.github/workflows/deploy.yml   auto-deploy to Cloudflare
+```
+
+Conventions:
+
+- Adding `src/routes/foo.tsx` creates `/foo`. `src/routeTree.gen.ts` is
+  generated — never edit it.
+- Files in `src/integrations/supabase/` are generated from the database schema.
+- Server-only code lives in `*.server.ts` or inside a `createServerFn` handler.
+  Import the service-role client **dynamically** inside the handler:
+  ```ts
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  ```
+  A top-level import in a route or `*.functions.ts` file would bundle it into
+  the client.
+- Every schema change is a migration committed under `supabase/migrations/`.
+
+---
+
+## Deploying
+
+Push to `main`. GitHub Actions typechecks, builds and deploys to Cloudflare
+Workers. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for secrets, the custom
+domain, manual deploys and rollback.
+
+---
+
+## Security
+
+- The `sb_publishable_…` key is public by design and protected by RLS.
+- The `service_role` key bypasses RLS and belongs only in Worker/CI secrets.
+- Patients cannot write to the database directly; all booking goes through a
+  validated server function and a `service_role`-only SQL function.
+- Patient sessions are stored as SHA-256 hashes, never in plaintext.
+
+Full model in [`docs/DESIGN.md`](docs/DESIGN.md#6-security-model).
+
+---
+
+## Known gaps
+
+- No automated test suite. Slot generation, the `Asia/Kolkata` boundary and the
+  one-hour cancellation rule are the highest-value candidates.
+- ~1100 Prettier violations inherited from generated code, so CI gates on
+  typecheck rather than lint. `pnpm format` clears them.
+- Online payment is schema-ready but not enabled; bookings are pay-at-clinic.
+- `pnpm build` fails on Windows due to a path bug in `@lovable.dev/mcp-js`.
+  Linux, CI and the Lovable preview are unaffected.
+
+---
+
+## Lovable
+
+This project is connected to [Lovable](https://lovable.dev) and syncs both ways
+with `main`, so **do not rewrite published history** (no force-push, rebase or
+amend of pushed commits) — it corrupts the project history on Lovable's side.

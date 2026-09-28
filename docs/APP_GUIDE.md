@@ -11,7 +11,7 @@ staff dashboard for the doctor and receptionist.
 
 Public visitors can:
 - Browse the home page (about the doctor, treatments, testimonials, FAQs, gallery, map, contact).
-- Book an appointment (`/book`) — pick treatment, date, slot, enter details, pay online or at clinic.
+- Book an appointment (`/book`) — pick treatment, date, slot, enter details, pay at the clinic.
 - View a booking confirmation (`/booking/<code>`) and save the clinic vCard / QR.
 - Manage their own bookings (`/manage`) — verify via OTP, view and cancel.
 
@@ -48,7 +48,8 @@ Staff (signed in) can:
 ### Things that only live in the database (no UI yet)
 
 - `user_roles` — who is a `doctor` vs `receptionist`. To promote a new user, insert a row via the backend admin. (Only staff can sign in; no self-signup for roles.)
-- `otp_codes` — internal, auto-managed by the OTP server function.
+- `otp_codes` — legacy table from the original OTP implementation. Patient verification now uses Twilio Verify; this table is retained but unused.
+- `patient_manage_sessions` — hashed patient session tokens, written by the server. Service-role only.
 
 ---
 
@@ -58,7 +59,7 @@ Staff (signed in) can:
 - **Styling:** Tailwind CSS v4 (design tokens in `src/styles.css`) + shadcn/ui components.
 - **Data layer:** Lovable Cloud (Supabase Postgres + Auth + Storage) with Row-Level Security everywhere.
 - **Server code:** TanStack `createServerFn` (RPC-style server functions), no separate backend.
-- **Deployment:** Cloudflare Workers via Lovable publish.
+- **Deployment:** Cloudflare Workers, deployed from `main` by GitHub Actions (see `docs/DEPLOYMENT.md`).
 
 ---
 
@@ -145,10 +146,13 @@ RLS policies are the enforcement layer — the frontend simply asks; the databas
 ## 7. Security model (short version)
 
 - **Public tables** (treatments, doctors, faqs, testimonials, gallery, working_hours, clinic_settings) — `SELECT` open to `anon`. Writes require `has_role('doctor')`.
-- **Appointments** — patients can insert (booking form). Reads scoped to matching mobile number. Staff full access.
-- **OTP** — table locked to service role only. OTP is generated and verified by `src/lib/otp.functions.ts`.
+- **Appointments & patients** — `anon` has **no** write access. Booking goes through a server function that calls the `book_clinic_appointment` SQL function using the service role. Staff have full access. (Direct anonymous inserts were revoked in `20260926070000_patient_booking_security.sql`.)
+- **Patient self-service** — verified by Twilio Verify SMS OTP. Session tokens are stored as SHA-256 hashes in `patient_manage_sessions` and expire after 30 minutes.
+- **OTP** — `otp_codes` is locked to the service role only and is now legacy.
 - **user_roles** — read-your-own only; writes explicitly denied at the RLS layer (grant a role only via backend admin).
 - **Auth** — email + password with HaveIBeenPwned check enabled. `/auth` page handles sign-in.
+
+> Full details in [`DESIGN.md`](./DESIGN.md#6-security-model).
 
 ---
 
@@ -190,7 +194,13 @@ Edit `src/styles.css` → `@theme` block → save.
 
 ## 10. Publishing
 
-Click **Publish** in the Lovable editor → get a `*.lovable.app` URL. For a custom domain, use Project Settings → Domains.
+The site is hosted on **Cloudflare Workers** at https://drshreyas.com. Pushing
+to `main` triggers the GitHub Actions workflow, which typechecks, builds and
+deploys automatically. Full details — secrets, custom domain, manual deploys and
+rollback — are in [`DEPLOYMENT.md`](./DEPLOYMENT.md).
+
+Changes made in the Lovable editor are committed to `main`, so they deploy the
+same way.
 
 Before going live, review in Settings:
 - Clinic name, address, phone, WhatsApp, Google Maps link
